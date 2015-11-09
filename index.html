@@ -1,0 +1,346 @@
+<!-----------------
+CRUD using AngularJS and ngStorage
+Created by Peter Cox
+Edit for HSC project by Joshua Burn 26962986
+5 june 2015
+Copyright  2015  PCSquared.com.au
+---------------->
+<!DOCTYPE html>
+<html ng-app="app" >
+<head>
+    <title>Coding Day</title> 
+    
+    
+    
+    	<!---this allows the interface to be viewed on amobile device---->
+ 	    
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+ 		<!---Custom theme made with ThemeRoller---->
+        <link rel="stylesheet" href="css/sleep tracker.css" /> 
+        <!----Jquery mobile style sheets--->
+        <link rel="stylesheet" href="css/jquery.mobile.icons-1.4.0.min.css" />
+         <link rel="stylesheet" href="css/jquery.mobile.structure-1.4.0.css" />
+          <!-- Slider CSS------> 
+        <link rel="stylesheet" href="css/angular.rangeSlider.css"> 
+        <!-------------------JQUERY---------------------->
+        <script src="js/jquery-1.8.3.min.js"></script>
+          <!---------THIS CODE FIXES A SECUTIRY CHANGE IN CHROME NOT ALLOWING OPENING HTML FILES FORM A FILE---------------->
+            <script>
+                $(document).bind('mobileinit',function(){
+                $.mobile.changePage.defaults.changeHash = false;
+               $.mobile.hashListeningEnabled = false;
+              $.mobile.pushStateEnabled = false;
+            });</script>
+        <!-----------JQUERY MOBILE---------------------->
+        <script src="js/jquery.mobile-1.4.0.min.js"></script> 
+        <!-------------------ANGULAR   ---------------------->
+        <script src="js/angular.min.js"></script>
+       <!--ngStorage-->
+        <script src="js/ngStorage.min.js"></script> 
+        <!-- YOUR CONTROL  logic------> 
+        <script src="js/app.js"></script>
+         <!-- Slider------> 
+       <script src="js/angular.rangeSlider.js"></script>
+</head>
+
+<body width="device-width" ng-controller="invoiceController" ng-init="startng()">
+   
+<!---------------------------------------------PAGE:  HOME--------------------------------------------------->
+        <div data-role="page" id="home" ng-controller="invoiceController"> 
+        <!-----------PANEL--------------------->
+        <div data-role="panel" id="homeNav" data-position="left" data-display="reveal">
+    		<ul data-role="listview" data-inset="true" data-split-icon="gear">
+                    <li> <a href="#home">Home</a></li>
+                    <li> <a href="#settings">Settings</a></li>
+                    <li> <a href="#reports">Sleep Report</a></li>
+                    <li> <a href="#view">View Sleeps</a></li>
+                     <li> <a href="#editDelete">Edit & Delete Sleeps</a></li>
+
+            </ul>                 
+            <a class="ui-btn ui-shadow ui-corner-all  ui-btn-mini  " href="#homeNav">Close</a>	
+        </div><!-- /panel -->
+        
+
+        <!--page navigation header-->
+        <div data-role="header" >
+           <a class="ui-btn ui-shadow ui-corner-all ui-btn-inline ui-btn-mini ui-btn-left ui-btn-icon-left ui-icon-navigation" ng-click="ClearAddMessage()" href="#homeNav">Nav</a><h1>EASY INVOICES</h1>
+        </div><!-- /header -->
+
+		<!--page Content-->
+        <div role="main" class="ui-content"  >
+                	
+                    
+        <!--Add image here :) --->       
+                     
+                    <br>
+                    <b>*INSERT HEADING THING*</b>
+
+
+            <div ng-if="successfullyAdded">Your sleep has been successfully added</div>
+          
+            <!---Body--->
+            <div id="addinvoiceform">
+              
+            </div>
+            
+             </div><!--end of controller-->                                          
+                       
+		</div><!-- /main content -->
+
+        <div data-role="footer" data-position="fixed" >
+          <p align="center"> </p>
+        </div><!-- /footer -->
+</div><!-- /end home page -->
+        
+        
+        
+        
+
+ <!--------------------------------------------PAGE: SETTINGS--------------------------------------------------->       
+ <div data-role="page" id="settings"  ng-controller="invoiceController"   >
+     <!-----------PANEL--------------------->
+     <div data-role="panel" id="settingsNav" data-position="left" data-display="reveal">
+          <ul data-role="listview" data-inset="true" data-split-icon="gear">
+    		<ul data-role="listview" data-inset="true" data-split-icon="gear">
+                    <li> <a href="#home">Home</a></li>
+                    <li> <a href="#settings">Settings</a></li>
+                    <li> <a href="#reports">Sleep Report</a></li>
+                    <li> <a href="#view">View Sleeps</a></li>
+                     <li> <a href="#editDelete">Edit & Delete Sleeps</a></li>
+        </ul>               
+        <a class="ui-btn ui-shadow ui-corner-all  ui-btn-mini  " href="#settingsNav">Close</a>	
+     </div><!-- /panel -->
+       
+     <!--page navigation header-->  
+     <div data-role="header">
+         <a class="ui-btn ui-shadow ui-corner-all ui-btn-inline ui-btn-mini ui-btn-left ui-btn-icon-left ui-icon-navigation" ng-click="ClearSleepMessage()" href="#settingsNav">Nav</a>	<h1>SLEEP TRACKER</h1>
+     </div><!-- /header -->
+     
+    <!--page Content--> 
+     <div role="main" class="ui-content" >      
+         <div  class="ui-body ui-body-b" align="left" id="settingsform">
+            <div ng-if="successfullyUpdated">Settings Updated!</div>
+        <form name="age" novalidate>
+            Update Age (Ignore months, the year of your current age)
+            <input type="number" id="age" ng-model="age"></input>
+               <button ng-click="updateSettings()"  data-mini="true">Update</button>
+        </form>     
+         </div>
+	 </div><!-- /end page content -->
+
+     <div data-role="footer" data-position="fixed">
+         <p align="center"> </p>
+     </div><!-- /footer -->
+</div><!-- /end add page -->
+ 
+  
+  
+   <!--------------------------------------------PAGE: List View--------------------------------------------------->       
+ <div data-role="page" id="view"  ng-controller="invoiceController"    >
+     <!-----------PANEL--------------------->
+     <div data-role="panel" id="viewNav" data-position="left" data-display="reveal">
+          <ul data-role="listview" data-inset="true" data-split-icon="gear">
+    		<ul data-role="listview" data-inset="true" data-split-icon="gear">
+                    <li> <a href="#home">Home</a></li>
+                    <li> <a href="#settings">Settings</a></li>
+                    <li> <a href="#reports">Sleep Report</a></li>
+                    <li> <a href="#view">View Sleeps</a></li>
+                     <li> <a href="#editDelete">Edit & Delete Sleeps</a></li>
+        </ul>               
+        <a class="ui-btn ui-shadow ui-corner-all  ui-btn-mini  " href="#viewNav">Close</a>	
+     </div><!-- /panel -->
+     
+      <!--page navigation header-->      
+     <div data-role="header">
+         <a class="ui-btn ui-shadow ui-corner-all ui-btn-inline ui-btn-mini ui-btn-left ui-btn-icon-left ui-icon-navigation" ng-click="ClearSleepMessage()"  href="#viewNav">Nav</a><h1>SLEEP TRACKER</h1>
+     </div><!-- /header -->
+     
+    <!--page Content-->
+     <div role="main" class="ui-content">    
+     <h2>My Sleeps</h2>  
+        		<!--ng-controller:  contactController  -->  
+                <div  class="ui-body ui-body-b"  align="left">
+                <!-- ng-model="query"  The value entered, which is the vary of the variable "query" is the value used in the Filter in the Listview Lop   --->
+                	Search: <input ng-model="query">
+                    <!-- What this ListView uses:
+                        Directive: ng-repeat
+                        Each record is acessed by "p": example {{p.name}} or   {{p.mediaType}}
+                        Datasource is ngStorage: ->  storage.mySleeps
+                        Use: track by $index: ->  This gives us the index value for each row  
+                        Image source: src="images/{{p.mediaType}}.jpg  -> All images are in Folder called images.  This image names are the mediaType names
+                    -->
+                  <!---   PUT THE LISTVIEW CODE IN HERE---->
+                <b>  DD-MM-YYYY </b> 
+           <ul ng-repeat="r in storage.mysleeps  | filter:query" data-role="listview" list-view data-watch="listView"  data-split-theme="c" data-inset="true"  >
+               
+                    <li>
+
+                        <img src="images/sleepimage.jpg" width="430" height="430" alt="helmet">
+
+                        <h2>{{r.date | date: 'dd-MM-yyyy'}}</h2> 
+                <p>
+                          <b>Date:</b> {{r.date | date: 'dd-MM-yyyy'}}<br>
+
+                         <strong>Hours Slept:</strong> {{r.hoursleep}} <br> 
+                         
+                         <strong> Minutes Slept:</strong> {{r.minutesleep}}  <br>
+
+                        <strong> How refreshed:</strong> {{r.refreshed}}/10  <br> 
+
+                        <strong> Sleep Quality:</strong>  {{r.sleepquality}}   <br>
+                        
+                        <b>  Notes:</b>  {{r.notes}} <br>
+
+
+                    </li>
+ </ul>
+       
+                  
+                </div><!--end of controller-->
+	 	</div><!-- /end page content -->
+
+    
+</div><!-- /page -->
+
+
+
+
+ <!------------------------------------------------------PAGE: tableView with EDIT and DELETE--------------------------------------------------->       
+ <!--NOTE:   ng-controller:  contactController  -->
+ <div data-role="page" id="editDelete"  ng-controller="invoiceController"  >
+     <!-----------PANEL--------------------->
+     <div data-role="panel" id="editDeleteNav" data-position="left" data-display="reveal">
+          <ul data-role="listview" data-inset="true" data-split-icon="gear">
+    		<ul data-role="listview" data-inset="true" data-split-icon="gear">
+                    <li> <a href="#home">Home</a></li>
+                    <li> <a href="#settings">Settings</a></li>
+                    <li> <a href="#reports">Sleep Report</a></li>
+                    <li> <a href="#view">View Sleeps</a></li>
+                     <li> <a href="#editDelete">Edit & Delete Sleeps</a></li>
+
+        </ul>               
+        <a class="ui-btn ui-shadow ui-corner-all  ui-btn-mini  " href="#editDeleteNav">Close</a>	
+     </div><!-- /panel -->
+     
+      <!--page navigation header-->
+      <div data-role="header">
+           <a class="ui-btn ui-shadow ui-corner-all ui-btn-inline ui-btn-mini ui-btn-left ui-btn-icon-left ui-icon-navigation" ng-click="ClearSleepMessage()" href="#editDeleteNav">Nav</a><h1>SLEEP TRACKER</h1>
+        </div><!-- /header -->     
+
+ 	<!--page Content-->
+     <div role="main" class="ui-content">    
+     <h2>Sleeps</h2>
+        		<!--ng-controller:  contactController  -->  
+                <div  class="ui-body ui-body-b"  align="left">    
+					<br>
+  						<table >
+                              <tr>
+                                <td ><strong>Date</strong></td>
+                                <td ><strong>Edit</strong></td>
+                                 <td ><strong>Delete</strong></td>
+                              </tr>
+                              <tr ng-repeat="p in storage.mysleeps track by $index"> 
+                                 <td > <p> <b>{{p.date | date: 'dd-MM-yyyy'}}</b>&nbsp&nbsp&nbsp{{p.date}}</td> ..</p></td>
+                                 <td>
+                                   <a  href="#edit"  ng-click="displayEdit($index)" data-rel="popup" data-position-to="window" ndata-transition="pop"><img src="images/plus.gif" width="42" height="39"></a> 
+                                 </td>
+                                 <td> 
+                                 <a   href="#delete"  ng-click="deleteSleep($index)"  data-rel="popup" data-position-to="window" ndata-transition="pop"><img src="images/minus.gif" width="42" height="39"></a> 
+                                 </td>
+                              </tr>
+       					</table>   
+                                        
+                         Number of filtered items: {{storage.mysleeps.length}}  
+                         
+                         <!---DELETE: POP UP WINDOW ---->
+                        <div data-role="popup" id="delete" data-theme="a" data-overlay-theme="b" class="ui-content" style="max-width:340px; padding-bottom:2em;">
+                                Do you really want to delete <br>
+                                <a href="index.html" ng-click="deleteSleepYes(index)"   data-rel="back" class="ui-shadow ui-btn ui-corner-all ui-btn-inline ui-mini">YES</a>
+                                 <a href="index.html"   data-rel="back" class="ui-shadow ui-btn ui-corner-all ui-btn-inline ui-mini">Cancel</a>
+                     	</div>  <!--end of edit pop-up-->
+                
+                        <!--EDIT : POP UP WINDOW-->
+                        <div data-role="popup" id="edit" data-theme="a" data-overlay-theme="b" class="ui-content" style="max-width:340px; padding-bottom:2em;">
+                            <a href="index.html" ng-click="saveEditSleep(index)"   data-rel="back" class="ui-shadow ui-btn ui-corner-all ui-btn-inline ui-mini">SAVE EDIT</a>
+                             <a href="index.html"   data-rel="back" class="ui-shadow ui-btn ui-corner-all ui-btn-inline ui-mini">Cancel</a>
+                            <table width="90%" border="1" cellspacing="2" cellpadding="2">
+                                  <tr>
+                                    <td>Date</td>
+                                    <td> <input  type="text" name="date" ng-model="date"  /></td>
+                                  </tr>
+                                  <tr>
+                                    <td>Hours slept</td>
+                                    <td> <input  type="text" name="hoursleep" ng-model="hoursleep"  /></td>
+                                  </tr>
+                                  <tr>
+                                    <td>Minutes slept</td>
+                                    <td> <input type="text" name="minutesleep" ng-model="minutesleep"  /></td>
+                                  </tr>
+                                  <tr>
+                                    <td>How Refreshed</td>
+                                    <td> <input type="text" name="refreshed" ng-model="refreshed"  /></td>
+                                  </tr>
+                                  <tr>
+                                    <td>How was sleep</td>
+                                    <td> <input type="text" name="sleepquality" ng-model="sleepquality"  /></td>
+                                  </tr>
+                                  <tr>
+                                    <td>Notes</td>
+                                    <td> <input type="text" name="notes" ng-model="notes"  /></td>
+                                  </tr>
+                         
+                                </table>
+                    	 </div>  <!--end of edit pop-up-->
+            </div>
+	 	</div><!-- /end of main content -->
+
+     <div data-role="footer" data-position="fixed">
+         <p align="center">  </p>
+     </div><!-- /footer -->
+</div><!-- /page -->
+
+
+
+
+ <!--------------------------------------------PAGE: REPORTS--------------------------------------------------->       
+ <div data-role="page" id="reports" ng-controller="invoiceController">
+     <!-----------PANEL--------------------->
+     <div data-role="panel" id="reportsNav" data-position="left" data-display="reveal">
+          <ul data-role="listview" data-inset="true" data-split-icon="gear">
+    		<ul data-role="listview" data-inset="true" data-split-icon="gear">
+                    <li> <a href="#home">Home</a></li>
+                    <li> <a href="#settings">Settings</a></li>
+                    <li> <a href="#reports">Sleep Report</a></li>
+                    <li> <a href="#view">View Sleeps</a></li>
+                     <li> <a href="#editDelete">Edit & Delete Sleeps</a></li>
+        </ul>               
+        <a class="ui-btn ui-shadow ui-corner-all  ui-btn-mini  " href="#reportsNav">Close</a>	
+     </div><!-- /panel -->
+     
+   
+       <!--page navigation header--> 
+     <div data-role="header">
+         <a class="ui-btn ui-shadow ui-corner-all ui-btn-inline ui-btn-mini ui-btn-left ui-btn-icon-left ui-icon-navigation" href="#reportsNav">Nav</a>	<h1>SLEEP TRACKER</h1>
+     </div><!-- /header -->
+     
+     <div role="main" class="ui-content">      
+         <h2>Reporting</h2> 
+         
+ 		<div align="left">
+             <button ng-click="showReports()" data-mini="true"  >Show report</button>
+              {{report}}<br>
+              {{report2}}<br>
+              {{report3}}<br>
+              {{report4}}<br>
+              {{report5}}
+         </div><!--end of controller-->
+	 </div><!-- /content -->
+
+     <div data-role="footer" data-position="fixed">
+         <p align="center"> &copy; 2014  PCSquared.com.au </p>
+     </div><!-- /footer -->
+</div><!-- /page -->
+
+
+</body>
+</html>
