@@ -118,13 +118,14 @@ Copyright  2015  PCSquared.com.au
      
     <!--page Content--> 
      <div role="main" class="ui-content" >      
-         <div  class="ui-body ui-body-b" align="left" id="settingsform">
+         <div   align="left" id="settingsform">
             <div ng-if="successfullyUpdated">Settings Updated!</div>
-        <form name="age" novalidate>
-            Update Age (Ignore months, the year of your current age)
+               <form name="owndata" novalidate>
+            Company name line one: <input type="text" id="lineone"/> Enabled: <input type="checkbox" id="lineoneenabled" checked/>
             <input type="number" id="age" ng-model="age"></input>
                <button ng-click="updateSettings()"  data-mini="true">Update</button>
-        </form>     
+        </form>
+	
          </div>
 	 </div><!-- /end page content -->
 
