@@ -24,7 +24,7 @@ Copyright  2015  PCSquared.com.au
         <link rel="stylesheet" href="css/angular.rangeSlider.css"> 
         <!-------------------JQUERY---------------------->
         <script src="js/jquery-1.8.3.min.js"></script>
-          <!---------THIS CODE FIXES A SECUTIRY CHANGE IN CHROME NOT ALLOWING OPENING HTML FILES FORM A FILE---------------->
+          <!---------THIS CODE FIXES A SECURITY CHANGE IN CHROME NOT ALLOWING OPENING HTML FILES FORM A FILE---------------->
             <script>
                 $(document).bind('mobileinit',function(){
                 $.mobile.changePage.defaults.changeHash = false;
@@ -46,7 +46,7 @@ Copyright  2015  PCSquared.com.au
 <body width="device-width" ng-controller="invoiceController" ng-init="startng()">
    
 <!---------------------------------------------PAGE:  HOME--------------------------------------------------->
-        <div data-role="page" id="home" ng-controller="invoiceController" data-theme="a"> 
+        <div data-role="page" id="home" ng-controller="invoiceController" data-theme="a" ng-model="invoicemodel"> 
         <!-----------PANEL--------------------->
         <div data-role="panel" id="homeNav" data-position="left" data-display="reveal">
     		<ul data-role="listview" data-inset="true" data-split-icon="gear">
@@ -80,7 +80,6 @@ Copyright  2015  PCSquared.com.au
           
             <!---Body--->
             <div id="addinvoiceform">
-              
             </div>
             
              </div><!--end of controller-->                                          
@@ -118,14 +117,13 @@ Copyright  2015  PCSquared.com.au
      
     <!--page Content--> 
      <div role="main" class="ui-content" >      
-         <div   align="left" id="settingsform">
+         <div  class="ui-body ui-body-b" align="left" id="settingsform">
             <div ng-if="successfullyUpdated">Settings Updated!</div>
-               <form name="owndata" novalidate>
-            Company name line one: <input type="text" id="lineone"/> Enabled: <input type="checkbox" id="lineoneenabled" checked/>
+        <form name="age" novalidate>
+            Update Age (Ignore months, the year of your current age)
             <input type="number" id="age" ng-model="age"></input>
                <button ng-click="updateSettings()"  data-mini="true">Update</button>
-        </form>
-	
+        </form>     
          </div>
 	 </div><!-- /end page content -->
 

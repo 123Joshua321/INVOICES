@@ -3,68 +3,156 @@
 //11 April 2015
 //Copyright  2014  PCSquared.com.au
 			
-	// creates the Angular modular "app"  
-	// NOTE: we inject into the module the ngStorage object  AND ui-rangeSlider
 	
-	
+	var addday = 1;
+	var monthselect ="<option id='January'>January</option>";
+			monthselect = monthselect + "<option id='February'>February</option>";
+			monthselect = monthselect + "<option id='March'>March</option>";
+			monthselect = monthselect + "<option id='April'>April</option>";
+			monthselect = monthselect + "<option id='May'>May</option>";
+			monthselect = monthselect + "<option id='June'>June</option>";
+			monthselect = monthselect + "<option id='July'>July</option>";
+			monthselect = monthselect + "<option id='August'>August</option>";
+			monthselect = monthselect + "<option id='September'>September</option>";
+			monthselect = monthselect + "<option id='October'>October</option>";
+			monthselect = monthselect + "<option id='November'>November</option>";
+			monthselect = monthselect + "<option id='December'>December</option>";
+		var dayselect = "<option id='1'>1</option>";
+			dayselect = dayselect + "<option id='2'>2</option>";
+			dayselect = dayselect + "<option id='3'>3</option>";
+			dayselect = dayselect + "<option id='4'>4</option>";
+			dayselect = dayselect + "<option id='5'>5</option>";
+			dayselect = dayselect + "<option id='6'>6</option>";
+			dayselect = dayselect + "<option id='7'>8</option>";
+			dayselect = dayselect + "<option id='8'>8</option>";
+			dayselect = dayselect + "<option id='9'>9</option>";
+			dayselect = dayselect + "<option id='10'>10</option>";
+			dayselect = dayselect + "<option id='11'>11</option>";
+			dayselect = dayselect + "<option id='12'>12</option>";
+			dayselect = dayselect + "<option id='13'>13</option>";
+			dayselect = dayselect + "<option id='14'>14</option>";
+			dayselect = dayselect + "<option id='15'>15</option>";
+			dayselect = dayselect + "<option id='16'>16</option>";
+			dayselect = dayselect + "<option id='17'>17</option>";
+			dayselect = dayselect + "<option id='18'>18</option>";
+			dayselect = dayselect + "<option id='19'>19</option>";
+			dayselect = dayselect + "<option id='20'>20</option>";
+			dayselect = dayselect + "<option id='21'>21</option>";
+			dayselect = dayselect + "<option id='22'>22</option>";
+			dayselect = dayselect + "<option id='23'>23</option>";
+			dayselect = dayselect + "<option id='24'>24</option>";
+			dayselect = dayselect + "<option id='25'>25</option>";
+			dayselect = dayselect + "<option id='26'>26</option>";
+			dayselect = dayselect + "<option id='27'>27</option>";
+			dayselect = dayselect + "<option id='28'>28</option>";
+			dayselect = dayselect + "<option id='29'>29</option>";
+			dayselect = dayselect + "<option id='30'>30</option>";
+			dayselect = dayselect + "<option id='31'>31</option>";
 	var app = angular.module('app',['ngStorage','ui-rangeSlider']);
 			
-	//  This is the controller called "reviewController". 
-	//  It has two parameters:  $scope and $localStorage
+			
+			
+
 	app.controller('invoiceController', function($scope,$localStorage) {
 
 	$scope.startng = function() {
 		var data = $scope.storage.clientlist;
 		
+		//setup input templates
 		
-		var form = "";
-		form = form + "<form><h>Client<br></h><select id='client' onchange='format(client)'>";
 		var i = 0;
+		var yearselect = "";
+		var d = new Date();
+		var currentyear = d.getFullYear();
+		var lastyear = currentyear - 1;
+		var twoyears = lastyear - 1;
+		yearselect = yearselect + "<option id='" + currentyear + "'>" + currentyear + "</option>";
+		yearselect = yearselect + "<option id='" + lastyear + "'>" + lastyear + "</option>";
+		yearselect = yearselect + "<option id='" + twoyears + "'>" + twoyears + "</option>";
+			
+		
+		
+		//CLIENT SELECT
+		var form = "";
+		form = form + '<div class="ui-body ui-body-b" align="left"><form><b>Client<br></b><select id="client" ng-model="invoicemodel" ng-change="formatChange()">';
+		i = 0;
 		for(i=0;i<data.length;i++){
 			form = form + "<option id=" + i + "value='" + data[i].name + "'>" + data[i].name + "</option>";
 		}
 		form = form + "</select><br>";
 		i = 0;
-		if (data[i].format = "short"){
-			form = form + "<div id='dateselect'>Month<br><select id='month'>"
-			form = form + "<option id='January'>January</option>"
-			form = form + "<option id='February'>February</option>"
-			form = form + "<option id='March'>March</option>"
-			form = form + "<option id='April'>April</option>"
-			form = form + "<option id='May'>May</option>"
-			form = form + "<option id='June'>June</option>"
-			form = form + "<option id='July'>July</option>"
-			form = form + "<option id='August'>August</option>"
-			form = form + "<option id='September'>September</option>"
-			form = form + "<option id='October'>October</option>"
-			form = form + "<option id='November'>November</option>"
-			form = form + "<option id='December'>December</option></div>"
+		
+		var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+		var d = new Date();
+		var currentmonth = monthNames[d.getMonth()];
+		//TODAYS DATE
+		form = form +"<br><div id='todaydate'><b>Today's Date</b><br><select id='todayday' ng-model='invoicemodel'>" + dayselect + "</select>";
+		form = form + "<select id='todaymonth' ng-model='invoicemodel'>" + monthselect + "</select>" + "<select id='todayyear' ng-model='invoicemodel'>" + yearselect +"</select></div>";
+		
+		//SHORT FORMAT DATE STUFF
+		i = 0;
+		form = form + "<div id='shortlong'>";
+		if (data[i].format == "short") {
+			form = form + "<br>Invoice Month<br><select id='invoicemonth' ng-model='invoicemodel'>" + monthselect + "</select><select id='invoiceyear' ng-model='invoicemodel'>" + yearselect + "</select>";
+			form = form + "<br><br>Hours<br><input type='text' id='hours' size='3'>";
 		}
-		else {form = form +"<div id='dateselect'>Start Date<input type'date' id='date1'/><br>End Date<input type='date' id='date2'/></div>";}
+		
+		//LONG FORMAT
+		if (data[i].format == "long"){
+			
+			
+			
+			//HOURS ON EACH DAY
+			form = form + "<br><b>Hours</b><br>";
+			form = form + "Day 1:<select id='day1' ng-model='invoicemodel'>" + dayselect + "</select><select id='month1' ng-model='invoicemodel'>" + monthselect + "</select> Hours:<input type='text' id='hours1' size='3'><div id='moredays'>";
+			form = form + "</div><br><button ng-click='addhour()'>Add day</button>";
+			
+			
+		}
+		form = form + "</div>";
+		
+		
+		form = form + "</form></div>";
 		document.getElementById("addinvoiceform").innerHTML = form;
 		
-		
-		
-		
-	};
-	function format(client){
-		var name = document.getElementById('client').innerHTML;
-		var found = false
-		var data = $scope.storage.clientlist;
-		for (var i = 0; i < data.length && found == false; i = i + 1){
-			if (name == data[i].name) {
-				found = true;
-				var format = data[i].format;
-			}
-		}
-		if (format = "short"){
-			document.getElementById('dateselect').innerHTML = "Month<br><select id='month'<option id='January'>January</option><option id='February'>February</option><option id='March'>March</option><option id='April'>April</option><option id='May'>May</option><option id='June'>June</option><option id='July'>July</option><option id='August'>August</option><option id='September'>September</option><option id='October'>October</option><option id='November'>November</option><option id='December'>December</option></div>";
-		}
-		else { if (format = "long"){
 			
-				}
-		}
-	}
+	};
+	
+	
+	//add day
+	$scope.addhour = function(){
+		addday = addday + 1;
+		var yearselect = "";
+		var d = new Date();
+		var currentyear = d.getFullYear();
+		var lastyear = currentyear - 1;
+		var twoyears = lastyear - 1;
+		yearselect = yearselect + "<option id='" + currentyear + "'>" + currentyear + "</option>";
+		yearselect = yearselect + "<option id='" + lastyear + "'>" + lastyear + "</option>";
+		yearselect = yearselect + "<option id='" + twoyears + "'>" + twoyears + "</option>";
+		var current = document.getElementById('moredays').innerHTML;
+		current = current + "<br>Day " + addday + ":<select id='day" + addday + "'>" + dayselect + "</select><select ng-model='invoicemodel' id='month" + addday + "'>" + monthselect + "</select> Hours:<input type='text' id='hours" + addday + "' size='3'>";
+		document.getElementById('moredays').innerHTML = current;	
+	};//end add hour
+	
+	
+	$scope.formatChange = function(){
+		var data = $scope.storage.clientlist;
+		var i = $scope.client;
+		var format = data[i].format
+		var form = ""
+		if (format == "short"){
+			form = form + "<br>Invoice Month<br><select id='invoicemonth' ng-model='invoicemodel'>" + monthselect + "</select><select id='invoiceyear' ng-model='invoicemodel'>" + yearselect + "</select>";
+			form = form + "<br><br>Hours<br><input type='text' id='hours' size='3'>";
+		}//end if
+		if (format == "long"){
+			form = form + "<br><b>Hours</b><br>";
+			form = form + "Day 1:<select id='day1' ng-model='invoicemodel'>" + dayselect + "</select><select id='month1' ng-model='invoicemodel'>" + monthselect + "</select> Hours:<input type='text' id='hours1' size='3'><div id='moredays'>";
+			form = form + "</div><br><button ng-click='addhour()'>Add day</button>";
+			addday = 1;
+		}//end if
+		document.getElementById("shortlong").innerHTML = form;
+	};//end reload form
 	
 	//--------------------------DEFAULT-------------------
 	$scope.storage = $localStorage.$default({
@@ -72,11 +160,35 @@
 											name: "Default Client",
 											hourrate: 35.0,
 											code: "DFT",
-											format: "short",
+											format: "long",
 											address: "123 Lol street, Le lenny town",
+										} , {
+											name: "Default Client 2",
+											hourrate: 30.5,
+											code: "DF2",
+											format: "short",
+											address: "456 ROFL street, Le lenny town",
 										}]
+							
 					});
-	
+	$scope.storage = $localStorage.$default({
+							owndata: [{
+											nameone: "Default Company 1",
+											nameoneenabled: true,
+											nametwo: "Default Company 2",
+											nametwoenabled: true,
+											abn: "1234567890",
+											abnenabled: true,
+											contact: "0412345678 me@me.com",
+											contactenabled: true,
+											paymenttime: 7,
+											paymentunit: "weeks",
+											paymenttermsenabled: true,
+											bsb: "000-111",
+											account: "1232 1234 1235 1385",
+											paymentdetailsenabled: true,
+							}]
+	});
 
 						
 	//--------------------------ADD---------------------------
