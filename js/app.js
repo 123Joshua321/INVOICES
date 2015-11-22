@@ -53,6 +53,37 @@
 			
 			
 
+//add day to hour input
+	function addhours() {
+		addday = addday + 1;
+		var yearselect = "";
+		var d = new Date();
+		var currentyear = d.getFullYear();
+		var lastyear = currentyear - 1;
+		var twoyears = lastyear - 1;
+		var dayarray = new Array;
+		var montharray = new Array;
+		var hourarray = new Array;
+		yearselect = yearselect + "<option id='" + currentyear + "'>" + currentyear + "</option>";
+		yearselect = yearselect + "<option id='" + lastyear + "'>" + lastyear + "</option>";
+		yearselect = yearselect + "<option id='" + twoyears + "'>" + twoyears + "</option>";
+		for (var i = 2; i < addday; i++){
+			dayarray[i] = document.getElementById("day" + i).innerHTML;
+			montharray[i] = document.getElementById("month" + i).innerHTML;
+			hourarray[i] = document.getElementById("hours" + i).innerHTML;
+		}
+		var current = document.getElementById('moredays').innerHTML;
+		current = current + "<br>Day " + addday + ":<select id='day" + addday + "'>" + dayselect + "</select><select ng-model='invoicemodel' id='month" + addday + "'>" + monthselect + "</select> Hours:<input type='text' id='hours" + addday + "' size='3'>";
+		document.getElementById('moredays').innerHTML = current;
+		for (i = 2; i < addday; i++){
+			document.getElementById("day" + i).innerHTML = dayarray[i];
+			document.getElementById("month" + i).innerHTML = montharray[i];
+			document.getElementById("hours" + i).innerHTML = hourarray[i];
+		}	
+	}
+
+
+
 	app.controller('invoiceController', function($scope,$localStorage) {
 
 	$scope.startng = function() {
@@ -105,7 +136,7 @@
 			//HOURS ON EACH DAY
 			form = form + "<br><b>Hours</b><br>";
 			form = form + "Day 1:<select id='day1' ng-model='invoicemodel'>" + dayselect + "</select><select id='month1' ng-model='invoicemodel'>" + monthselect + "</select> Hours:<input type='text' id='hours1' size='3'><div id='moredays'>";
-			form = form + "</div><br><button ng-click='addhour()'>Add day</button>";
+			form = form + "</div><br><button onclick='addhours()'>Add day</button>";
 			
 			
 		}
@@ -119,21 +150,7 @@
 	};
 	
 	
-	//add day
-	$scope.addhour = function(){
-		addday = addday + 1;
-		var yearselect = "";
-		var d = new Date();
-		var currentyear = d.getFullYear();
-		var lastyear = currentyear - 1;
-		var twoyears = lastyear - 1;
-		yearselect = yearselect + "<option id='" + currentyear + "'>" + currentyear + "</option>";
-		yearselect = yearselect + "<option id='" + lastyear + "'>" + lastyear + "</option>";
-		yearselect = yearselect + "<option id='" + twoyears + "'>" + twoyears + "</option>";
-		var current = document.getElementById('moredays').innerHTML;
-		current = current + "<br>Day " + addday + ":<select id='day" + addday + "'>" + dayselect + "</select><select ng-model='invoicemodel' id='month" + addday + "'>" + monthselect + "</select> Hours:<input type='text' id='hours" + addday + "' size='3'>";
-		document.getElementById('moredays').innerHTML = current;	
-	};//end add hour
+	
 	
 	
 	$scope.formatChange = function(){
