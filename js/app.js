@@ -48,6 +48,8 @@
 			dayselect = dayselect + "<option id='29'>29</option>";
 			dayselect = dayselect + "<option id='30'>30</option>";
 			dayselect = dayselect + "<option id='31'>31</option>";
+			
+			
 	var app = angular.module('app',['ngStorage','ui-rangeSlider']);
 			
 			
@@ -178,13 +180,15 @@
 											hourrate: 35.0,
 											code: "DFT",
 											format: "long",
-											address: "123 Lol street, Le lenny town",
+											addressone: "123 Lol street",
+											addresstwo: "Le Lenny Town",
 										} , {
 											name: "Default Client 2",
 											hourrate: 30.5,
 											code: "DF2",
 											format: "short",
-											address: "456 ROFL street, Le lenny town",
+											addressone: "456 ROFL street",
+											addresstwo: "Le Lenny Town",
 										}]
 							
 					});
@@ -261,33 +265,33 @@
 	//----------------------------END SETTINGS--------------------
 	
 	//----------------------------EDIT AND DELETE----------------		
-			 $scope.displayEdit = function (index) {
+			 $scope.displayEditClient = function (index) {
 				 	 $scope.index			=		index;
-					 $scope.date			=		$scope.storage.mysleeps[index].date;
-					 $scope.hoursleep		=		$scope.storage.mysleeps[index].hoursleep;
-					 $scope.minutesleep		=		$scope.storage.mysleeps[index].minutesleep;
-					 $scope.refreshed		=		$scope.storage.mysleeps[index].refreshed;
-					 $scope.sleepquality	=		$scope.storage.mysleeps[index].sleepquality;
-					 $scope.notes			=		$scope.storage.mysleeps[index].notes;
+					 $scope.name			=		$scope.storage.clientlist[index].name;
+					 $scope.hourrate		=		$scope.storage.clientlist[index].hourrate;
+					 $scope.addressone		=		$scope.storage.clientlist[index].addressone;
+					 $scope.addresstwo		=		$scope.storage.clientlist[index].addresstwo;
+					 $scope.format			=		$scope.storage.clientlist[index].format;
+					 $scope.code			=		$scope.storage.clientlist[index].code;
 			
 			 };
 			 
-			 $scope.saveEditSleep = function (index) {
+			 $scope.saveEditClient = function (index) {
 				 
-				$scope.storage.mysleeps[index].date 			=		$scope.date; 			
-				$scope.storage.mysleeps[index].hoursleep	 	=		$scope.hoursleep; 
-				$scope.storage.mysleeps[index].minutesleep	 	=		$scope.minutesleep; 
-				$scope.storage.mysleeps[index].refreshed 		=		$scope.refreshed; 	
-				$scope.storage.mysleeps[index].sleepquality 	=		$scope.sleepquality ; 
-				$scope.storage.mysleeps[index].notes			=		$scope.notes;
+				$scope.storage.clientlist[index].name 			=		$scope.name; 			
+				$scope.storage.clientlist[index].hourrate	 	=		$scope.hourrate; 
+				$scope.storage.clientlist[index].addressone	 	=		$scope.addressone; 
+				$scope.storage.clientlist[index].addresstwo 	=		$scope.addresstwo; 	
+				$scope.storage.clientlist[index].format 		=		$scope.format ; 
+				$scope.storage.clientlist[index].code			=		$scope.code;
 				
 			 };
 			 
-			 $scope.deleteSleep = function (index) {
+			 $scope.deleteClient = function (index) {
 				 		$scope.index		=		index;
 			 };
 			 
-			 $scope.deleteSleepYes = function (index) {
+			 $scope.deleteClientYes = function (index) {
 				 $scope.storage.mysleeps.splice(index, 1);
 			 };
 			 
