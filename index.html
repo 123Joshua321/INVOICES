@@ -51,7 +51,7 @@ Copyright  2015  PCSquared.com.au
         <div data-role="panel" id="homeNav" data-position="left" data-display="reveal">
     		<ul data-role="listview" data-inset="true" data-split-icon="gear">
                     <li> <a href="#home">Home</a></li>
-                    <li> <a href="#settings">Settings</a></li>
+                    <li> <a href="#owninfo" ng-click="termsselect()">Edit own information</a></li>
                     <li> <a href="#clients">Client List</a></li>
                     <li> <a href="#view">View Sleeps</a></li>
                      <li> <a href="#editDelete">Edit & Delete Sleeps</a></li>
@@ -79,8 +79,8 @@ Copyright  2015  PCSquared.com.au
 
           
             <!---Body--->
-            <div id="addinvoiceform">
-            </div>
+            <div class="ui-body ui-body-b" align="left">
+              <div id="formthing"></div>
             
              </div><!--end of controller-->                                          
             
@@ -95,35 +95,69 @@ Copyright  2015  PCSquared.com.au
         
         
 
- <!--------------------------------------------PAGE: SETTINGS--------------------------------------------------->       
- <div data-role="page" id="settings"  ng-controller="invoiceController"   >
+ <!--------------------------------------------PAGE: EDIT OWN INFO--------------------------------------------------->       
+ <div data-role="page" id="owninfo"  ng-controller="invoiceController"   >
      <!-----------PANEL--------------------->
-     <div data-role="panel" id="settingsNav" data-position="left" data-display="reveal">
+     <div data-role="panel" id="owninfoNav" data-position="left" data-display="reveal">
           <ul data-role="listview" data-inset="true" data-split-icon="gear">
     		<ul data-role="listview" data-inset="true" data-split-icon="gear">
                     <li> <a href="#home">Home</a></li>
-                    <li> <a href="#settings">Settings</a></li>
+                    <li> <a href="#owninfo" ng-click="termsselect()">Edit own Information</a></li>
                     <li> <a href="#clients">Client List</a></li>
                     <li> <a href="#view">View Sleeps</a></li>
                      <li> <a href="#editDelete">Edit & Delete Sleeps</a></li>
         </ul>               
-        <a class="ui-btn ui-shadow ui-corner-all  ui-btn-mini  " href="#settingsNav">Close</a>	
+        <a class="ui-btn ui-shadow ui-corner-all  ui-btn-mini  " href="#owninfoNav">Close</a>	
      </div><!-- /panel -->
        
      <!--page navigation header-->  
      <div data-role="header">
-         <a class="ui-btn ui-shadow ui-corner-all ui-btn-inline ui-btn-mini ui-btn-left ui-btn-icon-left ui-icon-navigation" ng-click="ClearSleepMessage()" href="#settingsNav">Nav</a>	<h1>SLEEP TRACKER</h1>
+         <a class="ui-btn ui-shadow ui-corner-all ui-btn-inline ui-btn-mini ui-btn-left ui-btn-icon-left ui-icon-navigation" ng-click="ClearSleepMessage()" href="#owninfoNav">Nav</a>	<h1>EASY INVOICES</h1>
      </div><!-- /header -->
      
     <!--page Content--> 
      <div role="main" class="ui-content" >      
          <div  class="ui-body ui-body-b" align="left" id="settingsform">
+           <h1><b>Edit Information for Invoices</h1></b>
             <div ng-if="successfullyUpdated">Settings Updated!</div>
-        <form name="age" novalidate>
-            Update Age (Ignore months, the year of your current age)
-            <input type="number" id="age" ng-model="age"></input>
-               <button ng-click="updateSettings()"  data-mini="true">Update</button>
-        </form>     
+            
+          <!--EDIT OWN INFO FORM-->
+          <table width="90%" border="1" cellspacing="2" cellpadding="2">
+                                  <tr>
+                                    <td>Company Name row 1</td>
+                                    <td> <input  type="text" name="namerow1" ng-model="namerow1"  /></td>
+                                  </tr>
+                                  <tr>
+                                    <td>Company Name row 2</td>
+                                    <td> <input  type="text" name="namerow2" ng-model="namerow2"  /></td>
+                                  </tr>
+                                  <tr>
+                                    <td>ABN</td>
+                                    <td> <input type="number" name="abn" ng-model="abn"  /></td>
+                                  </tr>
+                                  <tr>
+                                    <td>Contact details - phone or email</td>
+                                    <td> <input type="text" name="contactdetails" ng-model="contactdetails"  /></td>
+                                  </tr>
+                                  <tr>
+                                    <td>Payment Terms</td>
+                                    <td> <input type="number" name="paymentnumber" ng-model="paymentnumber"/>
+                                      <select name="termsunits" ng-model="termsunits" id="termsunits"></select></td>
+                                    <!--TODO: WRITE JS TO MAKE INPUT FOR DAYS/WEEKS. MONTHS POSSIBLY?-->
+                                  </tr>
+                                  <tr>
+                                    <td>BSB</td>
+                                    <td> <input type="text" name="bsb" ng-model="bsb" length="8" /></td>
+                                  </tr>
+                                  <tr>
+                                    <td>Account Number</td>
+                                    <td> <input type="number" name="account" ng-model="bsb"/></td>
+                                   </tr>
+                                  
+                         
+                                </table>
+          
+          
          </div>
 	 </div><!-- /end page content -->
 
@@ -141,7 +175,7 @@ Copyright  2015  PCSquared.com.au
           <ul data-role="listview" data-inset="true" data-split-icon="gear">
     		<ul data-role="listview" data-inset="true" data-split-icon="gear">
                     <li> <a href="#home">Home</a></li>
-                    <li> <a href="#settings">Settings</a></li>
+                    <li> <a href="#owninfo" ng-click="termsselect()">Edit own information</a></li>
                     <li> <a href="#clients">Client List</a></li>
                     <li> <a href="#view">View Sleeps</a></li>
                      <li> <a href="#editDelete">Edit & Delete Sleeps</a></li>
@@ -212,7 +246,7 @@ Copyright  2015  PCSquared.com.au
           <ul data-role="listview" data-inset="true" data-split-icon="gear">
     		<ul data-role="listview" data-inset="true" data-split-icon="gear">
                     <li> <a href="#home">Home</a></li>
-                    <li> <a href="#settings">Settings</a></li>
+                    <li> <a href="#owninfo" ng-click="termsselect()">Edit own information</a></li>
                     <li> <a href="#clients">Client List</a></li>
                     <li> <a href="#view">View Sleeps</a></li>
                      <li> <a href="#editDelete">Edit & Delete Sleeps</a></li>
@@ -309,7 +343,7 @@ Copyright  2015  PCSquared.com.au
           <ul data-role="listview" data-inset="true" data-split-icon="gear">
     		<ul data-role="listview" data-inset="true" data-split-icon="gear">
                     <li> <a href="#home">Home</a></li>
-                    <li> <a href="#settings">Settings</a></li>
+                    <li> <a href="#owninfo" ng-click="termsselect()">Edit own information</a></li>
                     <li> <a href="#clients">Clients List</a></li>
                     <li> <a href="#view">View Sleeps</a></li>
                      <li> <a href="#editDelete">Edit & Delete Sleeps</a></li>
@@ -356,10 +390,10 @@ Copyright  2015  PCSquared.com.au
 
                     </li></td>
                                  <td>
-                                   <a  href="#edit"  ng-click="displayEditClient($index)" data-rel="popup" data-position-to="window" ndata-transition="pop"><img src="images/plus.gif" width="42" height="39"></a> 
+                                   <a  href="#editClient"  ng-click="displayEditClient($index)" data-rel="popup" data-position-to="window" ndata-transition="pop"><img src="images/plus.gif" width="42" height="39"></a> 
                                  </td>
                                  <td> 
-                                 <a   href="#delete"  ng-click="deleteClient($index)"  data-rel="popup" data-position-to="window" ndata-transition="pop"><img src="images/minus.gif" width="42" height="39"></a> 
+                                 <a   href="#deleteClient"  ng-click="deleteClient($index)"  data-rel="popup" data-position-to="window" ndata-transition="pop"><img src="images/minus.gif" width="42" height="39"></a> 
                                  </td>
                               </tr>
        					</table>   
@@ -367,14 +401,14 @@ Copyright  2015  PCSquared.com.au
                          Number of filtered items: {{storage.clientlist.length}}  
                
                <!---DELETE: POP UP WINDOW ---->
-                        <div data-role="popup" id="delete" data-theme="a" data-overlay-theme="b" class="ui-content" style="max-width:340px; padding-bottom:2em;">
+                        <div data-role="popup" id="deleteClient" data-theme="a" data-overlay-theme="b" class="ui-content" style="max-width:340px; padding-bottom:2em;">
                                 Do you really want to delete this client?<br>
                                 <a href="index.html" ng-click="deleteClientYes(index)"   data-rel="back" class="ui-shadow ui-btn ui-corner-all ui-btn-inline ui-mini">YES</a>
                                  <a href="index.html"   data-rel="back" class="ui-shadow ui-btn ui-corner-all ui-btn-inline ui-mini">Cancel</a>
                      	</div>  <!--end of edit pop-up-->
                 
                         <!--EDIT : POP UP WINDOW-->
-                        <div data-role="popup" id="edit" data-theme="a" data-overlay-theme="b" class="ui-content" style="max-width:340px; padding-bottom:2em;">
+                        <div data-role="popup" id="editClient" data-theme="a" data-overlay-theme="b" class="ui-content" style="max-width:340px; padding-bottom:2em;">
                             <a href="index.html" ng-click="saveEditClient(index)"   data-rel="back" class="ui-shadow ui-btn ui-corner-all ui-btn-inline ui-mini">SAVE EDITS</a>
                              <a href="index.html"   data-rel="back" class="ui-shadow ui-btn ui-corner-all ui-btn-inline ui-mini">Cancel</a>
                             <table width="90%" border="1" cellspacing="2" cellpadding="2">
@@ -396,7 +430,7 @@ Copyright  2015  PCSquared.com.au
                                   </tr>
                                   <tr>
                                     <td>Invoice Format</td>
-                                    <td> <input type="select" name="format" ng-model="format"  ><select id="short" name="short">Short</select><select id="long" name="long">Long</select></td>
+                                    <td> <div id="editshortlong"></div></select></td>
                                   </tr>
                                   <tr>
                                     <td>Client code:<br><b>WARNING: CHANGING THIS WILL AFFECT STORED INVOICES</td>

@@ -53,9 +53,7 @@
 	var app = angular.module('app',['ngStorage','ui-rangeSlider']);
 			
 			
-			
-
-//add day to hour input
+	//add day to hour input
 	function addhours() {
 		addday = addday + 1;
 		var yearselect = "";
@@ -82,7 +80,9 @@
 			document.getElementById("month" + i).innerHTML = montharray[i];
 			document.getElementById("hours" + i).innerHTML = hourarray[i];
 		}	
-	}
+	}		
+
+
 
 
 
@@ -107,17 +107,18 @@
 		
 		//CLIENT SELECT
 		var form = "";
-		form = form + '<div class="ui-body ui-body-b" align="left"><form><b>Client<br></b><select id="client" ng-model="invoicemodel" ng-change="formatChange()">';
+		form = form + '<form><b>Client<br></b><select id="client" ng-model="formatChangeScript" ng-change="formatChangeScript(id)">';
 		i = 0;
 		for(i=0;i<data.length;i++){
-			form = form + "<option id=" + i + "value='" + data[i].name + "'>" + data[i].name + "</option>";
+			form = form + "<option  id=" + i + "value='" + data[i].name + "'>" + data[i].name + "</option>";
 		}
 		form = form + "</select><br>";
 		i = 0;
 		
-		var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-		var d = new Date();
-		var currentmonth = monthNames[d.getMonth()];
+		//var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+		/*var d = new Date();
+		var currentmonth = monthNames[d.getMonth()];*/
+		
 		//TODAYS DATE
 		form = form +"<br><div id='todaydate'><b>Today's Date</b><br><select id='todayday' ng-model='invoicemodel'>" + dayselect + "</select>";
 		form = form + "<select id='todaymonth' ng-model='invoicemodel'>" + monthselect + "</select>" + "<select id='todayyear' ng-model='invoicemodel'>" + yearselect +"</select></div>";
@@ -137,7 +138,7 @@
 			
 			//HOURS ON EACH DAY
 			form = form + "<br><b>Hours</b><br>";
-			form = form + "Day 1:<select id='day1' ng-model='invoicemodel'>" + dayselect + "</select><select id='month1' ng-model='invoicemodel'>" + monthselect + "</select> Hours:<input type='text' id='hours1' size='3'><div id='moredays'>";
+			form = form + "Day 1:<select id='day1' ng-model='day1'>" + dayselect + "</select><select id='month1' ng-model='month1'>" + monthselect + "</select> Hours:<input type='text' id='hours1' size='3' ng-model='hours1'><div id='moredays'>";
 			form = form + "</div><br><button onclick='addhours()'>Add day</button>";
 			
 			
@@ -146,7 +147,7 @@
 		
 		
 		form = form + "</form></div>";
-		document.getElementById("addinvoiceform").innerHTML = form;
+		document.getElementById("formthing").innerHTML = form;
 		
 			
 	};
@@ -155,9 +156,21 @@
 	
 	
 	
-	$scope.formatChange = function(){
+
+ $scope.formatChangeScript = function(id){
+ console.log('RUNNING');
+
+
+		var yearselect = "";
+		var d = new Date();
+		var currentyear = d.getFullYear();
+		var lastyear = currentyear - 1;
+		var twoyears = lastyear - 1;
+		yearselect = yearselect + "<option id='" + currentyear + "'>" + currentyear + "</option>";
+		yearselect = yearselect + "<option id='" + lastyear + "'>" + lastyear + "</option>";
+		yearselect = yearselect + "<option id='" + twoyears + "'>" + twoyears + "</option>";
 		var data = $scope.storage.clientlist;
-		var i = $scope.client;
+		var i = id;
 		var format = data[i].format
 		var form = ""
 		if (format == "short"){
@@ -167,11 +180,25 @@
 		if (format == "long"){
 			form = form + "<br><b>Hours</b><br>";
 			form = form + "Day 1:<select id='day1' ng-model='invoicemodel'>" + dayselect + "</select><select id='month1' ng-model='invoicemodel'>" + monthselect + "</select> Hours:<input type='text' id='hours1' size='3'><div id='moredays'>";
-			form = form + "</div><br><button ng-click='addhour()'>Add day</button>";
+			form = form + "</div><br><button onclick='addhours()'>Add day</button>";
 			addday = 1;
 		}//end if
 		document.getElementById("shortlong").innerHTML = form;
 	};//end reload form
+	
+	
+	$scope.termsselect = function(){
+		if ($scope.storage.owndata[0].terms == "weeks"){
+			document.getElementById('termsunits').innerHTML = '<option name="days" ng-model="days" id="days">DAYS</option><option name="weeks" ng-model="weeks" id="days ng-selected="expression">WEEKS</option>'
+		} else {
+			document.getElementById('termsunits').innerHTML = '<option name="days" ng-model="days" id="days" ng-selected="expression">DAYS</option><option name="weeks" ng-model="weeks" id="days">WEEKS</option>';
+		}
+	}
+	
+	
+	
+	
+	
 	
 	//--------------------------DEFAULT-------------------
 	$scope.storage = $localStorage.$default({
@@ -187,7 +214,7 @@
 											hourrate: 30.5,
 											code: "DF2",
 											format: "short",
-											addressone: "456 ROFL street",
+											addressone: "456 Rofl street",
 											addresstwo: "Le Lenny Town",
 										}]
 							
@@ -203,7 +230,7 @@
 											contact: "0412345678 me@me.com",
 											contactenabled: true,
 											paymenttime: 7,
-											paymentunit: "weeks",
+											paymentunit: "days",
 											paymenttermsenabled: true,
 											bsb: "000-111",
 											account: "1232 1234 1235 1385",
@@ -271,8 +298,14 @@
 					 $scope.hourrate		=		$scope.storage.clientlist[index].hourrate;
 					 $scope.addressone		=		$scope.storage.clientlist[index].addressone;
 					 $scope.addresstwo		=		$scope.storage.clientlist[index].addresstwo;
-					 $scope.format			=		$scope.storage.clientlist[index].format;
 					 $scope.code			=		$scope.storage.clientlist[index].code;
+					var thing = '<select name="format" ng-model="format">  ';
+
+					 if ($scope.storage.clientlist[index].format == "short"){
+						 document.getElementById('editshortlong').innerHTML = thing + "<option value='short' id='short' ng-selected='expression'>Short</option><option value='long' id='long'>Long</option>";
+					 } else {
+						 document.getElementById('editshortlong').innerHTML = thing +"<option value='long' id='long' ng-selected='expression'>Long</option><option value='short' id='short'>Short</option>";
+					 }
 			
 			 };
 			 
@@ -292,7 +325,7 @@
 			 };
 			 
 			 $scope.deleteClientYes = function (index) {
-				 $scope.storage.mysleeps.splice(index, 1);
+				 $scope.storage.clientlist.splice(index, 1);
 			 };
 			 
 			 //----------------------end EDIT AND DELETE------------
