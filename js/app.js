@@ -205,14 +205,12 @@
     						clientlist: [{
 											name: "Default Client",
 											hourrate: 35.0,
-											code: "DFT",
 											format: "long",
 											addressone: "123 Lol street",
 											addresstwo: "Le Lenny Town",
 										} , {
 											name: "Default Client 2",
 											hourrate: 30.5,
-											code: "DF2",
 											format: "short",
 											addressone: "456 Rofl street",
 											addresstwo: "Le Lenny Town",
@@ -298,7 +296,6 @@
 					 $scope.hourrate		=		$scope.storage.clientlist[index].hourrate;
 					 $scope.addressone		=		$scope.storage.clientlist[index].addressone;
 					 $scope.addresstwo		=		$scope.storage.clientlist[index].addresstwo;
-					 $scope.code			=		$scope.storage.clientlist[index].code;
 					var thing = '<select name="format" ng-model="format">  ';
 
 					 if ($scope.storage.clientlist[index].format == "short"){
@@ -316,7 +313,6 @@
 				$scope.storage.clientlist[index].addressone	 	=		$scope.addressone; 
 				$scope.storage.clientlist[index].addresstwo 	=		$scope.addresstwo; 	
 				$scope.storage.clientlist[index].format 		=		$scope.format ; 
-				$scope.storage.clientlist[index].code			=		$scope.code;
 				
 			 };
 			 

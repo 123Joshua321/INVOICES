@@ -53,7 +53,7 @@ Copyright  2015  PCSquared.com.au
                     <li> <a href="#home">Home</a></li>
                     <li> <a href="#owninfo" ng-click="termsselect()">Edit own information</a></li>
                     <li> <a href="#clients">Client List</a></li>
-                    <li> <a href="#view">View Sleeps</a></li>
+                    <li> <a href="#config">Configure Invoice</a></li>
                      <li> <a href="#editDelete">Edit & Delete Sleeps</a></li>
 
             </ul>                 
@@ -104,7 +104,7 @@ Copyright  2015  PCSquared.com.au
                     <li> <a href="#home">Home</a></li>
                     <li> <a href="#owninfo" ng-click="termsselect()">Edit own Information</a></li>
                     <li> <a href="#clients">Client List</a></li>
-                    <li> <a href="#view">View Sleeps</a></li>
+                    <li> <a href="#config">Configure Invoice</a></li>
                      <li> <a href="#editDelete">Edit & Delete Sleeps</a></li>
         </ul>               
         <a class="ui-btn ui-shadow ui-corner-all  ui-btn-mini  " href="#owninfoNav">Close</a>	
@@ -164,28 +164,28 @@ Copyright  2015  PCSquared.com.au
      <div data-role="footer" data-position="fixed">
          <p align="center"> </p>
      </div><!-- /footer -->
-</div><!-- /end add page -->
+</div><!-- /end edit info page -->
  
   
   
-   <!--------------------------------------------PAGE: Listview--------------------------------------------------->       
- <div data-role="page" id="view"  ng-controller="invoiceController"    >
+   <!--------------------------------------------PAGE: Configure Invoice--------------------------------------------------->       
+ <div data-role="page" id="config"  ng-controller="invoiceController"    >
      <!-----------PANEL--------------------->
-     <div data-role="panel" id="viewNav" data-position="left" data-display="reveal">
+     <div data-role="panel" id="configNav" data-position="left" data-display="reveal">
           <ul data-role="listview" data-inset="true" data-split-icon="gear">
     		<ul data-role="listview" data-inset="true" data-split-icon="gear">
                     <li> <a href="#home">Home</a></li>
                     <li> <a href="#owninfo" ng-click="termsselect()">Edit own information</a></li>
                     <li> <a href="#clients">Client List</a></li>
-                    <li> <a href="#view">View Sleeps</a></li>
+                    <li> <a href="#config">Configure Invoice</a></li>
                      <li> <a href="#editDelete">Edit & Delete Sleeps</a></li>
         </ul>               
-        <a class="ui-btn ui-shadow ui-corner-all  ui-btn-mini  " href="#viewNav">Close</a>	
+        <a class="ui-btn ui-shadow ui-corner-all  ui-btn-mini  " href="#configNav">Close</a>	
      </div><!-- /panel -->
      
       <!--page navigation header-->      
      <div data-role="header">
-         <a class="ui-btn ui-shadow ui-corner-all ui-btn-inline ui-btn-mini ui-btn-left ui-btn-icon-left ui-icon-navigation" ng-click="ClearSleepMessage()"  href="#viewNav">Nav</a><h1>SLEEP TRACKER</h1>
+         <a class="ui-btn ui-shadow ui-corner-all ui-btn-inline ui-btn-mini ui-btn-left ui-btn-icon-left ui-icon-navigation" ng-click="ClearSleepMessage()"  href="#configNav">Nav</a><h1>SLEEP TRACKER</h1>
      </div><!-- /header -->
      
     <!--page Content-->
@@ -193,46 +193,42 @@ Copyright  2015  PCSquared.com.au
      <h2>My Sleeps</h2>  
         		<!--ng-controller:  contactController  -->  
                 <div  class="ui-body ui-body-b"  align="left">
-                <!-- ng-model="query"  The value entered, which is the vary of the variable "query" is the value used in the Filter in the Listview Lop   --->
-                	Search: <input ng-model="query">
-                    <!-- What this ListView uses:
-                        Directive: ng-repeat
-                        Each record is acessed by "p": example {{p.name}} or   {{p.mediaType}}
-                        Datasource is ngStorage: ->  storage.mySleeps
-                        Use: track by $index: ->  This gives us the index value for each row  
-                        Image source: src="images/{{p.mediaType}}.jpg  -> All images are in Folder called images.  This image names are the mediaType names
-                    -->
-                  <!---   PUT THE LISTVIEW CODE IN HERE---->
-                <b>  DD-MM-YYYY </b> 
-           <ul ng-repeat="r in storage.mysleeps  | filter:query" data-role="listview" list-view data-watch="listView"  data-split-theme="c" data-inset="true"  >
-               
-                    <li>
-
-                        <img src="images/sleepimage.jpg" width="430" height="430" alt="helmet">
-
-                        <h2>{{r.date | date: 'dd-MM-yyyy'}}</h2> 
-                <p>
-                          <b>Date:</b> {{r.date | date: 'dd-MM-yyyy'}}<br>
-
-                         <strong>Hours Slept:</strong> {{r.hoursleep}} <br> 
-                         
-                         <strong> Minutes Slept:</strong> {{r.minutesleep}}  <br>
-
-                        <strong> How refreshed:</strong> {{r.refreshed}}/10  <br> 
-
-                        <strong> Sleep Quality:</strong>  {{r.sleepquality}}   <br>
-                        
-                        <b>  Notes:</b>  {{r.notes}} <br>
-
-
-                    </li>
- </ul>
+                <h1><b>Configure Invoice</b></h1>
+                <table width="90%" border="1" cellspacing="2" cellpadding="2">
+                  <tr>
+                    <td>Enable Company Name Row 1</td>
+                    <td><input type="checkbox" id="enablecompanyrow1" ng-model="enablecompanyrow1" checked="checked"/></td>
+                  </td>
+                  <tr>
+                    <td>Enable Company Name Row 2</td>
+                    <td><input type="checkbox" id="enablecompanyrow2" checked="checked" ng-model="enablecompanyrow2"/></td>
+                  </tr>
+                  <tr>
+                    <td>Enable ABN</td>
+                    <td><input type="checkbox" id="enableabn" checked="checked" ng-model="enableabn"/></td>
+                  </tr>
+                  <tr>
+                    <td>Enable contact details</td>
+                    <td><input type="checkbox" id="enabledetails" ng-model="enabledetails" checked="checked"/></td>
+                  </tr>
+                  <tr>
+                    <td>Enable payment terms</td>
+                    <td><input type="checkbox" id="enableterms" ng-model="enableterms" checked="checked"/></td>
+                  </tr>
+                  <tr>
+                    <td>Enable payment details</td>
+                    <td><input type="checkbox" id="enablepaymentdetails" ng-model="enablepaymentdetails" checked="checked"/></td>
+                  </tr>
+                </table>
+              
        
+                  
+                  
+                  
                   
                 </div><!--end of controller-->
 	 	</div><!-- /end page content -->
-
-    
+   
 </div><!-- /page -->
 
 
@@ -248,7 +244,7 @@ Copyright  2015  PCSquared.com.au
                     <li> <a href="#home">Home</a></li>
                     <li> <a href="#owninfo" ng-click="termsselect()">Edit own information</a></li>
                     <li> <a href="#clients">Client List</a></li>
-                    <li> <a href="#view">View Sleeps</a></li>
+                    <li> <a href="#config">Configure Invoice</a></li>
                      <li> <a href="#editDelete">Edit & Delete Sleeps</a></li>
 
         </ul>               
@@ -265,66 +261,11 @@ Copyright  2015  PCSquared.com.au
      <h2>Sleeps</h2>
         		<!--ng-controller:  contactController  -->  
                 <div  class="ui-body ui-body-b"  align="left">    
-					<br>
-  						<table >
-                              <tr>
-                                <td ><strong>Client</strong></td>
-                                <td ><strong>Edit</strong></td>
-                                 <td ><strong>Delete</strong></td>
-                              </tr>
-                              <tr ng-repeat="p in storage.mysleeps track by $index"> 
-                                 <td > <p> <b>{{p.name}}</b></td> ..</p></td>
-                                 
-                                 <td>
-                                   <a  href="#edit"  ng-click="displayEdit($index)" data-rel="popup" data-position-to="window" ndata-transition="pop"><img src="images/plus.gif" width="42" height="39"></a> 
-                                 </td>
-                                 <td> 
-                                 <a   href="#delete"  ng-click="deleteSleep($index)"  data-rel="popup" data-position-to="window" ndata-transition="pop"><img src="images/minus.gif" width="42" height="39"></a> 
-                                 </td>
-                              </tr>
-       					</table>   
-                                        
-                         Number of filtered items: {{storage.mysleeps.length}}  
-                         
-                         <!---DELETE: POP UP WINDOW ---->
-                        <div data-role="popup" id="delete" data-theme="a" data-overlay-theme="b" class="ui-content" style="max-width:340px; padding-bottom:2em;">
-                                Do you really want to delete <br>
-                                <a href="index.html" ng-click="deleteSleepYes(index)"   data-rel="back" class="ui-shadow ui-btn ui-corner-all ui-btn-inline ui-mini">YES</a>
-                                 <a href="index.html"   data-rel="back" class="ui-shadow ui-btn ui-corner-all ui-btn-inline ui-mini">Cancel</a>
-                     	</div>  <!--end of edit pop-up-->
-                
-                        <!--EDIT : POP UP WINDOW-->
-                        <div data-role="popup" id="edit" data-theme="a" data-overlay-theme="b" class="ui-content" style="max-width:340px; padding-bottom:2em;">
-                            <a href="index.html" ng-click="saveEditSleep(index)"   data-rel="back" class="ui-shadow ui-btn ui-corner-all ui-btn-inline ui-mini">SAVE EDIT</a>
-                             <a href="index.html"   data-rel="back" class="ui-shadow ui-btn ui-corner-all ui-btn-inline ui-mini">Cancel</a>
-                            <table width="90%" border="1" cellspacing="2" cellpadding="2">
-                                  <tr>
-                                    <td>Date</td>
-                                    <td> <input  type="text" name="date" ng-model="date"  /></td>
-                                  </tr>
-                                  <tr>
-                                    <td>Hours slept</td>
-                                    <td> <input  type="text" name="hoursleep" ng-model="hoursleep"  /></td>
-                                  </tr>
-                                  <tr>
-                                    <td>Minutes slept</td>
-                                    <td> <input type="text" name="minutesleep" ng-model="minutesleep"  /></td>
-                                  </tr>
-                                  <tr>
-                                    <td>How Refreshed</td>
-                                    <td> <input type="text" name="refreshed" ng-model="refreshed"  /></td>
-                                  </tr>
-                                  <tr>
-                                    <td>How was sleep</td>
-                                    <td> <input type="text" name="sleepquality" ng-model="sleepquality"  /></td>
-                                  </tr>
-                                  <tr>
-                                    <td>Notes</td>
-                                    <td> <input type="text" name="notes" ng-model="notes"  /></td>
-                                  </tr>
-                         
-                                </table>
-                    	 </div>  <!--end of edit pop-up-->
+					
+          
+          
+          
+          
             </div>
 	 	</div><!-- /end of main content -->
 
@@ -385,7 +326,7 @@ Copyright  2015  PCSquared.com.au
 
                         <strong> Invoice Format:</strong>  {{p.format}}   <br>
                         
-                        <b>  Client Code:</b>  {{p.code}} <br>
+                       
 
 
                     </li></td>
@@ -405,7 +346,7 @@ Copyright  2015  PCSquared.com.au
                                 Do you really want to delete this client?<br>
                                 <a href="index.html" ng-click="deleteClientYes(index)"   data-rel="back" class="ui-shadow ui-btn ui-corner-all ui-btn-inline ui-mini">YES</a>
                                  <a href="index.html"   data-rel="back" class="ui-shadow ui-btn ui-corner-all ui-btn-inline ui-mini">Cancel</a>
-                     	</div>  <!--end of edit pop-up-->
+                     	</div>  <!--end of delete pop-up-->
                 
                         <!--EDIT : POP UP WINDOW-->
                         <div data-role="popup" id="editClient" data-theme="a" data-overlay-theme="b" class="ui-content" style="max-width:340px; padding-bottom:2em;">
@@ -432,10 +373,7 @@ Copyright  2015  PCSquared.com.au
                                     <td>Invoice Format</td>
                                     <td> <div id="editshortlong"></div></select></td>
                                   </tr>
-                                  <tr>
-                                    <td>Client code:<br><b>WARNING: CHANGING THIS WILL AFFECT STORED INVOICES</td>
-                                    <td> <input type="text" name="code" ng-model="code" length="3" /></td>
-                                  </tr>
+
                                   
                          
                                 </table>
