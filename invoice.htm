@@ -6,10 +6,13 @@ content="IE=5.0000" http-equiv="X-UA-Compatible">
 	 <TITLE>Invoice</TITLE>	 
 <STYLE type="text/css">
 	<!--
-		@page { margin-right: 1.25in; margin-top: 1in; margin-bottom: 1in; width: 7in; font-family: "Verdana, Geneva, Tahoma, sans-serif" }
-		P { margin-bottom: 0.08in; font-family:"Verdana, Geneva, Tahoma, sans-serif" }
+		@page { margin-right: 1.25in; margin-top: 1in; margin-bottom: 1in; width: 7in; font-family: Verdana, Geneva, Tahoma, Helvetica, sans-serif }
+		P { margin-bottom: 0.08in; font-family:Verdana, Geneva, Tahoma, Helvetica, sans-serif }
+    span {display:inline-block; font-family:Verdana, Geneva, Tahoma, Helvetica, sans-serif}
+    
 	-->
 	</STYLE>
+  
   
   
   <!-------------------ANGULAR   ---------------------->
@@ -20,18 +23,19 @@ content="IE=5.0000" http-equiv="X-UA-Compatible">
         <script src="js/app.js"></script>
  </HEAD> 
 <BODY lang="en-AU" style="padding: 0in; border: currentColor; border-image: none;" 
-dir="Ltr"  ng-controller="invoicecontroller">
+dir="Ltr"  ng-controller="invoiceController" ng-init="formatinvoice()" >
 
 
 
 
 <!--COMPANY INFO, INVOICE NUMBER AND DATE-->
 <P style="margin-bottom: 0.14in;" id="companylines">
-  <font color="#002060" size="4"><B>Company Line One<br>
-Company Line Two</b></font>
+  <font color="#002060" size="4"><B><span id="companyone">Company Line One</span><br>
+<span id="companytwo">Company Line Two</span></b></font>
 
-<font color="#002060" size="2" style="font-size: 11pt;"><p style="text-align:right" id="invoicenumber">Invoice No. 000000
- <div id="date" ng-model="date" style="text-align:right">Date: 1 January 2015</div></p><br>Contact Details</P></font>
+<font color="#002060" size="2" style="font-size: 11pt;"><p style="text-align:right" id="invoicenumber">Invoice No. 000000</p>
+ <p id="date" style="text-align:right">Date: 1 January 2015</p><br>
+ <p style="text-align:left" id="contactdetails">Contact Details</p></font>
 <font color="#002060" size="2" style="font-size: 11pt;"><P style="margin-bottom: 0.14in;" id="abn">ABN: 12345678</P></font>
 <P style="margin-bottom: 0.14in;"><br><br></P>
 <P style="margin-bottom: 0.14in;"><br><br></P>
@@ -42,18 +46,37 @@ Company Line Two</b></font>
 <P style="margin-bottom: 0.14in;"><font color="#002060"><font size="2" style="font-size: 11pt;">Company
  Name<br>Address Line One<br>Address Line Two</font></font></P>
 <P style="margin-bottom: 0.14in;"><br><br></P>
-<P style="margin-bottom: 0.14in;"><br><br></P>
-<P style="margin-bottom: 0.14in;"><br><br></P>
-<P style="margin-bottom: 0.14in;"><br><br></P>
 
 
-<!--HOURS AND SIMILAR INFO-->
-<P style="margin-bottom: 0.14in;"><font color="#002060"><font size="2" style="font-size: 11pt;">Month
- Year	10.00 hours @ $40.00/hr 				    $400.00<br>			AS PER ATTACHED TIMESHEET</font></font></P>
-<P style="margin-bottom: 0.14in;"><br><br></P>
-<P style="margin-bottom: 0.14in;"><br><br></P>
-<P style="margin-bottom: 0.14in;"><br><br></P>
-<P style="margin-bottom: 0.14in;"><br><br></P>
+
+
+<!--SHORT INVOICE FORMAT-->
+<div id="shortformat">
+<font color="#002060" size="2" style="font-size: 11pt;">
+    <p style="margin-bottom: 0.14in;text-align:justify" >
+    <span style="float:left" id="invoicemonth"> December 2014</span>
+    &nbsp;&nbsp; <span id="hoursathour">10.00 hours @ $40.00/hr </span>
+     <span style="float:right" id="totaldollarsshort">$400.00</span><br>
+     		<span style="text-align:center">
+           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+           AS PER ATTACHED TIMESHEET</span></p>
+     </font>
+</div>     
+
+
+
+<!--LONG INVOICE FORMAT-->
+<div id="longformat">
+<font color="#002060" size="2" style="font-size: 11pt;">
+    <p style="margin-bottom: 0.14in;text-align:justify">
+      <div id="longformathours">
+      </div>
+     </p>
+</font>
+</div>
+
+<p style="margin-bottom: 0.14in;"><br><br></p>
 
 
 <!--BANKING INFO AND PAYMENT TERMS-->
@@ -65,10 +88,8 @@ Company Line Two</b></font>
  
  
  <!--TIMESHEET-->
-<P style="margin-bottom: 0.14in;"><br><br></P>
-<P style="margin-bottom: 0.14in;"><br><br></P>
-<P style="margin-bottom: 0.14in;"><br><br></P>
-<P style="margin-bottom: 0.14in;"><br><br></P>
+ <div id="timesheet">
+
 <table width="329" border="1" rules="NONE" frame="VOID" cellspacing="0" 
 cellpadding="7">
   <COLGROUP>
@@ -76,20 +97,7 @@ cellpadding="7">
   <COL width="50">
   <COL width="166">
   <TBODY>
-  <tr valign="BOTTOM">
-    <td width="71" height="6">
-      <P><br></P></td>
-    <td width="50">
-      <P><br></P></td>
-    <td width="166">
-      <P><br></P></td></tr>
-  <tr valign="BOTTOM">
-    <td width="71" height="6">
-      <P><br></P></td>
-    <td width="50">
-      <P><br></P></td>
-    <td width="166">
-      <P><font color="#000000"></font>			 </P></td></tr>
+
   <tr valign="BOTTOM">
     <td width="71" height="6">
       <P align="RIGHT"><font color="#000000"><font size="2" style="font-size: 11pt;">3/08/2015</font></font></P></td>
@@ -209,5 +217,5 @@ cellpadding="7">
       <P align="RIGHT"><font color="#000000"><font size="2" style="font-size: 11pt;">58</font></font></P></td>
     <td width="166">
       <P><br></P></td></tr></TBODY></table>
-<P style="margin-bottom: 0.14in;"><br><br></P>
-<P style="margin-bottom: 0.14in;"><br><br></P></BODY></HTML>
+
+</div></BODY></HTML>

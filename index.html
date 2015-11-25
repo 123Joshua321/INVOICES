@@ -46,7 +46,7 @@ Copyright  2015  PCSquared.com.au
 <body width="device-width" ng-controller="invoiceController" ng-init="startng()">
    
 <!---------------------------------------------PAGE:  HOME--------------------------------------------------->
-        <div data-role="page" id="home" ng-controller="invoiceController" data-theme="a" ng-model="invoicemodel"> 
+        <div data-role="page" id="home" ng-controller="invoiceController" data-theme="a" ng-model="homepage"> 
         <!-----------PANEL--------------------->
         <div data-role="panel" id="homeNav" data-position="left" data-display="reveal">
     		<ul data-role="listview" data-inset="true" data-split-icon="gear">
@@ -124,11 +124,11 @@ Copyright  2015  PCSquared.com.au
           <!--EDIT OWN INFO FORM-->
           <table width="90%" border="1" cellspacing="2" cellpadding="2">
                                   <tr>
-                                    <td>Company Name row 1</td>
+                                    <td>Your Company Name row 1</td>
                                     <td> <input  type="text" name="namerow1" ng-model="namerow1"  /></td>
                                   </tr>
                                   <tr>
-                                    <td>Company Name row 2</td>
+                                    <td>Your Company Name row 2</td>
                                     <td> <input  type="text" name="namerow2" ng-model="namerow2"  /></td>
                                   </tr>
                                   <tr>
@@ -154,9 +154,8 @@ Copyright  2015  PCSquared.com.au
                                     <td> <input type="number" name="account" ng-model="bsb"/></td>
                                    </tr>
                                   
-                         
                                 </table>
-          
+          <button>Submit</button>
           
          </div>
 	 </div><!-- /end page content -->
@@ -234,7 +233,7 @@ Copyright  2015  PCSquared.com.au
 
 
 
- <!------------------------------------------------------PAGE: clientlist with EDIT and DELETE--------------------------------------------------->       
+ <!------------------------------------------------------PAGE: invoicelist with EDIT and DELETE--------------------------------------------------->       
  <!--NOTE:   ng-controller:  contactController  -->
  <div data-role="page" id="editDelete"  ng-controller="invoiceController"  >
      <!-----------PANEL--------------------->
@@ -258,10 +257,40 @@ Copyright  2015  PCSquared.com.au
 
  	<!--page Content-->
      <div role="main" class="ui-content">    
-     <h2>Sleeps</h2>
-        		<!--ng-controller:  contactController  -->  
-                <div  class="ui-body ui-body-b"  align="left">    
-					
+     <h2>Invoices</h2>
+        		
+					<div  class="ui-body ui-body-b"  align="left">    
+					<br>Search: <input ng-model="invoicequery">
+  						<table >
+                              
+                              <tr ng-repeat="q in storage.invoices  | filter:invoicequery" data-role="listview" list-view data-watch="listView"  data-split-theme="c" data-inset="true"  >
+               <td>
+                    <li>
+
+        
+                        <h2>{{p.name}}</h2> 
+                <p>
+                          
+
+                         <strong>Client:</strong> {{q.client}} <br> 
+                         
+                         <strong> Hours Worked:</strong> {{q.hours}}  <br>
+
+                        <strong>Invoice Month:</strong> {{q.month}}  <br> 
+
+                        <strong> Date Made:</strong>  {{q.made}}   <br>
+                          
+                         <strong> Notes:</strong> {{q.note}}   <br>
+                        
+                       
+
+
+                    </li></td>
+                                 
+                              </tr>
+       					</table>   
+                                        
+                         Number of filtered items: {{storage.invoices.length}}  
           
           
           
@@ -286,7 +315,7 @@ Copyright  2015  PCSquared.com.au
                     <li> <a href="#home">Home</a></li>
                     <li> <a href="#owninfo" ng-click="termsselect()">Edit own information</a></li>
                     <li> <a href="#clients">Clients List</a></li>
-                    <li> <a href="#view">View Sleeps</a></li>
+                    <li> <a href="#config">Configure Invoice</a></li>
                      <li> <a href="#editDelete">Edit & Delete Sleeps</a></li>
         </ul>               
         <a class="ui-btn ui-shadow ui-corner-all  ui-btn-mini  " href="#clientsNav">Close</a>	
@@ -325,6 +354,8 @@ Copyright  2015  PCSquared.com.au
                         <strong> Address Line Two:</strong> {{p.addresstwo}}  <br> 
 
                         <strong> Invoice Format:</strong>  {{p.format}}   <br>
+                          
+                         <strong> Contact Information:</strong> {{p.contact}}   <br>
                         
                        
 
@@ -372,6 +403,10 @@ Copyright  2015  PCSquared.com.au
                                   <tr>
                                     <td>Invoice Format</td>
                                     <td> <div id="editshortlong"></div></select></td>
+                                  </tr>
+                                  <tr>
+                                    <td>Contact Information</td>
+                                    <td> <input type="text" name="contact" ng-model="contact"/></td>
                                   </tr>
 
                                   

@@ -208,12 +208,14 @@
 											format: "long",
 											addressone: "123 Lol street",
 											addresstwo: "Le Lenny Town",
+											contact: "0400123456",
 										} , {
 											name: "Default Client 2",
 											hourrate: 30.5,
 											format: "short",
 											addressone: "456 Rofl street",
 											addresstwo: "Le Lenny Town",
+											contact: "email@email.com",
 										}]
 							
 					});
@@ -234,6 +236,30 @@
 											account: "1232 1234 1235 1385",
 											paymentdetailsenabled: true,
 							}]
+	});
+	$scope.storage = $localStorage.$default({
+						loaded: [{
+								client: "Default Client",
+								days: 0,
+								hours: 40,
+								month: "December",
+								year: "2014",
+								madedate: "1 January 2015",
+								timesheet: "defaultTS",
+						}]
+	});
+	$scope.storage = $localStorage.$default({
+				invoices: [{
+						client: "Default Client",
+						format: "short",
+						hours: 10,
+						perhour: 40,
+						totalpay: 400.00,
+						month: "December 2014",
+						made: "1 January 2015",
+						timesheet: true,
+						note: "5 December 5 hours, 10 December 5 hours",
+				}]
 	});
 
 						
@@ -296,7 +322,8 @@
 					 $scope.hourrate		=		$scope.storage.clientlist[index].hourrate;
 					 $scope.addressone		=		$scope.storage.clientlist[index].addressone;
 					 $scope.addresstwo		=		$scope.storage.clientlist[index].addresstwo;
-					var thing = '<select name="format" ng-model="format">  ';
+					 $scope.contact			=		$scope.storage.clientlist[index].contact;
+					var thing = '<select name="format" ng-model="editformat">  ';
 
 					 if ($scope.storage.clientlist[index].format == "short"){
 						 document.getElementById('editshortlong').innerHTML = thing + "<option value='short' id='short' ng-selected='expression'>Short</option><option value='long' id='long'>Long</option>";
@@ -312,7 +339,7 @@
 				$scope.storage.clientlist[index].hourrate	 	=		$scope.hourrate; 
 				$scope.storage.clientlist[index].addressone	 	=		$scope.addressone; 
 				$scope.storage.clientlist[index].addresstwo 	=		$scope.addresstwo; 	
-				$scope.storage.clientlist[index].format 		=		$scope.format ; 
+				$scope.storage.clientlist[index].format 		=		$scope.editformat ; 
 				
 			 };
 			 
@@ -330,6 +357,34 @@
 			 	$scope.showReports = function() {
 					 	 
 				 }; 
+				 
+				 
+				 
+				/*------------------------------
+				---------------------------------INVOICE.HTM CODE
+				----------------------------------
+				---------------------------------*/
+				 $scope.formatinvoice = function() {
+					 alert('Code running!');
+					 var data = $scope.storage.loaded;
+					 var clientinfo = $scope.storage.clientlist;
+					 var config = $scope.storage.owndata;
+					 var client = data[0].client;
+					 if (clientinfo[client].format == "short"){
+					 	document.getElementById('longformat').style.display = 'none';}
+					 if (clientinfo[client].format == "long"){
+						 document.getElementById('shortformat').style.display = 'none';
+						 document.getElementById('timesheet').style.display = 'none';}
+					if (config[client].nameoneenabled == false){
+						document.getElementById('companyone').style.display = 'none';}
+					if (config[client].nametwoenabled == false){
+						document.getElementById('companytwo').style.display = 'none';}
+					document.getElementById('companyone').innerHTML = config[client].nameone;
+					document.getElementById('companytwo').innerHTML = config[client].nametwo;
+					
+				 }
+				 
+				 
 			});//end angular application
 	//NOTE:  this directive fixes the clash between JQuery Mobile and  Angular when they both try to refresh an item you add to a listview
 	app.directive('listView', function () {
