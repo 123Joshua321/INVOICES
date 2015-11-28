@@ -54,7 +54,7 @@ Copyright  2015  PCSquared.com.au
                     <li> <a href="#owninfo" ng-click="termsselect()">Edit own information</a></li>
                     <li> <a href="#clients">Client List</a></li>
                     <li> <a href="#config">Configure Invoice</a></li>
-                     <li> <a href="#editDelete">Edit & Delete Sleeps</a></li>
+                     <li> <a href="#invoices">View Past Invoices</a></li>
 
             </ul>                 
             <a class="ui-btn ui-shadow ui-corner-all  ui-btn-mini  " href="#homeNav">Close</a>	
@@ -73,7 +73,7 @@ Copyright  2015  PCSquared.com.au
         <!--Add image here :) --->       
                      
                     <br>
-                    <b>*INSERT HEADING THING*</b>
+                    <b>ADD AN INVOICE</b>
 
 
 
@@ -105,7 +105,7 @@ Copyright  2015  PCSquared.com.au
                     <li> <a href="#owninfo" ng-click="termsselect()">Edit own Information</a></li>
                     <li> <a href="#clients">Client List</a></li>
                     <li> <a href="#config">Configure Invoice</a></li>
-                     <li> <a href="#editDelete">Edit & Delete Sleeps</a></li>
+                     <li> <a href="#invoices">View Past Invoices</a></li>
         </ul>               
         <a class="ui-btn ui-shadow ui-corner-all  ui-btn-mini  " href="#owninfoNav">Close</a>	
      </div><!-- /panel -->
@@ -133,7 +133,7 @@ Copyright  2015  PCSquared.com.au
                                   </tr>
                                   <tr>
                                     <td>ABN</td>
-                                    <td> <input type="number" name="abn" ng-model="abn"  /></td>
+                                    <td> <input type="number" name="abn" ng-model="abn"  maxlength="11"/></td>
                                   </tr>
                                   <tr>
                                     <td>Contact details - phone or email</td>
@@ -147,7 +147,7 @@ Copyright  2015  PCSquared.com.au
                                   </tr>
                                   <tr>
                                     <td>BSB</td>
-                                    <td> <input type="text" name="bsb" ng-model="bsb" length="8" /></td>
+                                    <td> <input type="text" name="bsb" ng-model="bsb" length="7" /></td>
                                   </tr>
                                   <tr>
                                     <td>Account Number</td>
@@ -177,19 +177,19 @@ Copyright  2015  PCSquared.com.au
                     <li> <a href="#owninfo" ng-click="termsselect()">Edit own information</a></li>
                     <li> <a href="#clients">Client List</a></li>
                     <li> <a href="#config">Configure Invoice</a></li>
-                     <li> <a href="#editDelete">Edit & Delete Sleeps</a></li>
+                     <li> <a href="#viewpastinvoices">View Past Invoices</a></li>
         </ul>               
         <a class="ui-btn ui-shadow ui-corner-all  ui-btn-mini  " href="#configNav">Close</a>	
      </div><!-- /panel -->
      
       <!--page navigation header-->      
      <div data-role="header">
-         <a class="ui-btn ui-shadow ui-corner-all ui-btn-inline ui-btn-mini ui-btn-left ui-btn-icon-left ui-icon-navigation" ng-click="ClearSleepMessage()"  href="#configNav">Nav</a><h1>SLEEP TRACKER</h1>
+         <a class="ui-btn ui-shadow ui-corner-all ui-btn-inline ui-btn-mini ui-btn-left ui-btn-icon-left ui-icon-navigation" ng-click="ClearSleepMessage()"  href="#configNav">Nav</a><h1>EASY INVOICES</h1>
      </div><!-- /header -->
      
     <!--page Content-->
      <div role="main" class="ui-content">    
-     <h2>My Sleeps</h2>  
+     <h2></h2>  
         		<!--ng-controller:  contactController  -->  
                 <div  class="ui-body ui-body-b"  align="left">
                 <h1><b>Configure Invoice</b></h1>
@@ -233,26 +233,26 @@ Copyright  2015  PCSquared.com.au
 
 
 
- <!------------------------------------------------------PAGE: invoicelist with EDIT and DELETE--------------------------------------------------->       
+ <!------------------------------------------------------PAGE: invoicelist--------------------------------------------------->       
  <!--NOTE:   ng-controller:  contactController  -->
- <div data-role="page" id="editDelete"  ng-controller="invoiceController"  >
+ <div data-role="page" id="invoices"  ng-controller="invoiceController"  >
      <!-----------PANEL--------------------->
-     <div data-role="panel" id="editDeleteNav" data-position="left" data-display="reveal">
+     <div data-role="panel" id="invoicesNav" data-position="left" data-display="reveal">
           <ul data-role="listview" data-inset="true" data-split-icon="gear">
     		<ul data-role="listview" data-inset="true" data-split-icon="gear">
                     <li> <a href="#home">Home</a></li>
                     <li> <a href="#owninfo" ng-click="termsselect()">Edit own information</a></li>
                     <li> <a href="#clients">Client List</a></li>
                     <li> <a href="#config">Configure Invoice</a></li>
-                     <li> <a href="#editDelete">Edit & Delete Sleeps</a></li>
+                     <li> <a href="#invoices">View Past Invoices</a></li>
 
         </ul>               
-        <a class="ui-btn ui-shadow ui-corner-all  ui-btn-mini  " href="#editDeleteNav">Close</a>	
+        <a class="ui-btn ui-shadow ui-corner-all  ui-btn-mini  " href="#invoicesNav">Close</a>	
      </div><!-- /panel -->
      
       <!--page navigation header-->
       <div data-role="header">
-           <a class="ui-btn ui-shadow ui-corner-all ui-btn-inline ui-btn-mini ui-btn-left ui-btn-icon-left ui-icon-navigation" ng-click="ClearSleepMessage()" href="#editDeleteNav">Nav</a><h1>SLEEP TRACKER</h1>
+           <a class="ui-btn ui-shadow ui-corner-all ui-btn-inline ui-btn-mini ui-btn-left ui-btn-icon-left ui-icon-navigation" ng-click="ClearSleepMessage()" href="#invoicesNav">Nav</a><h1>EASY INVOICES</h1>
         </div><!-- /header -->     
 
  	<!--page Content-->
@@ -262,13 +262,14 @@ Copyright  2015  PCSquared.com.au
 					<div  class="ui-body ui-body-b"  align="left">    
 					<br>Search: <input ng-model="invoicequery">
   						<table >
-                              
+                              <tr>
+                                <td><b>Invoice</b></td><td><b>View</b></td></tr>
                               <tr ng-repeat="q in storage.invoices  | filter:invoicequery" data-role="listview" list-view data-watch="listView"  data-split-theme="c" data-inset="true"  >
                <td>
                     <li>
 
         
-                        <h2>{{p.name}}</h2> 
+                        <h2>{{q.name}}</h2> 
                 <p>
                           
 
@@ -281,12 +282,16 @@ Copyright  2015  PCSquared.com.au
                         <strong> Date Made:</strong>  {{q.made}}   <br>
                           
                          <strong> Notes:</strong> {{q.note}}   <br>
+                         
+                         <strong> Invoice No.:</strong> {{q.invoiceno}} <br>
                         
                        
 
 
                     </li></td>
-                                 
+                    <td>
+                             <a ng-click="displayInvoice($index)"><img src="images/plus.gif" width="42" height="39"></a>
+                           </td>    
                               </tr>
        					</table>   
                                         
@@ -316,7 +321,7 @@ Copyright  2015  PCSquared.com.au
                     <li> <a href="#owninfo" ng-click="termsselect()">Edit own information</a></li>
                     <li> <a href="#clients">Clients List</a></li>
                     <li> <a href="#config">Configure Invoice</a></li>
-                     <li> <a href="#editDelete">Edit & Delete Sleeps</a></li>
+                     <li> <a href="#invoices">View Past Invoices</a></li>
         </ul>               
         <a class="ui-btn ui-shadow ui-corner-all  ui-btn-mini  " href="#clientsNav">Close</a>	
      </div><!-- /panel -->

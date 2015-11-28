@@ -73,7 +73,7 @@
 			hourarray[i] = document.getElementById("hours" + i).innerHTML;
 		}
 		var current = document.getElementById('moredays').innerHTML;
-		current = current + "<br>Day " + addday + ":<select id='day" + addday + "'>" + dayselect + "</select><select ng-model='invoicemodel' id='month" + addday + "'>" + monthselect + "</select> Hours:<input type='text' id='hours" + addday + "' size='3'>";
+		current = current + "<br>Day " + addday + ":<select id='day" + addday + "'>" + dayselect + "</select><select ng-model='invoicemodel' id='month" + addday + "'>" + monthselect + "</select> Hours:<input type='text' id='hours" + addday + "' size='4'><br>Work Done:<input type='text' id='workdone" + addday + "' ng-model='workdone" + addday + "'/>";
 		document.getElementById('moredays').innerHTML = current;
 		for (i = 2; i < addday; i++){
 			document.getElementById("day" + i).innerHTML = dayarray[i];
@@ -126,65 +126,40 @@
 		//SHORT FORMAT DATE STUFF
 		i = 0;
 		form = form + "<div id='shortlong'>";
+					form = form + "<br>Invoice Month<br><select id='invoicemonth' ng-model='invoicemodel'>" + monthselect + "</select><select id='invoiceyear' ng-model='invoicemodel'>" + yearselect + "</select>";
 		if (data[i].format == "short") {
-			form = form + "<br>Invoice Month<br><select id='invoicemonth' ng-model='invoicemodel'>" + monthselect + "</select><select id='invoiceyear' ng-model='invoicemodel'>" + yearselect + "</select>";
 			form = form + "<br><br>Hours<br><input type='text' id='hours' size='3'>";
 		}
 		
 		//LONG FORMAT
 		if (data[i].format == "long"){
 			
-			
-			
+	
 			//HOURS ON EACH DAY
 			form = form + "<br><b>Hours</b><br>";
-			form = form + "Day 1:<select id='day1' ng-model='day1'>" + dayselect + "</select><select id='month1' ng-model='month1'>" + monthselect + "</select> Hours:<input type='text' id='hours1' size='3' ng-model='hours1'><div id='moredays'>";
-			form = form + "</div><br><button onclick='addhours()'>Add day</button>";
+			form = form + "Day 1:<select id='day1' ng-model='day1'>" + dayselect + "</select><select id='month1' ng-model='month1'>" + monthselect + "</select> Hours:<input type='text' id='hours1' size='3' ng-model='hours1'></input><br>Work Done:<input type='text' id='workdone1 ng-model='workdone1'/><br><br><div id='moredays'>";
+			form = form + "</div><button onclick='addhours()'>Add day</button>";
 			
 			
 		}
 		form = form + "</div>";
 		
+		var timesheet = "<br>Notes:<br><textarea rows='7' cols='25' id='timesheet' ng-model='timesheet'></textarea>	";
+		form = form + timesheet;
 		
+		form = form + "<br><button ng-click='submitinvoice' value='Submit'>Submit</button>";
 		form = form + "</form></div>";
 		document.getElementById("formthing").innerHTML = form;
 		
-			
+		
 	};
 	
 	
-	
+
 	
 	
 
- $scope.formatChangeScript = function(id){
- console.log('RUNNING');
-
-
-		var yearselect = "";
-		var d = new Date();
-		var currentyear = d.getFullYear();
-		var lastyear = currentyear - 1;
-		var twoyears = lastyear - 1;
-		yearselect = yearselect + "<option id='" + currentyear + "'>" + currentyear + "</option>";
-		yearselect = yearselect + "<option id='" + lastyear + "'>" + lastyear + "</option>";
-		yearselect = yearselect + "<option id='" + twoyears + "'>" + twoyears + "</option>";
-		var data = $scope.storage.clientlist;
-		var i = id;
-		var format = data[i].format
-		var form = ""
-		if (format == "short"){
-			form = form + "<br>Invoice Month<br><select id='invoicemonth' ng-model='invoicemodel'>" + monthselect + "</select><select id='invoiceyear' ng-model='invoicemodel'>" + yearselect + "</select>";
-			form = form + "<br><br>Hours<br><input type='text' id='hours' size='3'>";
-		}//end if
-		if (format == "long"){
-			form = form + "<br><b>Hours</b><br>";
-			form = form + "Day 1:<select id='day1' ng-model='invoicemodel'>" + dayselect + "</select><select id='month1' ng-model='invoicemodel'>" + monthselect + "</select> Hours:<input type='text' id='hours1' size='3'><div id='moredays'>";
-			form = form + "</div><br><button onclick='addhours()'>Add day</button>";
-			addday = 1;
-		}//end if
-		document.getElementById("shortlong").innerHTML = form;
-	};//end reload form
+ 
 	
 	
 	$scope.termsselect = function(){
@@ -204,15 +179,15 @@
 	$scope.storage = $localStorage.$default({
     						clientlist: [{
 											name: "Default Client",
-											hourrate: 35.0,
-											format: "long",
+											hourrate: 40.0,
+											format: "short",
 											addressone: "123 Lol street",
 											addresstwo: "Le Lenny Town",
 											contact: "0400123456",
 										} , {
 											name: "Default Client 2",
 											hourrate: 30.5,
-											format: "short",
+											format: "long",
 											addressone: "456 Rofl street",
 											addresstwo: "Le Lenny Town",
 											contact: "email@email.com",
@@ -235,6 +210,7 @@
 											bsb: "000-111",
 											account: "1232 1234 1235 1385",
 											paymentdetailsenabled: true,
+											invoicenos: "000002",
 							}]
 	});
 	$scope.storage = $localStorage.$default({
@@ -257,31 +233,51 @@
 						totalpay: 400.00,
 						month: "December 2014",
 						made: "1 January 2015",
-						timesheet: true,
-						note: "5 December 5 hours, 10 December 5 hours",
+						note: "5 December 5 hours, 10 December 5 hours", 
+						invoiceno: "000001",
+				},{
+					client: "Default Client 2",
+					format: "long",
+					hours: 6,
+					perhour: 30.5,
+					totalpay: 183.00,
+					month: "November 2014",
+					made: "3 December 2014",
+					day1: 14,
+					month1: "November",
+					hours1: 3,
+					day2: 27,
+					month2: "November",
+					hours2: 3,
+					workdone1: "Did accounts",
+					workdone2: "Did payroll",
+					note: "",
+					invoiceno: "000002",
 				}]
 	});
 
 						
 	//--------------------------ADD---------------------------
 						$scope.addSleep = function () {
-							var addSleep = {
+							var notes = $scope.timesheet;
+							var timesheet = nl2br(notes, false)
+							var addInvoice = {
 								date: 					$scope.date,
 								hoursleep: 				$scope.hoursleep,
 								minutesleep:			$scope.minutesleep,
 								refreshed: 				$scope.refreshed,
 								sleepquality: 			$scope.sleepquality,
-								notes:					$scope.notes,
+								notes:					timesheet
 						   };
 						   
-						$localStorage.mysleeps.push(addSleep);
+						$localStorage.mysleeps.push(addInvoice);
 						
 						$scope.date			= 		"";
 						$scope.hoursleep	= 		0;
 						$scope.minutesleep	= 		0;
 						$scope.refreshed 	= 		0;
 						$scope.sleepquality =		"";
-						$scope.notes		=		"";
+						$scope.timesheet	=		"";
 						
 						
 						$scope.successfullyAdded = true; //message on the screen saying added
@@ -292,6 +288,35 @@
 							$scope.successfullyAdded = false;	
 							$scope.successfullyUpdated = false;	//Resets message when nav clicked
 						};
+		
+		
+		//CONVERT TEXTAREA TO HTML TEXT
+	function nl2br(str, is_xhtml) {
+  //  discuss at: http://phpjs.org/functions/nl2br/
+  // original by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
+  // improved by: Philip Peterson
+  // improved by: Onno Marsman
+  // improved by: Atli Þór
+  // improved by: Brett Zamir (http://brett-zamir.me)
+  // improved by: Maximusya
+  // bugfixed by: Onno Marsman
+  // bugfixed by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
+  //    input by: Brett Zamir (http://brett-zamir.me)
+  //   example 1: nl2br('Kevin\nvan\nZonneveld');
+  //   returns 1: 'Kevin<br />\nvan<br />\nZonneveld'
+  //   example 2: nl2br("\nOne\nTwo\n\nThree\n", false);
+  //   returns 2: '<br>\nOne<br>\nTwo<br>\n<br>\nThree<br>\n'
+  //   example 3: nl2br("\nOne\nTwo\n\nThree\n", true);
+  //   returns 3: '<br />\nOne<br />\nTwo<br />\n<br />\nThree<br />\n'
+
+  var breakTag = (is_xhtml || typeof is_xhtml === 'undefined') ? '<br ' + '/>' : '<br>'; // Adjust comment to avoid issue on phpjs.org display
+
+  return (str + '')
+    .replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + breakTag + '$2');
+}
+		
+		
+		
 		
 		//--------------------END ADD------------------
 		
@@ -365,7 +390,6 @@
 				----------------------------------
 				---------------------------------*/
 				 $scope.formatinvoice = function() {
-					 alert('Code running!');
 					 var data = $scope.storage.loaded;
 					 var clientinfo = $scope.storage.clientlist;
 					 var config = $scope.storage.owndata;
