@@ -61,25 +61,10 @@
 		var currentyear = d.getFullYear();
 		var lastyear = currentyear - 1;
 		var twoyears = lastyear - 1;
-		var dayarray = new Array;
-		var montharray = new Array;
-		var hourarray = new Array;
 		yearselect = yearselect + "<option id='" + currentyear + "'>" + currentyear + "</option>";
 		yearselect = yearselect + "<option id='" + lastyear + "'>" + lastyear + "</option>";
 		yearselect = yearselect + "<option id='" + twoyears + "'>" + twoyears + "</option>";
-		for (var i = 2; i < addday; i++){
-			dayarray[i] = document.getElementById("day" + i).innerHTML;
-			montharray[i] = document.getElementById("month" + i).innerHTML;
-			hourarray[i] = document.getElementById("hours" + i).innerHTML;
-		}
-		var current = document.getElementById('moredays').innerHTML;
-		current = current + "<br>Day " + addday + ":<select id='day" + addday + "'>" + dayselect + "</select><select ng-model='invoicemodel' id='month" + addday + "'>" + monthselect + "</select> Hours:<input type='text' id='hours" + addday + "' size='4'><br>Work Done:<input type='text' id='workdone" + addday + "' ng-model='workdone" + addday + "'/>";
-		document.getElementById('moredays').innerHTML = current;
-		for (i = 2; i < addday; i++){
-			document.getElementById("day" + i).innerHTML = dayarray[i];
-			document.getElementById("month" + i).innerHTML = montharray[i];
-			document.getElementById("hours" + i).innerHTML = hourarray[i];
-		}	
+	    $(".moredays").append("<br>Day " + addday + ":<select id='day" + addday + "'>" + dayselect + "</select> Hours:<input type='text' id='hours" + addday + "' size='4'><br>Work Done:<input type='text' id='workdone" + addday + "' ng-model='workdone" + addday + "'/>");
 	}		
 
 
@@ -137,7 +122,7 @@
 	
 			//HOURS ON EACH DAY
 			form = form + "<br><b>Hours</b><br>";
-			form = form + "Day 1:<select id='day1' ng-model='day1'>" + dayselect + "</select><select id='month1' ng-model='month1'>" + monthselect + "</select> Hours:<input type='text' id='hours1' size='3' ng-model='hours1'></input><br>Work Done:<input type='text' id='workdone1 ng-model='workdone1'/><br><br><div id='moredays'>";
+			form = form + "Day 1:<select id='day1' ng-model='day1'>" + dayselect + "</select>" + " Hours:<input type='text' id='hours1' size='3' ng-model='hours1'></input><br>Work Done:<input type='text' id='workdone1 ng-model='workdone1'/><br><br><div id='moredays' class='moredays'>";
 			form = form + "</div><button onclick='addhours()'>Add day</button>";
 			
 			
@@ -146,7 +131,9 @@
 		
 		var timesheet = "<br>Notes:<br><textarea rows='7' cols='25' id='timesheet' ng-model='timesheet'></textarea>	";
 		form = form + timesheet;
-		
+		if (data[i].format == "short"){
+			form = form +"<br>Use notes as timesheet:<input type='checkbox' id='enabletimesheet' ng-model='enabletimesheet'/>"
+		}
 		form = form + "<br><button ng-click='submitinvoice' value='Submit'>Submit</button>";
 		form = form + "</form></div>";
 		document.getElementById("formthing").innerHTML = form;

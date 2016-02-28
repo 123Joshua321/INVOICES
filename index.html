@@ -177,7 +177,7 @@ Copyright  2015  PCSquared.com.au
                     <li> <a href="#owninfo" ng-click="termsselect()">Edit own information</a></li>
                     <li> <a href="#clients">Client List</a></li>
                     <li> <a href="#config">Configure Invoice</a></li>
-                     <li> <a href="#viewpastinvoices">View Past Invoices</a></li>
+                     <li> <a href="#invoices">View Past Invoices</a></li>
         </ul>               
         <a class="ui-btn ui-shadow ui-corner-all  ui-btn-mini  " href="#configNav">Close</a>	
      </div><!-- /panel -->
@@ -219,7 +219,7 @@ Copyright  2015  PCSquared.com.au
                     <td><input type="checkbox" id="enablepaymentdetails" ng-model="enablepaymentdetails" checked="checked"/></td>
                   </tr>
                 </table>
-              
+              <button>Submit</button>
        
                   
                   
@@ -335,13 +335,15 @@ Copyright  2015  PCSquared.com.au
      <div role="main" class="ui-content">      
          <h2>Clients</h2> 
          
- 		<div  class="ui-body ui-body-b"  align="left">    
+ 		<div  class="ui-body ui-body-b"  align="left">  
+       <br>ADD A CLIENT:<a href="#newclient"><img src="images/plus.gif" width="42" height="39"></a> 
 					<br>Search: <input ng-model="query">
   						<table >
                               <tr>
                                 <td ><strong>Client info</strong></td>
                                 <td ><strong>Edit</strong></td>
-                                 <td ><strong>Delete</strong></td></tr>
+                                 <td ><strong>Delete</strong></td>
+                                 </tr>
                               <tr ng-repeat="p in storage.clientlist  | filter:query" data-role="listview" list-view data-watch="listView"  data-split-theme="c" data-inset="true"  >
                <td>
                     <li>
