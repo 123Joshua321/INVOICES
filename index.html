@@ -55,6 +55,7 @@ Copyright  2015  PCSquared.com.au
                     <li> <a href="#clients">Client List</a></li>
                     <li> <a href="#config">Configure Invoice</a></li>
                      <li> <a href="#invoices">View Past Invoices</a></li>
+                    <li> <a href="#reports">View Reports</a></li>
 
             </ul>                 
             <a class="ui-btn ui-shadow ui-corner-all  ui-btn-mini  " href="#homeNav">Close</a>	
@@ -106,6 +107,7 @@ Copyright  2015  PCSquared.com.au
                     <li> <a href="#clients">Client List</a></li>
                     <li> <a href="#config">Configure Invoice</a></li>
                      <li> <a href="#invoices">View Past Invoices</a></li>
+                <li> <a href="#reports">View Reports</a></li>
         </ul>               
         <a class="ui-btn ui-shadow ui-corner-all  ui-btn-mini  " href="#owninfoNav">Close</a>	
      </div><!-- /panel -->
@@ -178,6 +180,7 @@ Copyright  2015  PCSquared.com.au
                     <li> <a href="#clients">Client List</a></li>
                     <li> <a href="#config">Configure Invoice</a></li>
                      <li> <a href="#invoices">View Past Invoices</a></li>
+                <li> <a href="#reports">View Reports</a></li>
         </ul>               
         <a class="ui-btn ui-shadow ui-corner-all  ui-btn-mini  " href="#configNav">Close</a>	
      </div><!-- /panel -->
@@ -245,6 +248,7 @@ Copyright  2015  PCSquared.com.au
                     <li> <a href="#clients">Client List</a></li>
                     <li> <a href="#config">Configure Invoice</a></li>
                      <li> <a href="#invoices">View Past Invoices</a></li>
+                <li> <a href="#reports">View Reports</a></li>
 
         </ul>               
         <a class="ui-btn ui-shadow ui-corner-all  ui-btn-mini  " href="#invoicesNav">Close</a>	
@@ -263,7 +267,9 @@ Copyright  2015  PCSquared.com.au
 					<br>Search: <input ng-model="invoicequery">
   						<table >
                               <tr>
-                                <td><b>Invoice</b></td><td><b>View</b></td></tr>
+                                <td><b>Invoice</b></td>
+                              <td><b>View</b></td>
+                                  <td><b>Mark as paid</b></td></tr>
                               <tr ng-repeat="q in storage.invoices  | filter:invoicequery" data-role="listview" list-view data-watch="listView"  data-split-theme="c" data-inset="true"  >
                <td>
                     <li>
@@ -284,14 +290,19 @@ Copyright  2015  PCSquared.com.au
                          <strong> Notes:</strong> {{q.note}}   <br>
                          
                          <strong> Invoice No.:</strong> {{q.invoiceno}} <br>
+
+                        <strong> Paid: </strong> {{q.paid}}<br />
                         
                        
 
 
                     </li></td>
                     <td>
-                             <a ng-click="displayInvoice($index)"><img src="images/plus.gif" width="42" height="39"></a>
+                             <a ng-click="displayInvoice($index)"><img src="images/plus.gif" width="42" height="39"/></a>
                            </td>    
+                           <td>
+                               <a ng-click="markpaid($index)"><img src="images/tick.gif" width="42" height="39" /></a>
+                           </td>
                               </tr>
        					</table>   
                                         
@@ -322,6 +333,7 @@ Copyright  2015  PCSquared.com.au
                     <li> <a href="#clients">Clients List</a></li>
                     <li> <a href="#config">Configure Invoice</a></li>
                      <li> <a href="#invoices">View Past Invoices</a></li>
+                <li> <a href="#reports">View Reports</a></li>
         </ul>               
         <a class="ui-btn ui-shadow ui-corner-all  ui-btn-mini  " href="#clientsNav">Close</a>	
      </div><!-- /panel -->
@@ -343,6 +355,7 @@ Copyright  2015  PCSquared.com.au
                                 <td ><strong>Client info</strong></td>
                                 <td ><strong>Edit</strong></td>
                                  <td ><strong>Delete</strong></td>
+
                                  </tr>
                               <tr ng-repeat="p in storage.clientlist  | filter:query" data-role="listview" list-view data-watch="listView"  data-split-theme="c" data-inset="true"  >
                <td>
@@ -430,6 +443,52 @@ Copyright  2015  PCSquared.com.au
          <p align="center"> &copy; 2014  PCSquared.com.au </p>
      </div><!-- /footer -->
 </div><!-- /page -->
+
+
+
+    <!------------------------------------------------------PAGE: reports--------------------------------------------------->
+    <!--NOTE:   ng-controller:  contactController  -->
+    <div data-role="page" id="reports" ng-controller="invoiceController">
+        <!-----------PANEL--------------------->
+        <div data-role="panel" id="reportsNav" data-position="left" data-display="reveal">
+            <ul data-role="listview" data-inset="true" data-split-icon="gear">
+                <ul data-role="listview" data-inset="true" data-split-icon="gear">
+                    <li> <a href="#home">Home</a></li>
+                    <li> <a href="#owninfo" ng-click="termsselect()">Edit own information</a></li>
+                    <li> <a href="#clients">Client List</a></li>
+                    <li> <a href="#config">Configure Invoice</a></li>
+                    <li> <a href="#invoices">View Past Invoices</a></li>
+                    <li> <a href="#reports">View Reports</a></li>
+
+                </ul>
+                <a class="ui-btn ui-shadow ui-corner-all  ui-btn-mini  " href="#reportsNav">Close</a>
+        </div><!-- /panel -->
+        <!--page navigation header-->
+        <div data-role="header">
+            <a class="ui-btn ui-shadow ui-corner-all ui-btn-inline ui-btn-mini ui-btn-left ui-btn-icon-left ui-icon-navigation" ng-click="ClearSleepMessage()" href="#reportsNav">Nav</a><h1>EASY INVOICES</h1>
+        </div><!-- /header -->
+        <!--page Content-->
+        <div role="main" class="ui-content">
+           <h2>Earnings Reports</h2>
+        <select>
+            <option>All Clients</option>
+            <option>Default Client 1</option>
+            <option>Default Client 2</option>
+        </select>
+        <button>Generate earning reports</button>
+            <br /><br /><br />
+        <h2>Application Report</h2>
+            <button>Generate Application Report</button>
+        <br /><br /><br /><br />
+
+
+        </div><!-- /end of main content -->
+
+        <div data-role="footer" data-position="fixed">
+            <p align="center">  </p>
+        </div><!-- /footer -->
+    </div><!-- /page -->
+
 
 
 </body>

@@ -64,7 +64,7 @@
 		yearselect = yearselect + "<option id='" + currentyear + "'>" + currentyear + "</option>";
 		yearselect = yearselect + "<option id='" + lastyear + "'>" + lastyear + "</option>";
 		yearselect = yearselect + "<option id='" + twoyears + "'>" + twoyears + "</option>";
-	    $(".moredays").append("<br>Day " + addday + ":<select id='day" + addday + "'>" + dayselect + "</select> Hours:<input type='text' id='hours" + addday + "' size='4'><br>Work Done:<input type='text' id='workdone" + addday + "' ng-model='workdone" + addday + "'/>");
+		$(".moredays").append("<br>Day " + addday + ":<select id='day" + addday + "'>" + dayselect + "</select> Hours:<input type='number' id='hours" + addday + "' size='2'></select> Minutes:<input type='number' id='minutes" + addday + "' size='2'><br>Work Done:<input type='text' id='workdone" + addday + "' ng-model='workdone" + addday + "'/>");
 	}		
 
 
@@ -113,7 +113,7 @@
 		form = form + "<div id='shortlong'>";
 					form = form + "<br>Invoice Month<br><select id='invoicemonth' ng-model='invoicemodel'>" + monthselect + "</select><select id='invoiceyear' ng-model='invoicemodel'>" + yearselect + "</select>";
 		if (data[i].format == "short") {
-			form = form + "<br><br>Hours<br><input type='text' id='hours' size='3'>";
+		    form = form + "<br><br>Hours:<input type='number' id='hours1' size='2'><br>Minutes:<input type='number' id='minutes1' size='2'><br><br>";
 		}
 		
 		//LONG FORMAT
@@ -122,7 +122,7 @@
 	
 			//HOURS ON EACH DAY
 			form = form + "<br><b>Hours</b><br>";
-			form = form + "Day 1:<select id='day1' ng-model='day1'>" + dayselect + "</select>" + " Hours:<input type='text' id='hours1' size='3' ng-model='hours1'></input><br>Work Done:<input type='text' id='workdone1 ng-model='workdone1'/><br><br><div id='moredays' class='moredays'>";
+			form = form + "Day 1:<select id='day1' ng-model='day1'>" + dayselect + "</select>" + " Hours:<input type='number' id='hours1' size='3' ng-model='hours1'> Minutes:<input type='number' id='minutes1' size='2' ng-model='minutes1'></input><br>Work Done:<input type='text' id='workdone1 ng-model='workdone1'/><br><br><div id='moredays' class='moredays'>";
 			form = form + "</div><button onclick='addhours()'>Add day</button>";
 			
 			
@@ -222,6 +222,7 @@
 						made: "1 January 2015",
 						note: "5 December 5 hours, 10 December 5 hours", 
 						invoiceno: "000001",
+                        paid: "Yes",
 				},{
 					client: "Default Client 2",
 					format: "long",
@@ -240,6 +241,7 @@
 					workdone2: "Did payroll",
 					note: "",
 					invoiceno: "000002",
+                    paid: "No",
 				}]
 	});
 
