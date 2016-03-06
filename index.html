@@ -269,7 +269,11 @@ Copyright  2015  PCSquared.com.au
                               <tr>
                                 <td><b>Invoice</b></td>
                               <td><b>View</b></td>
-                                  <td><b>Mark as paid</b></td></tr>
+                                  <td><b>Mark as paid</b></td>
+                              <td>&nbsp;&nbsp;</td>
+                              <td><b>View Followup Invoice</b></td>
+                              <td>&nbsp;&nbsp;</td>
+                              <td><b>Delete Invoice</b></td></tr>
                               <tr ng-repeat="q in storage.invoices  | filter:invoicequery" data-role="listview" list-view data-watch="listView"  data-split-theme="c" data-inset="true"  >
                <td>
                     <li>
@@ -292,6 +296,9 @@ Copyright  2015  PCSquared.com.au
                          <strong> Invoice No.:</strong> {{q.invoiceno}} <br>
 
                         <strong> Paid: </strong> {{q.paid}}<br />
+
+                    <strong> Date Paid: </strong> {{q.paid}}<br />
+                    <strong> Follow Up Sent: </strong> {{q.paid}}<br />
                         
                        
 
@@ -303,6 +310,14 @@ Copyright  2015  PCSquared.com.au
                            <td>
                                <a ng-click="markpaid($index)"><img src="images/tick.gif" width="42" height="39" /></a>
                            </td>
+                                  <td>&nbsp;&nbsp;</td>
+                           <td>
+                            <a ng-click="displayFollowupInvoice($index)"><img src="images/followup.gif" width="42" height="39"/></a>
+                        </td>
+                                  <td>&nbsp;&nbsp;</td>
+                        <td>
+                            <a ng-click="deleteinvoice($index)"><img src="images/minus.gif" width="42" height="39"/></a>
+                        </td>
                               </tr>
        					</table>   
                                         

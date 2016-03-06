@@ -97,7 +97,7 @@
 		for(i=0;i<data.length;i++){
 			form = form + "<option  id=" + i + "value='" + data[i].name + "'>" + data[i].name + "</option>";
 		}
-		form = form + "</select><br>";
+		form = form + "</select><br/><b>Invoice Format</b><br/><select><option>short</option><option>long</option></select>";
 		i = 0;
 		
 		//var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
@@ -222,7 +222,9 @@
 						made: "1 January 2015",
 						note: "5 December 5 hours, 10 December 5 hours", 
 						invoiceno: "000001",
-                        paid: "Yes",
+						paid: "Yes",
+						datepaid: "29th February 2015",
+                        followupsent: "Yes",
 				},{
 					client: "Default Client 2",
 					format: "long",
@@ -241,7 +243,9 @@
 					workdone2: "Did payroll",
 					note: "",
 					invoiceno: "000002",
-                    paid: "No",
+					paid: "No",
+					datepaid: "",
+					followupsent: "Yes",
 				}]
 	});
 
