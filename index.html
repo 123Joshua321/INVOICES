@@ -491,6 +491,40 @@ Copyright  2015  PCSquared.com.au
             <option>Default Client 1</option>
             <option>Default Client 2</option>
         </select>
+        <table width="90%" border="1" cellspacing="2" cellpadding="2">
+            <tr>
+                <td>
+                    Financial Year to date earnings
+                </td>
+                <td width="36" height="36"><input type="radio" name="g1"/>
+                </td>
+                </tr>
+            <tr>
+                <td>
+                    Earnings over last full financial year
+                </td>
+                <td width="36" height="36"><input type="radio" name="g1"/></td>
+            </tr>
+            <tr>
+                <td>
+                    Earnings over a given financial year
+                </td>
+                <td width="36" height="36"><input type="radio" name="g1" /></td>
+                <td>Year:
+                    <select>
+                        <option>2015-16</option>
+                        <option>2014-15</option>
+                    </select>
+                </td>
+</tr>
+            <tr>
+                <td>
+                    Earnings over a certain period
+                </td>
+                <td width="36" height="36"><input type="radio" name="g1" value="period"/></td>
+                <td>Start:<input type="date" />End:<input type="date" /> (Financial year starts 1 July and ends 30 June in a given year)</td>
+              </tr>
+        </table>
         <button>Generate earning reports</button>
             <br /><br /><br />
         <h2>Application Report</h2>
