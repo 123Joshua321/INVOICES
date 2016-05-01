@@ -3,7 +3,7 @@
 //11 April 2015
 //Copyright  2014  PCSquared.com.au
 			
-	
+	//---------------------------------------------BEGIN NON-ANGULAR SETUP---------------------------------
 	var addday = 1;
 	var monthselect ="<option id='January'>January</option>";
 			monthselect = monthselect + "<option id='February'>February</option>";
@@ -50,10 +50,10 @@
 			dayselect = dayselect + "<option id='31'>31</option>";
 			
 			
-	var app = angular.module('app',['ngStorage','ui-rangeSlider']);
+	var app = angular.module('app',['ngStorage']);
 			
 			
-	//add day to hour input
+	//ADD DAY TO HOURS INPUT FOR LONG FORMAT
 	function addhours() {
 		addday = addday + 1;
 		var yearselect = "";
@@ -64,20 +64,30 @@
 		yearselect = yearselect + "<option id='" + currentyear + "'>" + currentyear + "</option>";
 		yearselect = yearselect + "<option id='" + lastyear + "'>" + lastyear + "</option>";
 		yearselect = yearselect + "<option id='" + twoyears + "'>" + twoyears + "</option>";
-		$(".moredays").append("<br>Day " + addday + ":<select id='day" + addday + "'>" + dayselect + "</select> Hours:<input type='number' id='hours" + addday + "' size='2'></select> Minutes:<input type='number' id='minutes" + addday + "' size='2'><br>Work Done:<input type='text' id='workdone" + addday + "' ng-model='workdone" + addday + "'/>");
+		$(".moredays").append("<br>Day " + addday + ":<select id='day" + addday + "'>" + dayselect + "</select> Hours:<input type='number' id='hours" + addday + "' ng-model='hours" + addday + "'size='2'></select> Minutes:<input type='number' id='minutes" + addday + "' ng-model='minutes" + addday + "' size='2'><br>Work Done:<input type='text' id='workdone" + addday + "' ng-model='workdone" + addday + "'/>");
 	}		
 
 
 
 
+//--------------------------------------------------END NON-ANGULAR. APPLICATION START-----------------------------------------
 
-	app.controller('invoiceController', function($scope,$localStorage) {
 
-	$scope.startng = function() {
+
+
+	app.controller('invoiceController', function($scope, $localStorage, $compile) {
+
+
+
+
+	    //-------------STARTUP FUNCTION - FORM AND STUFF
+	    
+	    $scope.startng = function () {
+
 		var data = $scope.storage.clientlist;
 		
-		//setup input templates
-		
+	    //setup input templates
+
 		var i = 0;
 		var yearselect = "";
 		var d = new Date();
@@ -90,79 +100,101 @@
 			
 		
 		
-		//CLIENT SELECT
+		//POPULATE CLIENT SELECT DROPDOWN
 		var form = "";
-		form = form + '<form><b>Client<br></b><select id="client" ng-model="formatChangeScript" ng-change="formatChangeScript(id)">';
+		form = form + '<b>Client<br></b><select id="client" ng-model="clientselect" ng-change="formatChangeScript()">';
 		i = 0;
 		for(i=0;i<data.length;i++){
 			form = form + "<option  id=" + i + "value='" + data[i].name + "'>" + data[i].name + "</option>";
 		}
-		form = form + "</select><br/><b>Invoice Format</b><br/><select><option>short</option><option>long</option></select>";
+
+
+        //SELECT FORMAT BOX
+		form = form + "</select><br/><b>Invoice Format</b><br/><select ng-model='selectformat'><option value='short'>Short</option><option value='long'>Long</option></select>";
 		i = 0;
+
+
+		//TODAY'S DATE INPUT SELECTION
+		form = form +"<br><div id='todaydate'><b>Today's Date</b><br><select id='todaydate' ng-model='invoicemodel'>" + dayselect + "</select>";
+		form = form + "<select id='todaymonth' ng-model='todaymonth'>" + monthselect + "</select>" + "<select id='todayyear' ng-model='todayyear'>" + yearselect +"</select></div>";
 		
-		//var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-		/*var d = new Date();
-		var currentmonth = monthNames[d.getMonth()];*/
-		
-		//TODAYS DATE
-		form = form +"<br><div id='todaydate'><b>Today's Date</b><br><select id='todayday' ng-model='invoicemodel'>" + dayselect + "</select>";
-		form = form + "<select id='todaymonth' ng-model='invoicemodel'>" + monthselect + "</select>" + "<select id='todayyear' ng-model='invoicemodel'>" + yearselect +"</select></div>";
-		
-		//SHORT FORMAT DATE STUFF
+
+        //INVOICE MONTH SELECTION
 		i = 0;
+		form = form + "<br>Invoice Month<br><select id='invoicemonth' ng-model='invoicemonth'>" + monthselect + "</select><select id='invoiceyear' ng-model='invoiceyear'>" + yearselect + "</select>";
+
+
 		form = form + "<div id='shortlong'>";
-					form = form + "<br>Invoice Month<br><select id='invoicemonth' ng-model='invoicemodel'>" + monthselect + "</select><select id='invoiceyear' ng-model='invoicemodel'>" + yearselect + "</select>";
+
+
+	    //SHORT FORMAT INPUT CREATION
 		if (data[i].format == "short") {
-		    form = form + "<br><br>Hours:<input type='number' id='hours1' size='2'><br>Minutes:<input type='number' id='minutes1' size='2'><br><br>";
+		    form = form + "<br><br>Hours:<input type='number' id='hours1' size='2' ng-model='hours1'><br>Minutes:<input type='number' id='minutes1' size='2' ng-model='minutes1'><br>Work Done:<input type='text' id='workdone1' ng-model='workdone1'/><br><br>";
 		}
 		
-		//LONG FORMAT
+
+		//LONG FORMAT INPUT CREATION
 		if (data[i].format == "long"){
-			
-	
-			//HOURS ON EACH DAY
+			//HOURS WORKED ON EACH DAY INPUTS
 			form = form + "<br><b>Hours</b><br>";
-			form = form + "Day 1:<select id='day1' ng-model='day1'>" + dayselect + "</select>" + " Hours:<input type='number' id='hours1' size='3' ng-model='hours1'> Minutes:<input type='number' id='minutes1' size='2' ng-model='minutes1'></input><br>Work Done:<input type='text' id='workdone1 ng-model='workdone1'/><br><br><div id='moredays' class='moredays'>";
+			form = form + "Day 1:<select id='day1' ng-model='day1' >" + dayselect + "</select>" + " Hours:<input type='number' id='hours1' size='3' ng-model='hours1'> Minutes:<input type='number' id='minutes1' size='2' ng-model='minutes1'></input><br>Work Done:<input type='text' id='workdone1 ng-model='workdone1'/><br><br><div id='moredays' class='moredays'>";
 			form = form + "</div><button onclick='addhours()'>Add day</button>";
-			
-			
 		}
+
+
 		form = form + "</div>";
 		
+
+        //TIMESHEET/NOTES INPUT
 		var timesheet = "<br>Notes:<br><textarea rows='7' cols='25' id='timesheet' ng-model='timesheet'></textarea>	";
 		form = form + timesheet;
+
+
+        //CHECKBOX FOR USING NOTES AS TIMESHEET
 		if (data[i].format == "short"){
 			form = form +"<br>Use notes as timesheet:<input type='checkbox' id='enabletimesheet' ng-model='enabletimesheet'/>"
 		}
-		form = form + "<br><button ng-click='submitinvoice' value='Submit'>Submit</button>";
-		form = form + "</form></div>";
-		document.getElementById("formthing").innerHTML = form;
+
+
+
+		$compile(form)(scope);
+		document.getElementById('formthing').innerHTML = form;
 		
 		
+		
+
+
+		
+		//$scope.$apply();
 	};
-	
+	//----------------END STARTUP FUNCTION--------------
 	
 
 	
 	
 
  
+	//-------EDIT OWN INFO SCREEN POPULATE DEFAULT
 	
-	
-	$scope.termsselect = function(){
+	$scope.editscreenpopulate = function () {
+
+        //Terms selection dropdown
 		if ($scope.storage.owndata[0].terms == "weeks"){
-			document.getElementById('termsunits').innerHTML = '<option name="days" ng-model="days" id="days">DAYS</option><option name="weeks" ng-model="weeks" id="days ng-selected="expression">WEEKS</option>'
+			document.getElementById('termsunits').innerHTML = '<option name="days" id="days">DAYS</option><option name="weeks"  id="days ng-selected="expression">WEEKS</option>'
 		} else {
-			document.getElementById('termsunits').innerHTML = '<option name="days" ng-model="days" id="days" ng-selected="expression">DAYS</option><option name="weeks" ng-model="weeks" id="days">WEEKS</option>';
+			document.getElementById('termsunits').innerHTML = '<option name="days" id="days" ng-selected="expression">DAYS</option><option name="weeks" id="days">WEEKS</option>';
 		}
 	}
 	
 	
+	//-----------END EDIT OWN INFO SCREEN POPULATE
 	
 	
 	
-	
-	//--------------------------DEFAULT-------------------
+	    //--------------------------DATABASE SETUP - DEFAULT DATA--------------
+
+
+        //Client List default
 	$scope.storage = $localStorage.$default({
     						clientlist: [{
 											name: "Default Client",
@@ -170,36 +202,35 @@
 											format: "short",
 											addressone: "123 Lol street",
 											addresstwo: "Le Lenny Town",
-											contact: "0400123456",
+											contact: "0400123456"
 										} , {
 											name: "Default Client 2",
 											hourrate: 30.5,
 											format: "long",
 											addressone: "456 Rofl street",
 											addresstwo: "Le Lenny Town",
-											contact: "email@email.com",
+											contact: "email@email.com"
 										}]
 							
-					});
+	});
+
+
+        //Own Data default
 	$scope.storage = $localStorage.$default({
 							owndata: [{
 											nameone: "Default Company 1",
-											nameoneenabled: true,
 											nametwo: "Default Company 2",
-											nametwoenabled: true,
 											abn: "1234567890",
-											abnenabled: true,
 											contact: "0412345678 me@me.com",
-											contactenabled: true,
 											paymenttime: 7,
 											paymentunit: "days",
-											paymenttermsenabled: true,
 											bsb: "000-111",
 											account: "1232 1234 1235 1385",
-											paymentdetailsenabled: true,
-											invoicenos: "000002",
+											invoicenos: "000002"
 							}]
 	});
+
+        //Loaded invoice (temp storage when loading)
 	$scope.storage = $localStorage.$default({
 						loaded: [{
 								client: "Default Client",
@@ -208,69 +239,84 @@
 								month: "December",
 								year: "2014",
 								madedate: "1 January 2015",
-								timesheet: "defaultTS",
+								timesheet: "defaultTS"
 						}]
 	});
+
+        //Invoices default
 	$scope.storage = $localStorage.$default({
-				invoices: [{
-						client: "Default Client",
-						format: "short",
-						hours: 10,
-						perhour: 40,
-						totalpay: 400.00,
-						month: "December 2014",
-						made: "1 January 2015",
-						note: "5 December 5 hours, 10 December 5 hours", 
-						invoiceno: "000001",
-						paid: "Yes",
-						datepaid: "29th February 2015",
-                        followupsent: "Yes",
-				},{
-					client: "Default Client 2",
-					format: "long",
-					hours: 6,
-					perhour: 30.5,
-					totalpay: 183.00,
-					month: "November 2014",
-					made: "3 December 2014",
-					day1: 14,
-					month1: "November",
-					hours1: 3,
-					day2: 27,
-					month2: "November",
-					hours2: 3,
-					workdone1: "Did accounts",
-					workdone2: "Did payroll",
-					note: "",
-					invoiceno: "000002",
-					paid: "No",
-					datepaid: "",
-					followupsent: "Yes",
-				}]
+        //TODO: Fix this to follow new format
+	    invoices: [{
+	        client: "Default Client",
+	        format: "short",
+	        hours: 10,
+	        perhour: 40,
+	        totalpay: 400.00,
+	        month: "December 2014",
+	        made: "1 January 2015",
+	        note: "5 December 5 hours, 10 December 5 hours",
+	        invoiceno: "000001",
+	        paid: "Yes",
+	        datepaid: "29th February 2015",
+	        followupsent: "Yes"
+	    }]
 	});
+
+        //---------------------END DEFAULT DATA-------------------------
+
+
+
 
 						
 	//--------------------------ADD---------------------------
-						$scope.addSleep = function () {
-							var notes = $scope.timesheet;
+	$scope.addinvoice = function() {
+	                        console.log("ADD FUNCTION CALLED");
+							var notes = document.getElementById('timesheet').innerHTML;
 							var timesheet = nl2br(notes, false)
-							var addInvoice = {
-								date: 					$scope.date,
-								hoursleep: 				$scope.hoursleep,
-								minutesleep:			$scope.minutesleep,
-								refreshed: 				$scope.refreshed,
-								sleepquality: 			$scope.sleepquality,
-								notes:					timesheet
+							var days = [];
+							var hours = [];
+							var minutes = [];
+							var workdone = [];
+
+                            //Short format
+							if ($scope.selectformat == 'short') {
+							    hours[1] = document.getElementById('hours1').innerHTML;
+							    minutes[1] = document.getElementById('minutes1').innerHTML;
+							    workdone[1] = document.getElementById('workdone1').innerHTML;
+                                    	}
+
+
+                            //Long format
+							if ($scope.selectformat == 'long') {
+							    for (var i = 1; i <= addday; i++) {
+							        hours[i] = document.getElementById('hours' + i).innerHTML;
+							        minutes[i] = document.getElementById('minutes' + i).innerHTML;
+							        workdone[i] = document.getElementById('workdone' + i).innerHTML;
+							        days[i] = document.getElementById('days' + i).innerHTML;
+							    }
+							}
+
+
+
+							var addInvoiceData = {
+								client: 				$scope.clientselect,
+								format:                 $scope.selectformat,
+								days:                   days,
+								hours:                  hours,
+								minutes:                minutes,
+                                workdone:               workdone,
+                                month:                  $scope.invoicemonths,
+                                notes:                  timesheet,
+                                enabletimesheet:        $scope.enabletimesheet
 						   };
 						   
-						$localStorage.mysleeps.push(addInvoice);
+							$localStorage.invoices.push(addInvoiceData);
 						
-						$scope.date			= 		"";
-						$scope.hoursleep	= 		0;
-						$scope.minutesleep	= 		0;
-						$scope.refreshed 	= 		0;
-						$scope.sleepquality =		"";
-						$scope.timesheet	=		"";
+						$scope.clientselect		= 		"";
+						$scope.selectformat	    = 		"";
+						$scope.invoicemonths	= 		"";
+						$scope.enabletimesheet 	= 		false;
+						$scope.timesheet	    =		"";
 						
 						
 						$scope.successfullyAdded = true; //message on the screen saying added
@@ -295,12 +341,7 @@
   // bugfixed by: Onno Marsman
   // bugfixed by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
   //    input by: Brett Zamir (http://brett-zamir.me)
-  //   example 1: nl2br('Kevin\nvan\nZonneveld');
-  //   returns 1: 'Kevin<br />\nvan<br />\nZonneveld'
-  //   example 2: nl2br("\nOne\nTwo\n\nThree\n", false);
-  //   returns 2: '<br>\nOne<br>\nTwo<br>\n<br>\nThree<br>\n'
-  //   example 3: nl2br("\nOne\nTwo\n\nThree\n", true);
-  //   returns 3: '<br />\nOne<br />\nTwo<br />\n<br />\nThree<br />\n'
+
 
   var breakTag = (is_xhtml || typeof is_xhtml === 'undefined') ? '<br ' + '/>' : '<br>'; // Adjust comment to avoid issue on phpjs.org display
 
@@ -308,12 +349,12 @@
     .replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + breakTag + '$2');
 }
 		
-		
-		
-		
 		//--------------------END ADD------------------
 		
-		//----------------------SETTINGS------------------
+
+
+
+		//----------------------SETTINGS PAGE------------------
 			 
 		$scope.updateSettings = function () {
 				var updateSettings = {
@@ -333,7 +374,10 @@
 			
 	//----------------------------END SETTINGS--------------------
 	
-	//----------------------------EDIT AND DELETE----------------		
+
+
+
+	//----------------------------EDIT AND DELETE PAGE----------------		
 			 $scope.displayEditClient = function (index) {
 				 	 $scope.index			=		index;
 					 $scope.name			=		$scope.storage.clientlist[index].name;
@@ -371,6 +415,9 @@
 			 
 			 //----------------------end EDIT AND DELETE------------
 			 
+
+
+
 			 //---------------------------REPORTS-------------------------
 			 	$scope.showReports = function() {
 					 	 
@@ -378,6 +425,17 @@
 				 
 				 
 				 
+
+
+
+			
+
+
+
+
+
+
+
 				/*------------------------------
 				---------------------------------INVOICE.HTM CODE
 				----------------------------------
@@ -403,7 +461,7 @@
 				 
 				 
 			});//end angular application
-	//NOTE:  this directive fixes the clash between JQuery Mobile and  Angular when they both try to refresh an item you add to a listview
+//NOTE:  this directive fixes the clash between JQuery Mobile and  Angular when they both try to refresh an item you add to a listview
 	app.directive('listView', function () {
 		 var link=function(scope, element, attrs) {
 			$(element).listview();
@@ -416,7 +474,9 @@
 			scope:false,
 			link: link
 		};
-	});	
+	});
+
+
 
 					
 			

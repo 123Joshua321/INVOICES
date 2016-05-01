@@ -24,7 +24,7 @@ Copyright  2015  PCSquared.com.au
         <link rel="stylesheet" href="css/angular.rangeSlider.css"> 
         <!-------------------JQUERY---------------------->
         <script src="js/jquery-1.8.3.min.js"></script>
-          <!---------THIS CODE FIXES A SECURITY CHANGE IN CHROME NOT ALLOWING OPENING HTML FILES FORM A FILE---------------->
+          <!---------THIS CODE FIXES A SECURITY CHANGE IN CHROME NOT ALLOWING OPENING HTML FILES FROM A FILE---------------->
             <script>
                 $(document).bind('mobileinit',function(){
                 $.mobile.changePage.defaults.changeHash = false;
@@ -39,8 +39,7 @@ Copyright  2015  PCSquared.com.au
         <script src="js/ngStorage.min.js"></script> 
         <!-- YOUR CONTROL  logic------> 
         <script src="js/app.js"></script>
-         <!-- Slider------> 
-       <script src="js/angular.rangeSlider.js"></script>
+         
 </head>
 
 <body width="device-width" ng-controller="invoiceController" ng-init="startng()">
@@ -51,10 +50,9 @@ Copyright  2015  PCSquared.com.au
         <div data-role="panel" id="homeNav" data-position="left" data-display="reveal">
     		<ul data-role="listview" data-inset="true" data-split-icon="gear">
                     <li> <a href="#home">Home</a></li>
-                    <li> <a href="#owninfo" ng-click="termsselect()">Edit own information</a></li>
+                    <li> <a href="#owninfo" ng-click="editscreenpopulate()">Edit own information</a></li>
                     <li> <a href="#clients">Client List</a></li>
-                    <li> <a href="#config">Configure Invoice</a></li>
-                     <li> <a href="#invoices">View Past Invoices</a></li>
+                    <li> <a href="#invoices">View Past Invoices</a></li>
                     <li> <a href="#reports">View Reports</a></li>
 
             </ul>                 
@@ -81,9 +79,10 @@ Copyright  2015  PCSquared.com.au
           
             <!---Body--->
             <div class="ui-body ui-body-b" align="left">
-              <div id="formthing"></div>
+              <div id="formthing" ng-model="formthing"></div>
             
-             </div><!--end of controller-->                                          
+             </div>
+            <br><button ng-click='addinvoice()'>Submit</button>                                      
             
 		</div><!-- /main content -->
 
@@ -103,10 +102,9 @@ Copyright  2015  PCSquared.com.au
           <ul data-role="listview" data-inset="true" data-split-icon="gear">
     		<ul data-role="listview" data-inset="true" data-split-icon="gear">
                     <li> <a href="#home">Home</a></li>
-                    <li> <a href="#owninfo" ng-click="termsselect()">Edit own Information</a></li>
+                    <li> <a href="#owninfo" ng-click="editscreenpopulate()">Edit own Information</a></li>
                     <li> <a href="#clients">Client List</a></li>
-                    <li> <a href="#config">Configure Invoice</a></li>
-                     <li> <a href="#invoices">View Past Invoices</a></li>
+                    <li> <a href="#invoices">View Past Invoices</a></li>
                 <li> <a href="#reports">View Reports</a></li>
         </ul>               
         <a class="ui-btn ui-shadow ui-corner-all  ui-btn-mini  " href="#owninfoNav">Close</a>	
@@ -167,73 +165,6 @@ Copyright  2015  PCSquared.com.au
          <p align="center"> </p>
      </div><!-- /footer -->
 </div><!-- /end edit info page -->
- 
-  
-  
-   <!--------------------------------------------PAGE: Configure Invoice--------------------------------------------------->       
- <div data-role="page" id="config"  ng-controller="invoiceController"    >
-     <!-----------PANEL--------------------->
-     <div data-role="panel" id="configNav" data-position="left" data-display="reveal">
-          <ul data-role="listview" data-inset="true" data-split-icon="gear">
-    		<ul data-role="listview" data-inset="true" data-split-icon="gear">
-                    <li> <a href="#home">Home</a></li>
-                    <li> <a href="#owninfo" ng-click="termsselect()">Edit own information</a></li>
-                    <li> <a href="#clients">Client List</a></li>
-                    <li> <a href="#config">Configure Invoice</a></li>
-                     <li> <a href="#invoices">View Past Invoices</a></li>
-                <li> <a href="#reports">View Reports</a></li>
-        </ul>               
-        <a class="ui-btn ui-shadow ui-corner-all  ui-btn-mini  " href="#configNav">Close</a>	
-     </div><!-- /panel -->
-     
-      <!--page navigation header-->      
-     <div data-role="header">
-         <a class="ui-btn ui-shadow ui-corner-all ui-btn-inline ui-btn-mini ui-btn-left ui-btn-icon-left ui-icon-navigation" ng-click="ClearSleepMessage()"  href="#configNav">Nav</a><h1>EASY INVOICES</h1>
-     </div><!-- /header -->
-     
-    <!--page Content-->
-     <div role="main" class="ui-content">    
-     <h2></h2>  
-        		<!--ng-controller:  contactController  -->  
-                <div  class="ui-body ui-body-b"  align="left">
-                <h1><b>Configure Invoice</b></h1>
-                <table width="90%" border="1" cellspacing="2" cellpadding="2">
-                  <tr>
-                    <td>Enable Company Name Row 1</td>
-                    <td><input type="checkbox" id="enablecompanyrow1" ng-model="enablecompanyrow1" checked="checked"/></td>
-                  </td>
-                  <tr>
-                    <td>Enable Company Name Row 2</td>
-                    <td><input type="checkbox" id="enablecompanyrow2" checked="checked" ng-model="enablecompanyrow2"/></td>
-                  </tr>
-                  <tr>
-                    <td>Enable ABN</td>
-                    <td><input type="checkbox" id="enableabn" checked="checked" ng-model="enableabn"/></td>
-                  </tr>
-                  <tr>
-                    <td>Enable contact details</td>
-                    <td><input type="checkbox" id="enabledetails" ng-model="enabledetails" checked="checked"/></td>
-                  </tr>
-                  <tr>
-                    <td>Enable payment terms</td>
-                    <td><input type="checkbox" id="enableterms" ng-model="enableterms" checked="checked"/></td>
-                  </tr>
-                  <tr>
-                    <td>Enable payment details</td>
-                    <td><input type="checkbox" id="enablepaymentdetails" ng-model="enablepaymentdetails" checked="checked"/></td>
-                  </tr>
-                </table>
-              <button>Submit</button>
-       
-                  
-                  
-                  
-                  
-                </div><!--end of controller-->
-	 	</div><!-- /end page content -->
-   
-</div><!-- /page -->
-
 
 
 
@@ -245,9 +176,8 @@ Copyright  2015  PCSquared.com.au
           <ul data-role="listview" data-inset="true" data-split-icon="gear">
     		<ul data-role="listview" data-inset="true" data-split-icon="gear">
                     <li> <a href="#home">Home</a></li>
-                    <li> <a href="#owninfo" ng-click="termsselect()">Edit own information</a></li>
+                    <li> <a href="#owninfo" ng-click="editscreenpopulate()">Edit own information</a></li>
                     <li> <a href="#clients">Client List</a></li>
-                    <li> <a href="#config">Configure Invoice</a></li>
                      <li> <a href="#invoices">View Past Invoices</a></li>
                 <li> <a href="#reports">View Reports</a></li>
 
@@ -345,9 +275,8 @@ Copyright  2015  PCSquared.com.au
           <ul data-role="listview" data-inset="true" data-split-icon="gear">
     		<ul data-role="listview" data-inset="true" data-split-icon="gear">
                     <li> <a href="#home">Home</a></li>
-                    <li> <a href="#owninfo" ng-click="termsselect()">Edit own information</a></li>
+                    <li> <a href="#owninfo" ng-click="editscreenpopulate()">Edit own information</a></li>
                     <li> <a href="#clients">Clients List</a></li>
-                    <li> <a href="#config">Configure Invoice</a></li>
                      <li> <a href="#invoices">View Past Invoices</a></li>
                 <li> <a href="#reports">View Reports</a></li>
         </ul>               
@@ -470,9 +399,8 @@ Copyright  2015  PCSquared.com.au
             <ul data-role="listview" data-inset="true" data-split-icon="gear">
                 <ul data-role="listview" data-inset="true" data-split-icon="gear">
                     <li> <a href="#home">Home</a></li>
-                    <li> <a href="#owninfo" ng-click="termsselect()">Edit own information</a></li>
+                    <li> <a href="#owninfo" ng-click="editscreenpopulate()">Edit own information</a></li>
                     <li> <a href="#clients">Client List</a></li>
-                    <li> <a href="#config">Configure Invoice</a></li>
                     <li> <a href="#invoices">View Past Invoices</a></li>
                     <li> <a href="#reports">View Reports</a></li>
 
