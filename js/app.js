@@ -6,48 +6,48 @@
 	//---------------------------------------------BEGIN NON-ANGULAR SETUP---------------------------------
 	var addday = 1;
 	var monthselect ="<option id='January'>January</option>";
-			monthselect = monthselect + "<option id='February'>February</option>";
-			monthselect = monthselect + "<option id='March'>March</option>";
-			monthselect = monthselect + "<option id='April'>April</option>";
-			monthselect = monthselect + "<option id='May'>May</option>";
-			monthselect = monthselect + "<option id='June'>June</option>";
-			monthselect = monthselect + "<option id='July'>July</option>";
-			monthselect = monthselect + "<option id='August'>August</option>";
-			monthselect = monthselect + "<option id='September'>September</option>";
-			monthselect = monthselect + "<option id='October'>October</option>";
-			monthselect = monthselect + "<option id='November'>November</option>";
-			monthselect = monthselect + "<option id='December'>December</option>";
-		var dayselect = "<option id='1'>1</option>";
-			dayselect = dayselect + "<option id='2'>2</option>";
-			dayselect = dayselect + "<option id='3'>3</option>";
-			dayselect = dayselect + "<option id='4'>4</option>";
-			dayselect = dayselect + "<option id='5'>5</option>";
-			dayselect = dayselect + "<option id='6'>6</option>";
-			dayselect = dayselect + "<option id='7'>8</option>";
-			dayselect = dayselect + "<option id='8'>8</option>";
-			dayselect = dayselect + "<option id='9'>9</option>";
-			dayselect = dayselect + "<option id='10'>10</option>";
-			dayselect = dayselect + "<option id='11'>11</option>";
-			dayselect = dayselect + "<option id='12'>12</option>";
-			dayselect = dayselect + "<option id='13'>13</option>";
-			dayselect = dayselect + "<option id='14'>14</option>";
-			dayselect = dayselect + "<option id='15'>15</option>";
-			dayselect = dayselect + "<option id='16'>16</option>";
-			dayselect = dayselect + "<option id='17'>17</option>";
-			dayselect = dayselect + "<option id='18'>18</option>";
-			dayselect = dayselect + "<option id='19'>19</option>";
-			dayselect = dayselect + "<option id='20'>20</option>";
-			dayselect = dayselect + "<option id='21'>21</option>";
-			dayselect = dayselect + "<option id='22'>22</option>";
-			dayselect = dayselect + "<option id='23'>23</option>";
-			dayselect = dayselect + "<option id='24'>24</option>";
-			dayselect = dayselect + "<option id='25'>25</option>";
-			dayselect = dayselect + "<option id='26'>26</option>";
-			dayselect = dayselect + "<option id='27'>27</option>";
-			dayselect = dayselect + "<option id='28'>28</option>";
-			dayselect = dayselect + "<option id='29'>29</option>";
-			dayselect = dayselect + "<option id='30'>30</option>";
-			dayselect = dayselect + "<option id='31'>31</option>";
+			monthselect = monthselect + "<option value='February'>February</option>";
+			monthselect = monthselect + "<option value='March'>March</option>";
+			monthselect = monthselect + "<option value='April'>April</option>";
+			monthselect = monthselect + "<option value='May'>May</option>";
+			monthselect = monthselect + "<option value='June'>June</option>";
+			monthselect = monthselect + "<option value='July'>July</option>";
+			monthselect = monthselect + "<option value='August'>August</option>";
+			monthselect = monthselect + "<option value='September'>September</option>";
+			monthselect = monthselect + "<option value='October'>October</option>";
+			monthselect = monthselect + "<option value='November'>November</option>";
+			monthselect = monthselect + "<option value='December'>December</option>";
+		var dayselect = "<option value='1'>1</option>";
+			dayselect = dayselect + "<option value='2'>2</option>";
+			dayselect = dayselect + "<option value='3'>3</option>";
+			dayselect = dayselect + "<option value='4'>4</option>";
+			dayselect = dayselect + "<option value='5'>5</option>";
+			dayselect = dayselect + "<option value='6'>6</option>";
+			dayselect = dayselect + "<option value='7'>8</option>";
+			dayselect = dayselect + "<option value='8'>8</option>";
+			dayselect = dayselect + "<option value='9'>9</option>";
+			dayselect = dayselect + "<option value='10'>10</option>";
+			dayselect = dayselect + "<option value='11'>11</option>";
+			dayselect = dayselect + "<option value='12'>12</option>";
+			dayselect = dayselect + "<option value='13'>13</option>";
+			dayselect = dayselect + "<option value='14'>14</option>";
+			dayselect = dayselect + "<option value='15'>15</option>";
+			dayselect = dayselect + "<option value='16'>16</option>";
+			dayselect = dayselect + "<option value='17'>17</option>";
+			dayselect = dayselect + "<option value='18'>18</option>";
+			dayselect = dayselect + "<option value='19'>19</option>";
+			dayselect = dayselect + "<option value='20'>20</option>";
+			dayselect = dayselect + "<option value='21'>21</option>";
+			dayselect = dayselect + "<option value='22'>22</option>";
+			dayselect = dayselect + "<option value='23'>23</option>";
+			dayselect = dayselect + "<option value='24'>24</option>";
+			dayselect = dayselect + "<option value='25'>25</option>";
+			dayselect = dayselect + "<option value='26'>26</option>";
+			dayselect = dayselect + "<option value='27'>27</option>";
+			dayselect = dayselect + "<option value='28'>28</option>";
+			dayselect = dayselect + "<option value='29'>29</option>";
+			dayselect = dayselect + "<option value='30'>30</option>";
+			dayselect = dayselect + "<option value='31'>31</option>";
 			
 			
 	var app = angular.module('app',['ngStorage']);
@@ -110,7 +110,7 @@
 
 
         //SELECT FORMAT BOX
-		form = form + "</select><br/><b>Invoice Format</b><br/><select ng-model='selectformat'><option value='short'>Short</option><option value='long'>Long</option></select>";
+		form = form + "</select><br/><b>Invoice Format</b><br/><select ng-model='selectformat' id='selectformat'><option value='short'>Short</option><option value='long'>Long</option></select>";
 		i = 0;
 
 
@@ -157,7 +157,7 @@
 
 
 
-		$compile(form)(scope);
+		
 		document.getElementById('formthing').innerHTML = form;
 		
 		
@@ -271,43 +271,63 @@
 	//--------------------------ADD---------------------------
 	$scope.addinvoice = function() {
 	                        console.log("ADD FUNCTION CALLED");
-							var notes = document.getElementById('timesheet').innerHTML;
+							var notes = document.getElementById('timesheet').value;
 							var timesheet = nl2br(notes, false)
-							var days = [];
-							var hours = [];
-							var minutes = [];
-							var workdone = [];
+							var days = new Array;
+							var hours = new Array;
+							var minutes = new Array;
+							var workdone = new Array;
+
+
+	    //Code from http://stackoverflow.com/questions/1085801/get-selected-value-in-dropdown-list-using-javascript
+							var temp = document.getElementById('selectformat');
+							var selectformat = temp.options[temp.selectedIndex].text;
+							temp = document.getElementById('invoicemonth');
+							var invoicemonth = temp.options[temp.selectedIndex].text;
+							temp = document.getElementById('invoiceyear');
+							var invoiceyear = temp.options[temp.selectedIndex].text;
+							temp = document.getElementById('client');
+							var client = temp.options[temp.selectedIndex].text;
+
+
 
                             //Short format
-							if ($scope.selectformat == 'short') {
-							    hours[1] = document.getElementById('hours1').innerHTML;
-							    minutes[1] = document.getElementById('minutes1').innerHTML;
-							    workdone[1] = document.getElementById('workdone1').innerHTML;
+							if (selectformat == 'Short') {
+							    hours[0] = document.getElementById('hours1').value;
+							    minutes[0] = document.getElementById('minutes1').value;
+							    workdone[0] = document.getElementById('workdone1').value;
                                     	}
 
 
                             //Long format
-							if ($scope.selectformat == 'long') {
+							if (selectformat == 'Long') {
 							    for (var i = 1; i <= addday; i++) {
-							        hours[i] = document.getElementById('hours' + i).innerHTML;
-							        minutes[i] = document.getElementById('minutes' + i).innerHTML;
-							        workdone[i] = document.getElementById('workdone' + i).innerHTML;
-							        days[i] = document.getElementById('days' + i).innerHTML;
+							        hours[i-1] = document.getElementById('hours' + i).innerHTML;
+							        minutes[i-1] = document.getElementById('minutes' + i).innerHTML;
+							        workdone[i-1] = document.getElementById('workdone' + i).innerHTML;
+							        days[i-1] = document.getElementById('days' + i).innerHTML;
 							    }
 							}
 
 
+	   
+
+							var enabletimesheet = document.getElementById('enabletimesheet').checked;
+						
+
+
 
 							var addInvoiceData = {
-								client: 				$scope.clientselect,
-								format:                 $scope.selectformat,
+							    client:                client,
+							    format:                 selectformat,
 								days:                   days,
 								hours:                  hours,
 								minutes:                minutes,
-                                workdone:               workdone,
-                                month:                  $scope.invoicemonths,
+								workdone:               workdone,
+								month:                  invoicemonth,
+                                year:                   invoiceyear,
                                 notes:                  timesheet,
-                                enabletimesheet:        $scope.enabletimesheet
+                                enabletimesheet:        enabletimesheet
 						   };
 						   
 							$localStorage.invoices.push(addInvoiceData);
