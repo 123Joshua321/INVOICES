@@ -12,11 +12,11 @@ Copyright  2015  PCSquared.com.au
     
     
     
-    	<!---this allows the interface to be viewed on amobile device---->
+    	<!---this allows the interface to be viewed on a mobile device---->
  	    
-        <meta name="viewport" content="width=device-width, initial-scale=1">
- 		<!---Custom theme made with ThemeRoller---->
-        <link rel="stylesheet" href="css/sleep tracker.css" /> 
+        <meta name="viewport" content="width=device-width, initial-scale=1">     
+    <!--Custom style sheet-->
+    <link href="css/customtheme.css" rel="stylesheet" />
         <!----Jquery mobile style sheets--->
         <link rel="stylesheet" href="css/jquery.mobile.icons-1.4.0.min.css" />
          <link rel="stylesheet" href="css/jquery.mobile.structure-1.4.0.css" />
@@ -69,22 +69,25 @@ Copyright  2015  PCSquared.com.au
         <div role="main" class="ui-content"  >
                 	
                     
-        <!--Add image here :) --->       
+           
                      
                     <br>
-                    <b>ADD AN INVOICE</b>
+                    <b><font size="16">ADD AN INVOICE</font></b><br /><br />
 
 
-
-          
             <!---Body--->
-            <div class="ui-body ui-body-b" align="left">
-              <div id="formthing" ng-model="formthing"></div>
-            
-             </div>
-            <br><button ng-click='addinvoice()'>Submit</button>                                      
-            
-		</div><!-- /main content -->
+            <div>
+                <div class="ui-body ui-body-b" align="left">
+                    <b style="font-size:24px">Client </b> <br><select id="clientselect" ng-model="clientselect" ng-change="formatChangeClient()"></select>
+                   <!---- <br /><b>Invoice Format</b><br /><select ng-model='selectformat' id='selectformat' ng-change="formatChangeFormat()"><option value='short'>Short</option><option value='long'>Long</option></select> -->
+
+                    <span id="formthing" ng-model="formthing"></span>
+
+                </div>
+                <br>
+                <button ng-click='addinvoice()' id="sumbitinvoice" style="color:black;width:100px">Submit</button>
+            </div>
+</div><!-- /main content -->
 
         <div data-role="footer" data-position="fixed" >
           <p align="center"> </p>
@@ -100,13 +103,13 @@ Copyright  2015  PCSquared.com.au
      <!-----------PANEL--------------------->
      <div data-role="panel" id="owninfoNav" data-position="left" data-display="reveal">
           <ul data-role="listview" data-inset="true" data-split-icon="gear">
-    		<ul data-role="listview" data-inset="true" data-split-icon="gear">
                     <li> <a href="#home">Home</a></li>
                     <li> <a href="#owninfo" ng-click="editscreenpopulate()">Edit own Information</a></li>
                     <li> <a href="#clients">Client List</a></li>
                     <li> <a href="#invoices">View Past Invoices</a></li>
                 <li> <a href="#reports">View Reports</a></li>
-        </ul>               
+        </ul> 
+                          
         <a class="ui-btn ui-shadow ui-corner-all  ui-btn-mini  " href="#owninfoNav">Close</a>	
      </div><!-- /panel -->
        
@@ -174,7 +177,7 @@ Copyright  2015  PCSquared.com.au
      <!-----------PANEL--------------------->
      <div data-role="panel" id="invoicesNav" data-position="left" data-display="reveal">
           <ul data-role="listview" data-inset="true" data-split-icon="gear">
-    		<ul data-role="listview" data-inset="true" data-split-icon="gear">
+    		
                     <li> <a href="#home">Home</a></li>
                     <li> <a href="#owninfo" ng-click="editscreenpopulate()">Edit own information</a></li>
                     <li> <a href="#clients">Client List</a></li>
@@ -273,7 +276,7 @@ Copyright  2015  PCSquared.com.au
      <!-----------PANEL--------------------->
      <div data-role="panel" id="clientsNav" data-position="left" data-display="reveal">
           <ul data-role="listview" data-inset="true" data-split-icon="gear">
-    		<ul data-role="listview" data-inset="true" data-split-icon="gear">
+    		
                     <li> <a href="#home">Home</a></li>
                     <li> <a href="#owninfo" ng-click="editscreenpopulate()">Edit own information</a></li>
                     <li> <a href="#clients">Clients List</a></li>
@@ -397,7 +400,7 @@ Copyright  2015  PCSquared.com.au
         <!-----------PANEL--------------------->
         <div data-role="panel" id="reportsNav" data-position="left" data-display="reveal">
             <ul data-role="listview" data-inset="true" data-split-icon="gear">
-                <ul data-role="listview" data-inset="true" data-split-icon="gear">
+                
                     <li> <a href="#home">Home</a></li>
                     <li> <a href="#owninfo" ng-click="editscreenpopulate()">Edit own information</a></li>
                     <li> <a href="#clients">Client List</a></li>

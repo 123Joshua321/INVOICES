@@ -64,7 +64,9 @@
 		yearselect = yearselect + "<option id='" + currentyear + "'>" + currentyear + "</option>";
 		yearselect = yearselect + "<option id='" + lastyear + "'>" + lastyear + "</option>";
 		yearselect = yearselect + "<option id='" + twoyears + "'>" + twoyears + "</option>";
-		$(".moredays").append("<br>Day " + addday + ":<select id='day" + addday + "'>" + dayselect + "</select> Hours:<input type='number' id='hours" + addday + "' ng-model='hours" + addday + "'size='2'></select> Minutes:<input type='number' id='minutes" + addday + "' ng-model='minutes" + addday + "' size='2'><br>Work Done:<input type='text' id='workdone" + addday + "' ng-model='workdone" + addday + "'/>");
+		
+		
+		$(".moredays").append("Day " + addday + ":<select id='day" + addday + "'>" + dayselect + "</select> Hours:<input type='number' id='hours" + addday + "' ng-model='hours" + addday + "'size='2'></select> Minutes:<input type='number' id='minutes" + addday + "' ng-model='minutes" + addday + "' size='2'><br>Work Done:<input type='text' id='workdone" + addday + "' ng-model='workdone" + addday + "'/><br/><br/>");
 	}		
 
 
@@ -102,26 +104,27 @@
 		
 		//POPULATE CLIENT SELECT DROPDOWN
 		var form = "";
-		form = form + '<b>Client<br></b><select id="client" ng-model="clientselect" ng-change="formatChangeScript()">';
+		
 		i = 0;
+		
 		for(i=0;i<data.length;i++){
-			form = form + "<option  id=" + i + "value='" + data[i].name + "'>" + data[i].name + "</option>";
+			document.getElementById('clientselect').innerHTML += "<option  id=" + i + "value='" + data[i].name + "'>" + data[i].name + "</option>";
 		}
+		
 
-
-        //SELECT FORMAT BOX
-		form = form + "</select><br/><b>Invoice Format</b><br/><select ng-model='selectformat' id='selectformat'><option value='short'>Short</option><option value='long'>Long</option></select>";
+        
+		
 		i = 0;
 
 
 		//TODAY'S DATE INPUT SELECTION
-		form = form +"<br><div id='todaydate'><b>Today's Date</b><br><select id='todaydate' ng-model='invoicemodel'>" + dayselect + "</select>";
+		form = form +"<br><div id='todayinput'><b>Today's Date</b><br><select id='todaydate' ng-model='todaydate'>" + dayselect + "</select>";
 		form = form + "<select id='todaymonth' ng-model='todaymonth'>" + monthselect + "</select>" + "<select id='todayyear' ng-model='todayyear'>" + yearselect +"</select></div>";
 		
 
         //INVOICE MONTH SELECTION
 		i = 0;
-		form = form + "<br>Invoice Month<br><select id='invoicemonth' ng-model='invoicemonth'>" + monthselect + "</select><select id='invoiceyear' ng-model='invoiceyear'>" + yearselect + "</select>";
+		form = form + "<br><b>Invoice Month</b><br><select id='invoicemonth' ng-model='invoicemonth'>" + monthselect + "</select><select id='invoiceyear' ng-model='invoiceyear'>" + yearselect + "</select>";
 
 
 		form = form + "<div id='shortlong'>";
@@ -137,8 +140,8 @@
 		if (data[i].format == "long"){
 			//HOURS WORKED ON EACH DAY INPUTS
 			form = form + "<br><b>Hours</b><br>";
-			form = form + "Day 1:<select id='day1' ng-model='day1' >" + dayselect + "</select>" + " Hours:<input type='number' id='hours1' size='3' ng-model='hours1'> Minutes:<input type='number' id='minutes1' size='2' ng-model='minutes1'></input><br>Work Done:<input type='text' id='workdone1 ng-model='workdone1'/><br><br><div id='moredays' class='moredays'>";
-			form = form + "</div><button onclick='addhours()'>Add day</button>";
+			form = form + "Day 1:<select id='day1' ng-model='day1' >" + dayselect + "</select>" + " Hours:<input type='number' id='hours1' size='3' ng-model='hours1'> Minutes:<input type='number' id='minutes1' size='2' ng-model='minutes1'></input><br>Work Done:<input type='text' id='workdone1 ng-model='workdone1'/><br><br><span id='moredays' class='moredays'>";
+			form = form + "</span><button onclick='addhours()'>Add day</button>";
 		}
 
 
@@ -146,18 +149,18 @@
 		
 
         //TIMESHEET/NOTES INPUT
-		var timesheet = "<br>Notes:<br><textarea rows='7' cols='25' id='timesheet' ng-model='timesheet'></textarea>	";
+		var timesheet = "<br><b>Notes</b><br><textarea rows='7' cols='25' id='timesheet' ng-model='timesheet'></textarea>";
 		form = form + timesheet;
 
 
         //CHECKBOX FOR USING NOTES AS TIMESHEET
-		if (data[i].format == "short"){
-			form = form +"<br>Use notes as timesheet:<input type='checkbox' id='enabletimesheet' ng-model='enabletimesheet'/>"
-		}
-
-
-
 		
+		form = form + "<br>Use notes as timesheet:<input type='checkbox' id='enabletimesheet' ng-model='enabletimesheet'/>"
+
+
+			//document.getElementById('selectformat').selectedIndex = data[i].format
+            //DISABLED - SEE FORMAT CHANGE - FORMAT
+        
 		document.getElementById('formthing').innerHTML = form;
 		
 		
@@ -170,9 +173,69 @@
 	//----------------END STARTUP FUNCTION--------------
 	
 
-	
-	
 
+
+
+	    //--------------FORMAT FORM FUNCTION - CLIENT SELECTION CHANGED-----------------------
+	    $scope.formatChangeClient = function () {
+	        var form = "";
+	        var data = $scope.storage.clientlist;
+	        var selected = document.getElementById('clientselect').selectedIndex;
+	        addday = 1;
+            
+
+	        //SHORT FORMAT INPUT CREATION
+	        if (data[selected].format == "short" || data[selected].format == "Short") {
+	            form = form + "<br><br>Hours:<input type='number' id='hours1' size='2' ng-model='hours1'><br>Minutes:<input type='number' id='minutes1' size='2' ng-model='minutes1'><br>Work Done:<input type='text' id='workdone1' ng-model='workdone1'/><br><br>";
+	            $("#selectformat").val("0");
+	        }
+
+
+	        //LONG FORMAT INPUT CREATION
+	        if (data[selected].format == "long" || data[selected].format == "Long") {
+	            //HOURS WORKED ON EACH DAY INPUTS
+	            form = form + "<br><b>Hours</b><br>";
+	            form = form + "Day 1:<select id='day1' ng-model='day1' >" + dayselect + "</select>" + " Hours:<input type='number' id='hours1' size='3' ng-model='hours1'> Minutes:<input type='number' id='minutes1' size='2' ng-model='minutes1'></input><br>Work Done:<input type='text' id='workdone1 ng-model='workdone1'/><br><br><div id='moredays' class='moredays'>";
+	            form = form + "</div><button onclick='addhours()'>Add day</button>";
+	            $("#selectformat").val("1");
+	        }
+
+
+	        document.getElementById('shortlong').innerHTML = form;
+
+	    }
+	
+	    //------------------END FORMAT FORM FUNCTION - CLIENT----------------
+
+
+	    //----------------------FORMAT FORM FUNCTION - FORMAT SELECTION CHANGED------------------------   CURRENTLY DISABLED - NO WAY OF RUNNING FUNCTION IN HTML PAGE
+	    $scope.formatChangeFormat = function () {
+	        var form = "";
+
+	        addday = 1;
+	        var temp = document.getElementById('selectformat');
+	        var selected = temp.options[temp.selectedIndex].text;
+
+
+	        //SHORT FORMAT INPUT CREATION
+	        if (selected == "short" || selected == "Short") {
+	            form = form + "<br><br>Hours:<input type='number' id='hours1' size='2' ng-model='hours1'><br>Minutes:<input type='number' id='minutes1' size='2' ng-model='minutes1'><br>Work Done:<input type='text' id='workdone1' ng-model='workdone1'/><br><br>";
+	            
+	        }
+
+
+	        //LONG FORMAT INPUT CREATION
+	        if (selected == "long" || selected == "Long") {
+	            //HOURS WORKED ON EACH DAY INPUTS
+	            form = form + "<br><b>Hours</b><br>";
+	            form = form + "Day 1:<select id='day1' ng-model='day1' >" + dayselect + "</select>" + " Hours:<input type='number' id='hours1' size='3' ng-model='hours1'> Minutes:<input type='number' id='minutes1' size='2' ng-model='minutes1'></input><br>Work Done:<input type='text' id='workdone1 ng-model='workdone1'/><br><br><div id='moredays' class='moredays'>";
+	            form = form + "</div><button onclick='addhours()'>Add day</button>";
+	            
+	        }
+	        document.getElementById('shortlong').innerHTML = form;
+	    }
+
+        //---------------------END FORMAT FORM FUNCTION - FORMAT
  
 	//-------EDIT OWN INFO SCREEN POPULATE DEFAULT
 	
@@ -270,8 +333,8 @@
 						
 	//--------------------------ADD---------------------------
 	$scope.addinvoice = function() {
-	                        console.log("ADD FUNCTION CALLED");
-							var notes = document.getElementById('timesheet').value;
+	                        var notes = document.getElementById('timesheet').value;
+	                        var data = $scope.storage.clientlist;
 							var timesheet = nl2br(notes, false)
 							var days = new Array;
 							var hours = new Array;
@@ -280,19 +343,34 @@
 
 
 	    //Code from http://stackoverflow.com/questions/1085801/get-selected-value-in-dropdown-list-using-javascript
-							var temp = document.getElementById('selectformat');
-							var selectformat = temp.options[temp.selectedIndex].text;
+                            var temp = ""
+							//temp = document.getElementById('selectformat');
+							//var selectformat = temp.options[temp.selectedIndex].text;
 							temp = document.getElementById('invoicemonth');
 							var invoicemonth = temp.options[temp.selectedIndex].text;
+
 							temp = document.getElementById('invoiceyear');
 							var invoiceyear = temp.options[temp.selectedIndex].text;
-							temp = document.getElementById('client');
+
+							temp = document.getElementById('clientselect');
 							var client = temp.options[temp.selectedIndex].text;
+							
 
+							temp = document.getElementById('todaydate');
+							var createday = temp.options[temp.selectedIndex].text;
 
+							temp = document.getElementById('todaymonth');
+							var createmonth = temp.options[temp.selectedIndex].text;
+
+							temp = document.getElementById('todayyear');
+							var createyear = temp.options[temp.selectedIndex].text;
+
+                            
+							//DECLARE VAR SELECTFORMAT AND FIX THIS PART
+						
 
                             //Short format
-							if (selectformat == 'Short') {
+							if (selectformat == 'Short' || selectformat == 'short') {
 							    hours[0] = document.getElementById('hours1').value;
 							    minutes[0] = document.getElementById('minutes1').value;
 							    workdone[0] = document.getElementById('workdone1').value;
@@ -300,7 +378,7 @@
 
 
                             //Long format
-							if (selectformat == 'Long') {
+							if (selectformat == 'Long' || selectformat == 'long') {
 							    for (var i = 1; i <= addday; i++) {
 							        hours[i-1] = document.getElementById('hours' + i).innerHTML;
 							        minutes[i-1] = document.getElementById('minutes' + i).innerHTML;
@@ -319,7 +397,10 @@
 
 							var addInvoiceData = {
 							    client:                client,
-							    format:                 selectformat,
+							    format:                selectformat,
+							    createday:             createday,
+							    createmonth:           createmonth,
+                                creaftyear:            createyear,
 								days:                   days,
 								hours:                  hours,
 								minutes:                minutes,
@@ -327,7 +408,8 @@
 								month:                  invoicemonth,
                                 year:                   invoiceyear,
                                 notes:                  timesheet,
-                                enabletimesheet:        enabletimesheet
+                                enabletimesheet:        enabletimesheet,
+                                noofdays:               adday 
 						   };
 						   
 							$localStorage.invoices.push(addInvoiceData);
@@ -340,7 +422,8 @@
 						
 						
 						$scope.successfullyAdded = true; //message on the screen saying added
-	
+						addday = 1;
+						document.getElementById('moredays').innerHTML = "";
 						};
 		
 						$scope.ClearAddMessage = function () {
