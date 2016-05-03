@@ -78,7 +78,8 @@ Copyright  2015  PCSquared.com.au
             <!---Body--->
             <div>
                 <div class="ui-body ui-body-b" align="left">
-                    <b style="font-size:24px">Client </b> <br><select id="clientselect" ng-model="clientselect" ng-change="formatChangeClient()"></select>
+                    <span ng-if="successfullyAdded" style="font-size:24px"><b>Your invoice has been successfully added</b> </span><br />
+                    <b style="font-size:20px">Client </b> <br><select id="clientselect" ng-model="clientselect" ng-change="formatChangeClient()"></select>
                    <!---- <br /><b>Invoice Format</b><br /><select ng-model='selectformat' id='selectformat' ng-change="formatChangeFormat()"><option value='short'>Short</option><option value='long'>Long</option></select> -->
 
                     <span id="formthing" ng-model="formthing"></span>
@@ -219,20 +220,20 @@ Copyright  2015  PCSquared.com.au
 
                          <strong>Client:</strong> {{q.client}} <br> 
                          
-                         <strong> Hours Worked:</strong> {{q.hours}}  <br>
+                         <strong> Hours Worked:</strong> {{q.totalhours}}  <br>
 
-                        <strong>Invoice Month:</strong> {{q.month}}  <br> 
+                        <strong>Invoice Period:</strong> {{q.month}} {{q.year}} <br> 
 
-                        <strong> Date Made:</strong>  {{q.made}}   <br>
+                        <strong> Date Made:</strong>  {{q.createday}}  {{q.createmonth}} {{q.createyear}} <br>
                           
-                         <strong> Notes:</strong> {{q.note}}   <br>
+                         <strong> Notes:</strong> {{q.notes}}   <br>
                          
-                         <strong> Invoice No.:</strong> {{q.invoiceno}} <br>
+                         <strong> Invoice No.:</strong> {{q.invoicenumber}} <br>
 
                         <strong> Paid: </strong> {{q.paid}}<br />
 
-                    <strong> Date Paid: </strong> {{q.paid}}<br />
-                    <strong> Follow Up Sent: </strong> {{q.paid}}<br />
+                    <strong> Date Paid: </strong> {{q.datepaid}}<br />
+                    <strong> Follow Up Sent: </strong> {{q.followupsent}}<br />
                         
                        
 
@@ -296,7 +297,7 @@ Copyright  2015  PCSquared.com.au
          <h2>Clients</h2> 
          
  		<div  class="ui-body ui-body-b"  align="left">  
-       <br>ADD A CLIENT:<a href="#newclient"><img src="images/plus.gif" width="42" height="39"></a> 
+       <br>ADD A CLIENT:<a href="#newClient" data-rel="popup" data-position-to="window" ndata-transition="pop"><img src="images/plus.gif" width="42" height="39"></a> 
 					<br>Search: <input ng-model="query">
   						<table >
                               <tr>
@@ -382,7 +383,40 @@ Copyright  2015  PCSquared.com.au
                                 </table>
                     	 </div>  <!--end of edit pop-up-->
                
-               
+             <!--ADD POPUP-->
+             <div data-role="popup" id="newClient" data-theme="a" data-overlay-theme="b" class="ui-content" style="max-width:340px; padding-bottom:2em;">
+                 <a href="index.html" ng-click="saveNewClient()" data-rel="back" class="ui-shadow ui-btn ui-corner-all ui-btn-inline ui-mini">SAVE CLIENT</a>
+                 <a href="index.html" data-rel="back" class="ui-shadow ui-btn ui-corner-all ui-btn-inline ui-mini">Cancel</a>
+                 <table width="90%" border="1" cellspacing="2" cellpadding="2">
+                     <tr>
+                         <td>Name</td>
+                         <td> <input type="text" id="addname" ng-model="addname" /></td>
+                     </tr>
+                     <tr>
+                         <td>Hourly rate</td>
+                         <td> <input type="text" id="addhourrate" ng-model="addhourrate" /></td>
+                     </tr>
+                     <tr>
+                         <td>Address Line One</td>
+                         <td> <input type="text" id="addaddressone" ng-model="addaddressone" /></td>
+                     </tr>
+                     <tr>
+                         <td>Address Line Two</td>
+                         <td> <input type="text" id="addaddresstwo" ng-model="addaddresstwo" /></td>
+                     </tr>
+                     <tr>
+                         <td>Invoice Format</td>
+                         <td> <select id="addformat" ng-model="addformat"><option value="short">Short</option><option value="long">Long</option></select></td>
+                     </tr>
+                     <tr>
+                         <td>Contact Information</td>
+                         <td> <input type="text" name="addcontact" ng-model="addcontact" /></td>
+                     </tr>
+
+
+
+                 </table>
+             </div><!--end of add popup-->
                
                 </div>         
 	 </div><!-- /content -->

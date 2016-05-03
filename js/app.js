@@ -4,7 +4,8 @@
 //Copyright  2014  PCSquared.com.au
 			
 	//---------------------------------------------BEGIN NON-ANGULAR SETUP---------------------------------
-	var addday = 1;
+var addday = 1;
+var selectedformatglobal = "";
 	var monthselect ="<option id='January'>January</option>";
 			monthselect = monthselect + "<option value='February'>February</option>";
 			monthselect = monthselect + "<option value='March'>March</option>";
@@ -133,6 +134,7 @@
 	    //SHORT FORMAT INPUT CREATION
 		if (data[i].format == "short") {
 		    form = form + "<br><br>Hours:<input type='number' id='hours1' size='2' ng-model='hours1'><br>Minutes:<input type='number' id='minutes1' size='2' ng-model='minutes1'><br>Work Done:<input type='text' id='workdone1' ng-model='workdone1'/><br><br>";
+		    selectedformatglobal = 'short';
 		}
 		
 
@@ -142,6 +144,7 @@
 			form = form + "<br><b>Hours</b><br>";
 			form = form + "Day 1:<select id='day1' ng-model='day1' >" + dayselect + "</select>" + " Hours:<input type='number' id='hours1' size='3' ng-model='hours1'> Minutes:<input type='number' id='minutes1' size='2' ng-model='minutes1'></input><br>Work Done:<input type='text' id='workdone1 ng-model='workdone1'/><br><br><span id='moredays' class='moredays'>";
 			form = form + "</span><button onclick='addhours()'>Add day</button>";
+			selectedformatglobal = 'long';
 		}
 
 
@@ -188,6 +191,7 @@
 	        if (data[selected].format == "short" || data[selected].format == "Short") {
 	            form = form + "<br><br>Hours:<input type='number' id='hours1' size='2' ng-model='hours1'><br>Minutes:<input type='number' id='minutes1' size='2' ng-model='minutes1'><br>Work Done:<input type='text' id='workdone1' ng-model='workdone1'/><br><br>";
 	            $("#selectformat").val("0");
+	            selectedformatglobal = 'short';
 	        }
 
 
@@ -198,6 +202,7 @@
 	            form = form + "Day 1:<select id='day1' ng-model='day1' >" + dayselect + "</select>" + " Hours:<input type='number' id='hours1' size='3' ng-model='hours1'> Minutes:<input type='number' id='minutes1' size='2' ng-model='minutes1'></input><br>Work Done:<input type='text' id='workdone1 ng-model='workdone1'/><br><br><div id='moredays' class='moredays'>";
 	            form = form + "</div><button onclick='addhours()'>Add day</button>";
 	            $("#selectformat").val("1");
+	            selectedformatglobal = 'long';
 	        }
 
 
@@ -220,7 +225,7 @@
 	        //SHORT FORMAT INPUT CREATION
 	        if (selected == "short" || selected == "Short") {
 	            form = form + "<br><br>Hours:<input type='number' id='hours1' size='2' ng-model='hours1'><br>Minutes:<input type='number' id='minutes1' size='2' ng-model='minutes1'><br>Work Done:<input type='text' id='workdone1' ng-model='workdone1'/><br><br>";
-	            
+	            selectedformatglobal = 'short';
 	        }
 
 
@@ -230,7 +235,7 @@
 	            form = form + "<br><b>Hours</b><br>";
 	            form = form + "Day 1:<select id='day1' ng-model='day1' >" + dayselect + "</select>" + " Hours:<input type='number' id='hours1' size='3' ng-model='hours1'> Minutes:<input type='number' id='minutes1' size='2' ng-model='minutes1'></input><br>Work Done:<input type='text' id='workdone1 ng-model='workdone1'/><br><br><div id='moredays' class='moredays'>";
 	            form = form + "</div><button onclick='addhours()'>Add day</button>";
-	            
+	            selectedformatglobal = 'long';
 	        }
 	        document.getElementById('shortlong').innerHTML = form;
 	    }
@@ -261,7 +266,7 @@
 	$scope.storage = $localStorage.$default({
     						clientlist: [{
 											name: "Default Client",
-											hourrate: 40.0,
+											hourrate: 40,
 											format: "short",
 											addressone: "123 Lol street",
 											addresstwo: "Le Lenny Town",
@@ -311,19 +316,32 @@
         //TODO: Fix this to follow new format
 	    invoices: [{
 	        client: "Default Client",
-	        format: "short",
-	        hours: 10,
-	        perhour: 40,
-	        totalpay: 400.00,
-	        month: "December 2014",
-	        made: "1 January 2015",
-	        note: "5 December 5 hours, 10 December 5 hours",
-	        invoiceno: "000001",
+	        format: "Short",
+	        createday: "5",
+	        createmonth: "February",
+	        createyear: 2015,
+	        days: 1,
+	        hours: 8,
+	        minutes: 30,
+	        workdone: "Did BAS",
+	        month: "January",
+	        year: "2015",
+	        notes: "",
+	        enabletimesheet: false,
+	        noofdays: 1,
+	        followupsent: "Yes",
+	        totalhours: 8.5,
+	        totalpay: 340,
+            hourrate: 40,
+	        invoicenumber: 1,
 	        paid: "Yes",
-	        datepaid: "29th February 2015",
-	        followupsent: "Yes"
+	        datepaid: "7 March 2015"
 	    }]
 	});
+
+	$scope.storage = $localStorage.$default({
+	    invoicenumber: 1
+	})
 
         //---------------------END DEFAULT DATA-------------------------
 
@@ -335,17 +353,20 @@
 	$scope.addinvoice = function() {
 	                        var notes = document.getElementById('timesheet').value;
 	                        var data = $scope.storage.clientlist;
+	                        var invoicedata = $scope.storage.invoicenumber;
 							var timesheet = nl2br(notes, false)
 							var days = new Array;
 							var hours = new Array;
 							var minutes = new Array;
 							var workdone = new Array;
-
+                            
 
 	    //Code from http://stackoverflow.com/questions/1085801/get-selected-value-in-dropdown-list-using-javascript
-                            var temp = ""
+							var temp = ""
+
 							//temp = document.getElementById('selectformat');
-							//var selectformat = temp.options[temp.selectedIndex].text;
+	    //var selectformat = temp.options[temp.selectedIndex].text;
+
 							temp = document.getElementById('invoicemonth');
 							var invoicemonth = temp.options[temp.selectedIndex].text;
 
@@ -354,7 +375,10 @@
 
 							temp = document.getElementById('clientselect');
 							var client = temp.options[temp.selectedIndex].text;
-							
+							temp = temp.selectedIndex;
+							temp = parseInt(temp);
+							var selectedindex = temp;
+                            var hourrate = data[selectedindex].hourrate
 
 							temp = document.getElementById('todaydate');
 							var createday = temp.options[temp.selectedIndex].text;
@@ -366,24 +390,44 @@
 							var createyear = temp.options[temp.selectedIndex].text;
 
                             
-							//DECLARE VAR SELECTFORMAT AND FIX THIS PART
-						
-
+							var invoiceno = parseInt($localStorage.invoicenumber) + 1;
+							
+							var i = 1;
+							var pay = 0.0;
+							var totalhours = 0.0;
+	    
+        
                             //Short format
-							if (selectformat == 'Short' || selectformat == 'short') {
+							if (selectedformatglobal == 'Short' || selectedformatglobal == 'short') {
 							    hours[0] = document.getElementById('hours1').value;
 							    minutes[0] = document.getElementById('minutes1').value;
 							    workdone[0] = document.getElementById('workdone1').value;
+							    pay = hours[0] * hourrate;
+							    temp = minutes[0] / 60 * hourrate;
+							    pay = pay + temp;
+							    totalhours = hours[0];
+							    temp = minutes[0] / 60;
+							    temp = temp.toFixed(2);
+							    totalhours = parseFloat(totalhours);
+							    totalhours = totalhours + parseFloat(temp);
                                     	}
 
 
                             //Long format
-							if (selectformat == 'Long' || selectformat == 'long') {
-							    for (var i = 1; i <= addday; i++) {
+							if (selectedformatglobal == 'Long' || selectedformatglobal == 'long') {
+							    for (i = 1; i <= addday; i++) {
 							        hours[i-1] = document.getElementById('hours' + i).innerHTML;
 							        minutes[i-1] = document.getElementById('minutes' + i).innerHTML;
 							        workdone[i-1] = document.getElementById('workdone' + i).innerHTML;
-							        days[i-1] = document.getElementById('days' + i).innerHTML;
+							        days[i - 1] = document.getElementById('days' + i).innerHTML;
+							        pay = pay + hours[i-1] * hourrate;
+							        temp = minutes[i-1] / 60 * hourrate;
+							        pay = pay + temp;
+							        totalhours = totalhours + hours[i-1];
+							        temp = minutes[i-1] / 60;
+							        temp = temp.toFixed(2);
+							        totalhours = parseFloat(totalhours);
+							        totalhours = totalhours + parseFloat(temp);
 							    }
 							}
 
@@ -397,10 +441,10 @@
 
 							var addInvoiceData = {
 							    client:                client,
-							    format:                selectformat,
+							    format:                selectedformatglobal,
 							    createday:             createday,
 							    createmonth:           createmonth,
-                                creaftyear:            createyear,
+                                createyear:            createyear,
 								days:                   days,
 								hours:                  hours,
 								minutes:                minutes,
@@ -409,27 +453,56 @@
                                 year:                   invoiceyear,
                                 notes:                  timesheet,
                                 enabletimesheet:        enabletimesheet,
-                                noofdays:               adday 
-						   };
+                                noofdays:               addday,
+                                followupsent: "No",
+                                totalhours: totalhours,
+                                totalpay: pay,
+                                invoicenumber: invoiceno,
+                                paid: "No",
+                                datepaid: "N/A",
+                                hourrate: hourrate
+                                
+
+							};
+							var number = {
+                                invoicenumber: invoiceno
+							}
 						   
+							$localStorage.invoicenumber = invoiceno;
+
 							$localStorage.invoices.push(addInvoiceData);
 						
-						$scope.clientselect		= 		"";
-						$scope.selectformat	    = 		"";
-						$scope.invoicemonths	= 		"";
-						$scope.enabletimesheet 	= 		false;
-						$scope.timesheet	    =		"";
+							
+							document.getElementById('enabletimesheet').checked = false;
+							document.getElementById('todayyear').selectedIndex = 0;
+							document.getElementById('todaymonth').selectedIndex = 0;
+							document.getElementById('todaydate').selectedIndex = 0;
+							document.getElementById('clientselect').selectedIndex = 0;
+							document.getElementById('invoiceyear').selectedIndex = 0;
+							document.getElementById('invoicemonth').selectedIndex = 0;
+							document.getElementById('timesheet').value = "";
+							for (i = 1; i <= addday; i++) {
+							    if (selectedformatglobal == 'long' || selectedformatglobal == 'Long') {
+							        document.getElementById('hours' + i).value = "";
+							        document.getElementById('minutes' + i).value = "";
+							        document.getElementById('workdone' + i).value = "";
+							        document.getElementById('days' + i).value = "";
+							        document.getElementById('moredays').innerHTML = "";
+							    } else {
+							        document.getElementById('hours1').value = "";
+							        document.getElementById('minutes1').value = "";
+							        document.getElementById('workdone1').value = "";
+							    }
+							}
+
 						
 						
 						$scope.successfullyAdded = true; //message on the screen saying added
 						addday = 1;
-						document.getElementById('moredays').innerHTML = "";
+
 						};
 		
-						$scope.ClearAddMessage = function () {
-							$scope.successfullyAdded = false;	
-							$scope.successfullyUpdated = false;	//Resets message when nav clicked
-						};
+						
 		
 		
 		//CONVERT TEXTAREA TO HTML TEXT
@@ -455,6 +528,11 @@
 		//--------------------END ADD------------------
 		
 
+//---------CLEAR SUCCESS MESSAGE--------
+	$scope.ClearAddMessage = function () {
+	    $scope.successfullyAdded = false;
+	    $scope.successfullyUpdated = false;	//Resets message when nav clicked
+	};
 
 
 		//----------------------SETTINGS PAGE------------------
@@ -478,9 +556,38 @@
 	//----------------------------END SETTINGS--------------------
 	
 
+	    //------------------ADD CLIENT----------------
+
+		$scope.saveNewClient = function () {
+		    var clientdata = {
+		        name: $scope.addname,
+		        hourrate: parseFloat($scope.addhourrate),
+		        format: $scope.addformat,
+		        addressone: $scope.addaddressone,
+		        addresstwo: $scope.addaddresstwo,
+		        contact: $scope.addcontact
+		    }
+		    $localStorage.clientlist.push(clientdata);
+
+		    $scope.addname = "";
+		    $scope.addformat = "short";
+		    $scope.addhourrate = "";
+		    $scope.addaddressone = "";
+		    $scope.addaddresstwo = "";
+		    $scope.contact = "";
+
+		}
 
 
-	//----------------------------EDIT AND DELETE PAGE----------------		
+
+
+
+	    //-----------------END ADD CLIENT--------------
+
+
+
+
+	//----------------------------EDIT AND DELETE CLIENTS PAGE----------------		
 			 $scope.displayEditClient = function (index) {
 				 	 $scope.index			=		index;
 					 $scope.name			=		$scope.storage.clientlist[index].name;
