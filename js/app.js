@@ -24,7 +24,7 @@ var selectedformatglobal = "";
 			dayselect = dayselect + "<option value='4'>4</option>";
 			dayselect = dayselect + "<option value='5'>5</option>";
 			dayselect = dayselect + "<option value='6'>6</option>";
-			dayselect = dayselect + "<option value='7'>8</option>";
+			dayselect = dayselect + "<option value='7'>7</option>";
 			dayselect = dayselect + "<option value='8'>8</option>";
 			dayselect = dayselect + "<option value='9'>9</option>";
 			dayselect = dayselect + "<option value='10'>10</option>";
@@ -132,17 +132,17 @@ var selectedformatglobal = "";
 
 
 	    //SHORT FORMAT INPUT CREATION
-		if (data[i].format == "short") {
+		if (data[0].format == "short" || data[0].format == "Short") {
 		    form = form + "<br><br>Hours:<input type='number' id='hours1' size='2' ng-model='hours1'><br>Minutes:<input type='number' id='minutes1' size='2' ng-model='minutes1'><br>Work Done:<input type='text' id='workdone1' ng-model='workdone1'/><br><br>";
 		    selectedformatglobal = 'short';
 		}
 		
 
 		//LONG FORMAT INPUT CREATION
-		if (data[i].format == "long"){
+		if (data[0].format == "long" || data[0].format == "Long"){
 			//HOURS WORKED ON EACH DAY INPUTS
 			form = form + "<br><b>Hours</b><br>";
-			form = form + "Day 1:<select id='day1' ng-model='day1' >" + dayselect + "</select>" + " Hours:<input type='number' id='hours1' size='3' ng-model='hours1'> Minutes:<input type='number' id='minutes1' size='2' ng-model='minutes1'></input><br>Work Done:<input type='text' id='workdone1 ng-model='workdone1'/><br><br><span id='moredays' class='moredays'>";
+			form = form + "Day 1:<select id='day1' ng-model='day1' >" + dayselect + "</select>" + " Hours:<input type='number' id='hours1' size='3' ng-model='hours1'> Minutes:<input type='number' id='minutes1' size='2' ng-model='minutes1'></input><br>Work Done:<input type='text' id='workdone1' ng-model='workdone1'/><br><br><span id='moredays' class='moredays'>";
 			form = form + "</span><button onclick='addhours()'>Add day</button>";
 			selectedformatglobal = 'long';
 		}
@@ -190,7 +190,7 @@ var selectedformatglobal = "";
 	        //SHORT FORMAT INPUT CREATION
 	        if (data[selected].format == "short" || data[selected].format == "Short") {
 	            form = form + "<br><br>Hours:<input type='number' id='hours1' size='2' ng-model='hours1'><br>Minutes:<input type='number' id='minutes1' size='2' ng-model='minutes1'><br>Work Done:<input type='text' id='workdone1' ng-model='workdone1'/><br><br>";
-	            $("#selectformat").val("0");
+	          
 	            selectedformatglobal = 'short';
 	        }
 
@@ -199,9 +199,9 @@ var selectedformatglobal = "";
 	        if (data[selected].format == "long" || data[selected].format == "Long") {
 	            //HOURS WORKED ON EACH DAY INPUTS
 	            form = form + "<br><b>Hours</b><br>";
-	            form = form + "Day 1:<select id='day1' ng-model='day1' >" + dayselect + "</select>" + " Hours:<input type='number' id='hours1' size='3' ng-model='hours1'> Minutes:<input type='number' id='minutes1' size='2' ng-model='minutes1'></input><br>Work Done:<input type='text' id='workdone1 ng-model='workdone1'/><br><br><div id='moredays' class='moredays'>";
+	            form = form + "Day 1:<select id='day1' ng-model='day1' >" + dayselect + "</select>" + " Hours:<input type='number' id='hours1' size='3' ng-model='hours1'> Minutes:<input type='number' id='minutes1' size='2' ng-model='minutes1'></input><br>Work Done:<input type='text' id='workdone1' ng-model='workdone1'/><br><br><div id='moredays' class='moredays'>";
 	            form = form + "</div><button onclick='addhours()'>Add day</button>";
-	            $("#selectformat").val("1");
+	            
 	            selectedformatglobal = 'long';
 	        }
 
@@ -294,7 +294,6 @@ var selectedformatglobal = "";
 											paymentunit: "days",
 											bsb: "000-111",
 											account: "1232 1234 1235 1385",
-											invoicenos: "000002"
 							}]
 	});
 
@@ -378,7 +377,7 @@ var selectedformatglobal = "";
 							temp = temp.selectedIndex;
 							temp = parseInt(temp);
 							var selectedindex = temp;
-                            var hourrate = data[selectedindex].hourrate
+                            var hourrate = parseFloat(data[selectedindex].hourrate)
 
 							temp = document.getElementById('todaydate');
 							var createday = temp.options[temp.selectedIndex].text;
@@ -416,11 +415,11 @@ var selectedformatglobal = "";
                             //Long format
 							if (selectedformatglobal == 'Long' || selectedformatglobal == 'long') {
 							    for (i = 1; i <= addday; i++) {
-							        hours[i-1] = document.getElementById('hours' + i).innerHTML;
-							        minutes[i-1] = document.getElementById('minutes' + i).innerHTML;
-							        workdone[i-1] = document.getElementById('workdone' + i).innerHTML;
-							        days[i - 1] = document.getElementById('days' + i).innerHTML;
-							        pay = pay + hours[i-1] * hourrate;
+							        hours[i-1] = parseFloat(document.getElementById('hours' + i).value);
+							        minutes[i-1] = parseFloat(document.getElementById('minutes' + i).value);
+							        workdone[i-1] = document.getElementById('workdone' + i).value;
+							        days[i - 1] = parseInteger(document.getElementById('day' + i).value);
+							        pay = pay + (hours[i-1] * hourrate)
 							        temp = minutes[i-1] / 60 * hourrate;
 							        pay = pay + temp;
 							        totalhours = totalhours + hours[i-1];
@@ -470,7 +469,9 @@ var selectedformatglobal = "";
 						   
 							$localStorage.invoicenumber = invoiceno;
 
+							addday = 1;
 							$localStorage.invoices.push(addInvoiceData);
+							$localStorage.loaded = addInvoiceData;
 						
 							
 							document.getElementById('enabletimesheet').checked = false;
@@ -486,7 +487,7 @@ var selectedformatglobal = "";
 							        document.getElementById('hours' + i).value = "";
 							        document.getElementById('minutes' + i).value = "";
 							        document.getElementById('workdone' + i).value = "";
-							        document.getElementById('days' + i).value = "";
+							        document.getElementById('day' + i).value = "";
 							        document.getElementById('moredays').innerHTML = "";
 							    } else {
 							        document.getElementById('hours1').value = "";
@@ -498,7 +499,7 @@ var selectedformatglobal = "";
 						
 						
 						$scope.successfullyAdded = true; //message on the screen saying added
-						addday = 1;
+						
 
 						};
 		
@@ -650,22 +651,57 @@ var selectedformatglobal = "";
 				---------------------------------INVOICE.HTM CODE
 				----------------------------------
 				---------------------------------*/
-				 $scope.formatinvoice = function() {
+
+	   /* client:                client,
+	    format:                selectedformatglobal,
+	    createday:             createday,
+	    createmonth:           createmonth,
+	    createyear:            createyear,
+	    days:                   days,
+	    hours:                  hours,
+	    minutes:                minutes,
+	    workdone:               workdone,
+	    month:                  invoicemonth,
+	    year:                   invoiceyear,
+	    notes:                  timesheet,
+	    enabletimesheet:        enabletimesheet,
+	    noofdays:               addday,
+	    followupsent: "No",
+	    totalhours: totalhours,
+	    totalpay: pay,
+	    invoicenumber: invoiceno,
+	    paid: "No",
+	    datepaid: "N/A",
+	    hourrate: hourrate
+        
+        nameone: "Default Company 1",
+											nametwo: "Default Company 2",
+											abn: "1234567890",
+											contact: "0412345678 me@me.com",
+											paymenttime: 7,
+											paymentunit: "days",
+											bsb: "000-111",
+											account: "1232 1234 1235 1385",
+        
+        */
+				 $scope.loadinvoice = function() {
 					 var data = $scope.storage.loaded;
 					 var clientinfo = $scope.storage.clientlist;
 					 var config = $scope.storage.owndata;
 					 var client = data[0].client;
-					 if (clientinfo[client].format == "short"){
-					 	document.getElementById('longformat').style.display = 'none';}
-					 if (clientinfo[client].format == "long"){
-						 document.getElementById('shortformat').style.display = 'none';
-						 document.getElementById('timesheet').style.display = 'none';}
-					if (config[client].nameoneenabled == false){
-						document.getElementById('companyone').style.display = 'none';}
-					if (config[client].nametwoenabled == false){
-						document.getElementById('companytwo').style.display = 'none';}
+
+                     //Setup info on page
 					document.getElementById('companyone').innerHTML = config[client].nameone;
 					document.getElementById('companytwo').innerHTML = config[client].nametwo;
+					document.getElementById('abn').innerHTML = config.abn;
+					document.getElementById('bsb').innerHTML = config.bsb;
+					document.getElementById('accountno').innerHTML = config.account;
+
+
+                     //Input hours
+					if (data.format == "short") {
+					    document.getElementById('longformat').style.display = 'none';
+					}
 					
 				 }
 				 

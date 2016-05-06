@@ -1,5 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//Dtd HTML 4.0 transitional//EN">
-<!DOCTYPE html PUBLIC "-//W3C//Dtd HTML 4.0 transitional//EN" ""><HTML><HEAD><META 
+<!DOCTYPE html PUBLIC "-//W3C//Dtd HTML 4.0 transitional//EN" ""><HTML ng-app="app"><HEAD><META 
 content="IE=5.0000" http-equiv="X-UA-Compatible">
 	 
 <META http-equiv="Content-Type" content="text/html; charset=windows-1252">
@@ -13,208 +12,111 @@ content="IE=5.0000" http-equiv="X-UA-Compatible">
 	-->
 	</STYLE>
   
-  
-  
+  <!--JQUERY-->
+        <script src="js/jquery-1.8.3.min.js"></script>
+
+                   <script>
+                $(document).bind('mobileinit',function(){
+                $.mobile.changePage.defaults.changeHash = false;
+               $.mobile.hashListeningEnabled = false;
+              $.mobile.pushStateEnabled = false;
+            });</script>
+
+             <!-----------JQUERY MOBILE---------------------->
+       <script src="js/jquery.mobile-1.4.0.min.js"></script> 
   <!-------------------ANGULAR   ---------------------->
         <script src="js/angular.min.js"></script>
        <!--ngStorage-->
         <script src="js/ngStorage.min.js"></script> 
         <!-- YOUR CONTROL  logic------> 
-        <script src="js/app.js"></script>
+        <script src="js/invoice.js"></script>
  </HEAD> 
-<BODY lang="en-AU" style="padding: 0in; border: currentColor; border-image: none;" 
-dir="Ltr"  ng-controller="invoiceController" ng-init="formatinvoice()" >
+<BODY   ng-controller="invoiceController" ng-init="loadinvoice()" >
 
 
 
-
+    <br /><br /><br /><br />
 <!--COMPANY INFO, INVOICE NUMBER AND DATE-->
 <P style="margin-bottom: 0.14in;" id="companylines">
-  <font color="#002060" size="4"><B><span id="companyone">Company Line One</span><br>
-<span id="companytwo">Company Line Two</span></b></font>
 
-<font color="#002060" size="2" style="font-size: 11pt;"><p style="text-align:right" id="invoicenumber">Invoice No. 000000</p>
- <p id="date" style="text-align:right">Date: 1 January 2015</p><br>
- <p style="text-align:left" id="contactdetails">Contact Details</p></font>
-<font color="#002060" size="2" style="font-size: 11pt;"><P style="margin-bottom: 0.14in;" id="abn">ABN: 12345678</P></font>
+  <font color="#002060" size="4"><b>
+      <span id="companyone" style="position:absolute;left:0px">Company Line One</span>
+    </b></font>
+
+      <font color="#002060" size="2" style="font-size: 11pt;">
+          <span style="position:absolute;right:0px" id="invoicenumber">Invoice No. 000000</span>
+    </font> <br />
+    <br />
+    <font color="#002060" size="4">
+        <b><span id="companytwo" style="position:absolute;left:0px;">Company Line Two</span></b>
+    </font>
+
+    <font color="#002060" size="2" style="font-size: 11pt;">
+        <span id="date" style="position:absolute;right:0px">Date: 1 January 2015</span>
+        </font><br />
+        <br />
+    <font color="#002060" size="2" style="font-size: 11pt;">
+        <span style="position:absolute;left:0px" id="contactdetails">Contact Details</span>
+    </font>
+    <br /><br />
+<font color="#002060" size="2" style="font-size: 11pt;"><span style="position:absolute;left:3px" id="abn">ABN: 12345678</span></font> 
 <P style="margin-bottom: 0.14in;"><br><br></P>
 
-
+    <br /><br />
 
 <!--CLIENT NAME, ADDRESS-->
-<P style="margin-bottom: 0.14in;"><font color="#002060"><font size="2" style="font-size: 11pt;">Company
- Name<br>Address Line One<br>Address Line Two</font></font></P>
+<P style="margin-bottom: 0.14in;"><font color="#002060">
+    <font size="2" style="font-size: 11pt;"><span id="clientinfo">Company Name<br>Address Line One<br>Address Line Two</span> </font></font></P>
 <P style="margin-bottom: 0.14in;"><br><br></P>
+    <br />
 
+    <span id="shortlong" style="position:absolute;left:0px">
 
-
-
-<!--SHORT INVOICE FORMAT-->
-<div id="shortformat">
-<font color="#002060" size="2" style="font-size: 11pt;">
-    <p style="margin-bottom: 0.14in;text-align:justify" >
-    <span style="float:left" id="invoicemonth"> December 2014</span>
-    &nbsp;&nbsp; <span id="hoursathour">10.00 hours @ $40.00/hr </span>
-     <span style="float:right" id="totaldollarsshort">$400.00</span><br>
-     		<span style="text-align:center">
-           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-           AS PER ATTACHED TIMESHEET</span></p>
-     </font>
-</div>     
-
-
-
-<!--LONG INVOICE FORMAT-->
-<div id="longformat">
-<font color="#002060" size="2" style="font-size: 11pt;">
-    <p style="margin-bottom: 0.14in;text-align:justify">
-      <div id="longformathours">
-      </div>
-     </p>
-</font>
-</div>
-
+        <!--SHORT INVOICE FORMAT-->
+        <!----<div id="shortformat">
+        <font color="#002060" size="2" style="font-size: 11pt;">
+            <p style="margin-bottom: 0.14in;text-align:justify" >
+            <span style="float:left" id="invoicemonth"> December 2014</span>
+            &nbsp;&nbsp; <span id="hoursathour">10.00 hours @ $40.00/hr </span>
+             <span style="float:right" id="totaldollarsshort">$400.00</span><br>
+                    <span style="text-align:center">
+                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                   AS PER ATTACHED TIMESHEET</span></p>
+             </font>
+        </div>
+            -->
+        <!--LONG INVOICE FORMAT-->
+        <!--
+        <div id="longformat">
+        <font color="#002060" size="2" style="font-size: 11pt;">
+            <p style="margin-bottom: 0.14in;text-align:justify">
+              <div id="longformathours">
+              </div>
+             </p>
+        </font>
+        </div>
+            -->
+    </span>
 <p style="margin-bottom: 0.14in;"><br><br></p>
-
+        <br /><br /><br />
 
 <!--BANKING INFO AND PAYMENT TERMS-->
 <P style="margin-bottom: 0.14in;"><font color="#002060"><font size="2" style="font-size: 11pt;">Banking
- Details:<br>Bank<br>BSB: 123456<br>ACC: 123456</font></font></P>
+ Details:<br>
+    <span id="bankname">Bank</span><br>
+    BSB: <span id="bsb">123456</span><br>
+    ACC: <span id="accountno">123456</span>
+</font></font></P>
 <P style="margin-bottom: 0.14in;"><br><br></P>
-<P style="margin-bottom: 0.14in;"><font color="#002060"><font size="2" style="font-size: 11pt;">Terms:
- 7 days</font></font></P>
- 
- 
+<P style="margin-bottom: 0.14in;"><font color="#002060"><font size="2" style="font-size: 11pt;">
+  Terms: <span id="terms">7 days</span>
+ </font></font></P>
+ <span id="breaks"><br /><br /><br /><br /><br /><br /></span>
+
  <!--TIMESHEET-->
  <div id="timesheet">
 
-<table width="329" border="1" rules="NONE" frame="VOID" cellspacing="0" 
-cellpadding="7">
-  <COLGROUP>
-  <COL width="71">
-  <COL width="50">
-  <COL width="166">
-  <TBODY>
-
-  <tr valign="BOTTOM">
-    <td width="71" height="6">
-      <P align="RIGHT"><font color="#000000"><font size="2" style="font-size: 11pt;">3/08/2015</font></font></P></td>
-    <td width="50">
-      <P align="RIGHT"><font color="#000000"><font size="2" style="font-size: 11pt;">7.5</font></font></P></td>
-    <td width="166">
-      <P><font color="#000000"><font size="2" 
-      style="font-size: 11pt;">Office/Statements</font></font></P></td></tr>
-  <tr valign="BOTTOM">
-    <td width="71" height="6">
-      <P align="RIGHT"><font color="#000000"><font size="2" style="font-size: 11pt;">4/08/2015</font></font></P></td>
-    <td width="50">
-      <P align="RIGHT"><font color="#000000"><font size="2" style="font-size: 11pt;">0.75</font></font></P></td>
-    <td width="166">
-      <P><font color="#000000"><font size="2" 
-      style="font-size: 11pt;">Debtors/Recon/Bank
-			Feeds</font></font></P></td></tr>
-  <tr valign="BOTTOM">
-    <td width="71" height="6">
-      <P align="RIGHT"><font color="#000000"><font size="2" style="font-size: 11pt;">5/08/2015</font></font></P></td>
-    <td width="50">
-      <P align="RIGHT"><font color="#000000"><font size="2" style="font-size: 11pt;">8</font></font></P></td>
-    <td width="166">
-      <P><font color="#000000"><font size="2" 
-      style="font-size: 11pt;">Office/Barbara</font></font></P></td></tr>
-  <tr valign="BOTTOM">
-    <td width="71" height="6">
-      <P align="RIGHT"><font color="#000000"><font size="2" style="font-size: 11pt;">6/08/2015</font></font></P></td>
-    <td width="50">
-      <P align="RIGHT"><font color="#000000"><font size="2" style="font-size: 11pt;">0.5</font></font></P></td>
-    <td width="166">
-      <P><font color="#000000"><font size="2" 
-      style="font-size: 11pt;">Guarantee</font></font></P></td></tr>
-  <tr valign="BOTTOM">
-    <td width="71" height="6">
-      <P align="RIGHT"><font color="#000000"><font size="2" style="font-size: 11pt;">10/08/2015</font></font></P></td>
-    <td width="50">
-      <P align="RIGHT"><font color="#000000"><font size="2" style="font-size: 11pt;">7.5</font></font></P></td>
-    <td width="166">
-      <P><font color="#000000"><font size="2" 
-      style="font-size: 11pt;">Office/Barbara</font></font></P></td></tr>
-  <tr valign="BOTTOM">
-    <td width="71" height="6">
-      <P align="RIGHT"><font color="#000000"><font size="2" style="font-size: 11pt;">14/08/2015</font></font></P></td>
-    <td width="50">
-      <P align="RIGHT"><font color="#000000"><font size="2" style="font-size: 11pt;">0.75</font></font></P></td>
-    <td width="166">
-      <P><font color="#000000"><font size="2" style="font-size: 11pt;">Bank
-      			Feeds/7 Eleven Calls</font></font></P></td></tr>
-  <tr valign="BOTTOM">
-    <td width="71" height="6">
-      <P align="RIGHT"><font color="#000000"><font size="2" style="font-size: 11pt;">15/08/2015</font></font></P></td>
-    <td width="50">
-      <P align="RIGHT"><font color="#000000"><font size="2" style="font-size: 11pt;">0.5</font></font></P></td>
-    <td width="166">
-      <P><font color="#000000"><font size="2" style="font-size: 11pt;">Job
-      			Ad</font></font></P></td></tr>
-  <tr valign="BOTTOM">
-    <td width="71" height="6">
-      <P align="RIGHT"><font color="#000000"><font size="2" style="font-size: 11pt;">16/08/2015</font></font></P></td>
-    <td width="50">
-      <P align="RIGHT"><font color="#000000"><font size="2" style="font-size: 11pt;">0.75</font></font></P></td>
-    <td width="166">
-      <P><font color="#000000"><font size="2" style="font-size: 11pt;">Bank
-      			Feeds/Debtors</font></font></P></td></tr>
-  <tr valign="BOTTOM">
-    <td width="71" height="6">
-      <P align="RIGHT"><font color="#000000"><font size="2" style="font-size: 11pt;">17/08/2015</font></font></P></td>
-    <td width="50">
-      <P align="RIGHT"><font color="#000000"><font size="2" style="font-size: 11pt;">6.75</font></font></P></td>
-    <td width="166">
-      <P><font color="#000000"><font size="2" 
-      style="font-size: 11pt;">Office</font></font></P></td></tr>
-  <tr valign="BOTTOM">
-    <td width="71" height="6">
-      <P align="RIGHT"><font color="#000000"><font size="2" style="font-size: 11pt;">21/08/2015</font></font></P></td>
-    <td width="50">
-      <P align="RIGHT"><font color="#000000"><font size="2" style="font-size: 11pt;">1.5</font></font></P></td>
-    <td width="166">
-      <P><font color="#000000"><font size="2" 
-      style="font-size: 11pt;">Asahi/Bank			Feeds/Recon</font></font></P></td></tr>
-  <tr valign="BOTTOM">
-    <td width="71" height="6">
-      <P align="RIGHT"><font color="#000000"><font size="2" style="font-size: 11pt;">24/08/2015</font></font></P></td>
-    <td width="50">
-      <P align="RIGHT"><font color="#000000"><font size="2" style="font-size: 11pt;">8.5</font></font></P></td>
-    <td width="166">
-      <P><font color="#000000"><font size="2" 
-      style="font-size: 11pt;">Office</font></font></P></td></tr>
-  <tr valign="BOTTOM">
-    <td width="71" height="6">
-      <P align="RIGHT"><font color="#000000"><font size="2" style="font-size: 11pt;">25/08/2015</font></font></P></td>
-    <td width="50">
-      <P align="RIGHT"><font color="#000000"><font size="2" style="font-size: 11pt;">8</font></font></P></td>
-    <td width="166">
-      <P><font color="#000000"><font size="2" 
-      style="font-size: 11pt;">Office</font></font></P></td></tr>
-  <tr valign="BOTTOM">
-    <td width="71" height="6">
-      <P align="RIGHT"><font color="#000000"><font size="2" style="font-size: 11pt;">31/08/2015</font></font></P></td>
-    <td width="50">
-      <P align="RIGHT"><font color="#000000"><font size="2" style="font-size: 11pt;">7</font></font></P></td>
-    <td width="166">
-      <P><font color="#000000"><font size="2" 
-      style="font-size: 11pt;">Office</font></font></P></td></tr>
-  <tr valign="BOTTOM">
-    <td width="71" height="6">
-      <P><br></P></td>
-    <td width="50">
-      <P><br></P></td>
-    <td width="166">
-      <P><br></P></td></tr>
-  <tr valign="BOTTOM">
-    <td width="71" height="6">
-      <P><br></P></td>
-    <td width="50">
-      <P align="RIGHT"><font color="#000000"><font size="2" style="font-size: 11pt;">58</font></font></P></td>
-    <td width="166">
-      <P><br></P></td></tr></TBODY></table>
-
-</div></BODY></HTML>
+</div>
+    
+    </BODY></HTML>
