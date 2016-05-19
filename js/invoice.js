@@ -60,13 +60,21 @@
                      //Setup info on page
 					document.getElementById('companyone').innerHTML = config[0].nameone;
 					document.getElementById('companytwo').innerHTML = config[0].nametwo;
-					document.getElementById('abn').innerHTML = config[0].abn;
+					document.getElementById('abn').innerHTML = "ABN: " + config[0].abn;
 					document.getElementById('bsb').innerHTML = config[0].bsb;
 					document.getElementById('accountno').innerHTML = config[0].account;
                     
-                    document.getElementById('contactdetails').innerHTML = client //MAKE THIS REA THE CLIENT DETAILS
+					document.getElementById('contactdetails').innerHTML = config[0].contact; 
 
 
+					var clientinfo = data.client + "<br />" 
+                    
+
+
+					document.getElementById('clientinfo').innerHTML = clientinfo;
+
+            
+            //INVOICE NUMBER FORMATTING
                     var invoicenumber = "Invoice No. "
                     var temp = $scope.storage.invoicenumber;
             var done = false       
@@ -95,7 +103,8 @@
                         invoicenumber += temp;
                     }
                   
-                    
+                    var date = "Date: " + data.createday + " " + data.createmonth + " " + data.createyear;
+            document.getElementById('date').innerHTML = date
 					
 
 					document.getElementById('invoicenumber').innerHTML = invoicenumber;

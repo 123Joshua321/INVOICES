@@ -270,14 +270,16 @@ var selectedformatglobal = "";
 											format: "short",
 											addressone: "123 Lol street",
 											addresstwo: "Le Lenny Town",
-											contact: "0400123456"
+											contact: "0400123456",
+                                            index: 1
 										} , {
 											name: "Default Client 2",
 											hourrate: 30.5,
 											format: "long",
 											addressone: "456 Rofl street",
 											addresstwo: "Le Lenny Town",
-											contact: "email@email.com"
+											contact: "email@email.com",
+                                            index: 2
 										}]
 							
 	});
@@ -341,6 +343,9 @@ var selectedformatglobal = "";
 	$scope.storage = $localStorage.$default({
 	    invoicenumber: 1
 	})
+	$scope.storage = $localStorage.$default({
+        clientindex: 2
+	})
 
         //---------------------END DEFAULT DATA-------------------------
 
@@ -377,7 +382,8 @@ var selectedformatglobal = "";
 							temp = temp.selectedIndex;
 							temp = parseInt(temp);
 							var selectedindex = temp;
-                            var hourrate = parseFloat(data[selectedindex].hourrate)
+							var hourrate = parseFloat(data[selectedindex].hourrate)
+							var clientindex = data[selectedindex].index;
 
 							temp = document.getElementById('todaydate');
 							var createday = temp.options[temp.selectedIndex].text;
@@ -459,7 +465,8 @@ var selectedformatglobal = "";
                                 invoicenumber: invoiceno,
                                 paid: "No",
                                 datepaid: "N/A",
-                                hourrate: hourrate
+                                hourrate: hourrate,
+                                index: clientindex
                                 
 
 							};
@@ -560,15 +567,18 @@ var selectedformatglobal = "";
 	    //------------------ADD CLIENT----------------
 
 		$scope.saveNewClient = function () {
+		    var index = $scope.storage.clientindex + 1;
 		    var clientdata = {
 		        name: $scope.addname,
 		        hourrate: parseFloat($scope.addhourrate),
 		        format: $scope.addformat,
 		        addressone: $scope.addaddressone,
 		        addresstwo: $scope.addaddresstwo,
-		        contact: $scope.addcontact
+		        contact: $scope.addcontact,
+                index: index
 		    }
 		    $localStorage.clientlist.push(clientdata);
+		    $scope.storage.clientindex = $scope.storage.clientindex + 1;
 
 		    $scope.addname = "";
 		    $scope.addformat = "short";
