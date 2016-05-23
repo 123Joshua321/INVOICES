@@ -63,15 +63,31 @@
 					document.getElementById('abn').innerHTML = "ABN: " + config[0].abn;
 					document.getElementById('bsb').innerHTML = config[0].bsb;
 					document.getElementById('accountno').innerHTML = config[0].account;
+					document.getElementById('bankname').innerHTML = config[0].bankname;
+					document.getElementById('terms').innerHTML = config[0].paymenttime + " " + config[0].paymentunit;
                     
 					document.getElementById('contactdetails').innerHTML = config[0].contact; 
 
 
-					var clientinfo = data.client + "<br />" 
+					var clientindex = data.index;
+					var i = 0;
+                    
+					var found = false;
+					while (i <= parseInt(clientinfo.length) && found == false) {
+					    if (parseInt(clientinfo[i].index) == parseInt(clientindex)) {
+					        found = true;
+					        clientinfo = clientinfo[i];
+					    }
+                        i++
+					}
+                
+                    var clientdata = ""
+                    clientdata = data.client + "<br />"
+                    clientdata = clientdata + clientinfo.addressone + "<br />" + clientinfo.addresstwo + "<br />" + clientinfo.contact;
                     
 
 
-					document.getElementById('clientinfo').innerHTML = clientinfo;
+					document.getElementById('clientinfo').innerHTML = clientdata;
 
             
             //INVOICE NUMBER FORMATTING

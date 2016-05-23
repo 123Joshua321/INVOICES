@@ -294,6 +294,7 @@ var selectedformatglobal = "";
 											contact: "0412345678 me@me.com",
 											paymenttime: 7,
 											paymentunit: "days",
+                                            bankname: "My Bank",
 											bsb: "000-111",
 											account: "1232 1234 1235 1385",
 							}]
@@ -424,7 +425,7 @@ var selectedformatglobal = "";
 							        hours[i-1] = parseFloat(document.getElementById('hours' + i).value);
 							        minutes[i-1] = parseFloat(document.getElementById('minutes' + i).value);
 							        workdone[i-1] = document.getElementById('workdone' + i).value;
-							        days[i - 1] = parseInteger(document.getElementById('day' + i).value);
+							        days[i - 1] = parseInt(document.getElementById('day' + i).value);
 							        pay = pay + (hours[i-1] * hourrate)
 							        temp = minutes[i-1] / 60 * hourrate;
 							        pay = pay + temp;
@@ -433,6 +434,7 @@ var selectedformatglobal = "";
 							        temp = temp.toFixed(2);
 							        totalhours = parseFloat(totalhours);
 							        totalhours = totalhours + parseFloat(temp);
+                                    
 							    }
 							}
 
