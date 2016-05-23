@@ -39,7 +39,7 @@ Copyright  2015  PCSquared.com.au
         <script src="js/ngStorage.min.js"></script> 
         <!-- YOUR CONTROL  logic------> 
         <script src="js/app.js"></script>
-    <script src="js/invoice.js"></script>
+ 
 </head>
 
 <body width="device-width" ng-controller="invoiceController" ng-init="startng()">
@@ -217,7 +217,6 @@ Copyright  2015  PCSquared.com.au
                         <h2>{{q.name}}</h2> 
                 <p>
                           
-
                          <strong>Client:</strong> {{q.client}} <br> 
                          
                          <strong> Hours Worked:</strong> {{q.totalhours}}  <br>
@@ -343,7 +342,7 @@ Copyright  2015  PCSquared.com.au
                
                <!---DELETE: POP UP WINDOW ---->
                         <div data-role="popup" id="deleteClient" data-theme="a" data-overlay-theme="b" class="ui-content" style="max-width:340px; padding-bottom:2em;">
-                                Do you really want to delete this client?<br>
+                                Do you really want to delete this client?<br>THIS WILL CAUSE ISSUES WITH VIEWING OLD INVOICES FROM THIS CLIENT<br />
                                 <a href="index.html" ng-click="deleteClientYes(index)"   data-rel="back" class="ui-shadow ui-btn ui-corner-all ui-btn-inline ui-mini">YES</a>
                                  <a href="index.html"   data-rel="back" class="ui-shadow ui-btn ui-corner-all ui-btn-inline ui-mini">Cancel</a>
                      	</div>  <!--end of delete pop-up-->

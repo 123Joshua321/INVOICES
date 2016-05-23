@@ -1,5 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//Dtd HTML 4.0 transitional//EN" ""><HTML ng-app="app"><HEAD><META 
-content="IE=5.0000" http-equiv="X-UA-Compatible">
+<!DOCTYPE html PUBLIC "-//W3C//Dtd HTML 4.0 transitional//EN" ""><HTML ng-app="app"><HEAD>
 	 
 <META http-equiv="Content-Type" content="text/html; charset=windows-1252">
 	 <TITLE>Invoice</TITLE>	 
@@ -13,9 +12,9 @@ content="IE=5.0000" http-equiv="X-UA-Compatible">
 	</STYLE>
   
   <!--JQUERY-->
-        <script src="js/jquery-1.8.3.min.js"></script>
+        <script src="js/jquery-1.8.3.min.js" type="text/javascript"></script>
 
-                   <script>
+                   <script type="text/javascript">
                 $(document).bind('mobileinit',function(){
                 $.mobile.changePage.defaults.changeHash = false;
                $.mobile.hashListeningEnabled = false;
@@ -23,13 +22,16 @@ content="IE=5.0000" http-equiv="X-UA-Compatible">
             });</script>
 
              <!-----------JQUERY MOBILE---------------------->
-       <script src="js/jquery.mobile-1.4.0.min.js"></script> 
+       <script src="js/jquery.mobile-1.4.0.min.js" type="text/javascript"></script> 
   <!-------------------ANGULAR   ---------------------->
-        <script src="js/angular.min.js"></script>
+        <script src="js/angular.min.js" type="text/javascript"></script>
        <!--ngStorage-->
-        <script src="js/ngStorage.min.js"></script> 
+        <script src="js/ngStorage.min.js" type="text/javascript"></script> 
         <!-- YOUR CONTROL  logic------> 
-        <script src="js/invoice.js"></script>
+        <script src="js/invoice.js" type="text/javascript"></script>
+    <!--CSS needed to jquery doesn't get mad :/-->
+    <link rel="stylesheet" href="css/jquery.mobile.icons-1.4.0.min.css" />
+         <link rel="stylesheet" href="css/jquery.mobile.structure-1.4.0.css" />
  </HEAD> 
 <BODY   ng-controller="invoiceController" ng-init="loadinvoice()" >
 
@@ -70,34 +72,21 @@ content="IE=5.0000" http-equiv="X-UA-Compatible">
 <P style="margin-bottom: 0.14in;"><br><br></P>
     <br />
 
-    <span id="shortlong" style="position:absolute;left:0px">
+    <!--HOURS-->
+    
+   
+         <p style="margin-bottom: 0.14in;text-align:justify" >
+             <font color="#002060" size="2" style="font-size: 11pt;">
+        <span id="hours">
 
-        <!--SHORT INVOICE FORMAT-->
-        <!----<div id="shortformat">
-        <font color="#002060" size="2" style="font-size: 11pt;">
-            <p style="margin-bottom: 0.14in;text-align:justify" >
-            <span style="float:left" id="invoicemonth"> December 2014</span>
-            &nbsp;&nbsp; <span id="hoursathour">10.00 hours @ $40.00/hr </span>
-             <span style="float:right" id="totaldollarsshort">$400.00</span><br>
-                    <span style="text-align:center">
-                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                   AS PER ATTACHED TIMESHEET</span></p>
-             </font>
-        </div>
-            -->
-        <!--LONG INVOICE FORMAT-->
-        <!--
-        <div id="longformat">
-        <font color="#002060" size="2" style="font-size: 11pt;">
-            <p style="margin-bottom: 0.14in;text-align:justify">
-              <div id="longformathours">
-              </div>
-             </p>
+        </span>
+             
+        
+            
         </font>
-        </div>
-            -->
-    </span>
+        </p>
+   
+        
 <p style="margin-bottom: 0.14in;"><br><br></p>
         <br /><br /><br />
 
@@ -111,11 +100,8 @@ content="IE=5.0000" http-equiv="X-UA-Compatible">
 <P style="margin-bottom: 0.14in;"><font color="#002060"><font size="2" style="font-size: 11pt;">
   Terms: <span id="terms">terms error</span>
  </font></font></P>
- <span id="breaks"><br /><br /><br /><br /><br /><br /></span>
 
- <!--TIMESHEET-->
- <div id="timesheet">
-
-</div>
+    <span id="timesheet"></span>
+ 
     
     </BODY></HTML>

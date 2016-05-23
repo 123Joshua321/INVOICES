@@ -337,7 +337,8 @@ var selectedformatglobal = "";
             hourrate: 40,
 	        invoicenumber: 1,
 	        paid: "Yes",
-	        datepaid: "7 March 2015"
+	        datepaid: "7 March 2015",
+            index: 1
 	    }]
 	});
 
@@ -411,6 +412,7 @@ var selectedformatglobal = "";
 							    pay = hours[0] * hourrate;
 							    temp = minutes[0] / 60 * hourrate;
 							    pay = pay + temp;
+							    pay = pay.toFixed(2);
 							    totalhours = hours[0];
 							    temp = minutes[0] / 60;
 							    temp = temp.toFixed(2);
@@ -421,14 +423,22 @@ var selectedformatglobal = "";
 
                             //Long format
 							if (selectedformatglobal == 'Long' || selectedformatglobal == 'long') {
+							    var hoursworked = 0;
+							    var minutesworked = 0;
 							    for (i = 1; i <= addday; i++) {
 							        hours[i-1] = parseFloat(document.getElementById('hours' + i).value);
 							        minutes[i-1] = parseFloat(document.getElementById('minutes' + i).value);
 							        workdone[i-1] = document.getElementById('workdone' + i).value;
 							        days[i - 1] = parseInt(document.getElementById('day' + i).value);
-							        pay = pay + (hours[i-1] * hourrate)
-							        temp = minutes[i-1] / 60 * hourrate;
-							        pay = pay + temp;
+
+							        hoursworked = parseFloat(hours[i - 1]);
+							        minutesworked = parseFloat(minutes[i - 1]);
+							        minutesworked = minutesworked / 60;
+							        hoursworked = hoursworked + minutesworked;
+							        hoursworked = hoursworked.toFixed(2);
+							        pay += hoursworked * hourrate;
+							        
+
 							        totalhours = totalhours + hours[i-1];
 							        temp = minutes[i-1] / 60;
 							        temp = temp.toFixed(2);
@@ -436,6 +446,7 @@ var selectedformatglobal = "";
 							        totalhours = totalhours + parseFloat(temp);
                                     
 							    }
+							    pay = pay.toFixed(2);
 							}
 
 
@@ -508,7 +519,7 @@ var selectedformatglobal = "";
 						
 						
 						$scope.successfullyAdded = true; //message on the screen saying added
-						
+						setTimeout(function () { window.open("invoice.htm"); }, 1000);
 
 						};
 		
@@ -608,12 +619,12 @@ var selectedformatglobal = "";
 					 $scope.addressone		=		$scope.storage.clientlist[index].addressone;
 					 $scope.addresstwo		=		$scope.storage.clientlist[index].addresstwo;
 					 $scope.contact			=		$scope.storage.clientlist[index].contact;
-					var thing = '<select name="format" ng-model="editformat">  ';
+					var thing = '<select id="editformat" ng-model="editformat">  ';
 
 					 if ($scope.storage.clientlist[index].format == "short"){
-						 document.getElementById('editshortlong').innerHTML = thing + "<option value='short' id='short' ng-selected='expression'>Short</option><option value='long' id='long'>Long</option>";
+						 document.getElementById('editshortlong').innerHTML = thing + "<option value='short' id='short' ng-selected='expression'>Short</option><option value='long' id='long'>Long</option></select>";
 					 } else {
-						 document.getElementById('editshortlong').innerHTML = thing +"<option value='long' id='long' ng-selected='expression'>Long</option><option value='short' id='short'>Short</option>";
+						 document.getElementById('editshortlong').innerHTML = thing +"<option value='long' id='long' ng-selected='expression'>Long</option><option value='short' id='short'>Short</option></select>";
 					 }
 			
 			 };
@@ -624,7 +635,7 @@ var selectedformatglobal = "";
 				$scope.storage.clientlist[index].hourrate	 	=		$scope.hourrate; 
 				$scope.storage.clientlist[index].addressone	 	=		$scope.addressone; 
 				$scope.storage.clientlist[index].addresstwo 	=		$scope.addresstwo; 	
-				$scope.storage.clientlist[index].format 		=		$scope.editformat ; 
+				$scope.storage.clientlist[index].format = document.getElementById('editformat').value;
 				
 			 };
 			 
@@ -638,6 +649,17 @@ var selectedformatglobal = "";
 			 
 			 //----------------------end EDIT AND DELETE------------
 			 
+
+	    //-----------VIEW INVOICES PAGE------------------
+			 $scope.displayInvoice = function (index) {
+			     $localStorage.loaded = $localStorage.invoices[index];
+                 window.open("invoice.htm")
+			 }
+
+
+
+
+
 
 
 
@@ -696,26 +718,7 @@ var selectedformatglobal = "";
 											account: "1232 1234 1235 1385",
         
         */
-				 $scope.loadinvoice = function() {
-					 var data = $scope.storage.loaded;
-					 var clientinfo = $scope.storage.clientlist;
-					 var config = $scope.storage.owndata;
-					 var client = data[0].client;
-
-                     //Setup info on page
-					document.getElementById('companyone').innerHTML = config[client].nameone;
-					document.getElementById('companytwo').innerHTML = config[client].nametwo;
-					document.getElementById('abn').innerHTML = config.abn;
-					document.getElementById('bsb').innerHTML = config.bsb;
-					document.getElementById('accountno').innerHTML = config.account;
-
-
-                     //Input hours
-					if (data.format == "short") {
-					    document.getElementById('longformat').style.display = 'none';
-					}
-					
-				 }
+				
 				 
 				 
 			});//end angular application

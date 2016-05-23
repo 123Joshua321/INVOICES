@@ -52,7 +52,7 @@
         */
 	    $scope.loadinvoice = function () {
 	    
-					 var data = $scope.storage.loaded;
+					 var data = $localStorage.loaded;
 					 var clientinfo = $scope.storage.clientlist;
 					 var config = $scope.storage.owndata;
 					 var client = data.client;
@@ -68,7 +68,7 @@
                     
 					document.getElementById('contactdetails').innerHTML = config[0].contact; 
 
-
+                    //CLIENT DATA
 					var clientindex = data.index;
 					var i = 0;
                     
@@ -89,7 +89,7 @@
 
 					document.getElementById('clientinfo').innerHTML = clientdata;
 
-            
+
             //INVOICE NUMBER FORMATTING
                     var invoicenumber = "Invoice No. "
                     var temp = $scope.storage.invoicenumber;
@@ -125,10 +125,77 @@
 
 					document.getElementById('invoicenumber').innerHTML = invoicenumber;
 
+	        //HOURS WORKED SECTION
+            var hours = ""
+					if (data.format == "short" || data.format == "Short") {
+					    hours = '<span style="float:left" > ' + data.month + " " + data.year + "</span>&nbsp;&nbsp;";
+					    hours += '<span >' + (data.totalhours).toFixed(2) + " hours @ $" + (data.hourrate).toFixed(2) + "/hr </span>";
+					    hours += '<span style="right:0px;position:absolute" >$' + data.totalpay + '</span><br>';
+					    hours += '<span style="text-align:center">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AS PER ATTACHED TIMESHEET</span>'
+					}
 
-					
-				 }
+					if (data.format == "long" || data.format == "Long") {
+					    var pay = 0.0;
+					    var hoursworked = 0.0
+					    var minutesworked = 0.0
+					    var hourrate = parseFloat(data.hourrate);
+					    for (var i = 1; i <= data.noofdays; i++) {
+					        hours += '<span style="float:left" > ' + data.days[i - 1] + " " + data.month + "</span>&nbsp;&nbsp;";
+					        
+					        hoursworked = parseFloat(data.hours[i - 1]);
+					        minutesworked = parseFloat(data.minutes[i - 1]);
+					        minutesworked = minutesworked / 60;
+					        hoursworked = hoursworked + minutesworked;
+					        hoursworked = hoursworked.toFixed(2);
+					        hours += '<span >' + hoursworked + " hours @ $" + (data.hourrate).toFixed(2) + "/hr </span>";
+					        pay = hoursworked * hourrate;
+					        pay = pay.toFixed(2);
+					        hours += '<span style="right:0px;position:absolute" >$' + pay + '</span><br>';
+					        hours += '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>' + data.workdone[i - 1] + '</span><br>';
+					    }
+					    hours += '<span style="right:0px;position:absolute" >------------</span><br /><span style="right:0px;position:absolute" >$ ' + data.totalpay;
+					}
+					document.getElementById('hours').innerHTML = hours;
+
+
+					if (data.enabletimesheet == true) {
+					    var timesheet = '<br /><br /><br /><br /><div>';
+					    timesheet += data.notes;
+					    timesheet += '</div>';
+					    document.getElementById('timesheet').innerHTML = timesheet;
+					}
+	    }
+	   
 				 
+
+	    /*
+        DATA VALUES:
+         client:                client,
+							    format:                selectedformatglobal,
+							    createday:             createday,
+							    createmonth:           createmonth,
+                                createyear:            createyear,
+								days:                   days,
+								hours:                  hours,
+								minutes:                minutes,
+								workdone:               workdone,
+								month:                  invoicemonth,
+                                year:                   invoiceyear,
+                                notes:                  timesheet,
+                                enabletimesheet:        enabletimesheet,
+                                noofdays:               addday,
+                                followupsent: "No",
+                                totalhours: totalhours,
+                                totalpay: pay,
+                                invoicenumber: invoiceno,
+                                paid: "No",
+                                datepaid: "N/A",
+                                hourrate: hourrate,
+                                index: clientindex
+
+
+
+        */
 				 
 			});//end angular application
 //NOTE:  this directive fixes the clash between JQuery Mobile and  Angular when they both try to refresh an item you add to a listview
