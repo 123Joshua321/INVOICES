@@ -49,7 +49,7 @@ var selectedformatglobal = "";
 			dayselect = dayselect + "<option value='29'>29</option>";
 			dayselect = dayselect + "<option value='30'>30</option>";
 			dayselect = dayselect + "<option value='31'>31</option>";
-			
+			var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
 			
 	var app = angular.module('app',['ngStorage']);
 			
@@ -107,11 +107,12 @@ var selectedformatglobal = "";
 		var form = "";
 		
 		i = 0;
-		
+		var reports = "<option value='all'>All clients</option>";
 		for(i=0;i<data.length;i++){
-			document.getElementById('clientselect').innerHTML += "<option  id=" + i + "value='" + data[i].name + "'>" + data[i].name + "</option>";
+		    document.getElementById('clientselect').innerHTML += "<option  id=" + i + "value='" + data[i].name + "'>" + data[i].name + "</option>";
+		    reports += "<option value='" + data[i].name + "'>" + data[i].name + "</option>"
 		}
-		
+		document.getElementById('reportclient').innerHTML = reports;
 
         
 		
@@ -150,15 +151,15 @@ var selectedformatglobal = "";
 
 		form = form + "</div>";
 		
-
+            form = form + "<br /><b>Personal notes</b><br /><textarea rows='1' cols='40' id='personalnotes'></textarea>"
         //TIMESHEET/NOTES INPUT
-		var timesheet = "<br><b>Notes</b><br><textarea rows='7' cols='25' id='timesheet' ng-model='timesheet'></textarea>";
+		var timesheet = "<br><b>Timesheet</b><br /><textarea rows='7' cols='25' id='timesheet' ng-model='timesheet'></textarea>";
 		form = form + timesheet;
 
 
-        //CHECKBOX FOR USING NOTES AS TIMESHEET
+        
 		
-		form = form + "<br>Use notes as timesheet:<input type='checkbox' id='enabletimesheet' ng-model='enabletimesheet'/>"
+		
 
 
 			//document.getElementById('selectformat').selectedIndex = data[i].format
@@ -166,7 +167,7 @@ var selectedformatglobal = "";
         
 		document.getElementById('formthing').innerHTML = form;
 		
-		
+		document.getElementById('formthing').style.visibility = "hidden";
 		
 
 
@@ -207,6 +208,7 @@ var selectedformatglobal = "";
 
 
 	        document.getElementById('shortlong').innerHTML = form;
+	        document.getElementById('formthing').style.visibility = "visible";
 
 	    }
 	
@@ -238,6 +240,7 @@ var selectedformatglobal = "";
 	            selectedformatglobal = 'long';
 	        }
 	        document.getElementById('shortlong').innerHTML = form;
+	        document.getElementById('formthing').style.visibility = "hidden";
 	    }
 
         //---------------------END FORMAT FORM FUNCTION - FORMAT
@@ -294,6 +297,7 @@ var selectedformatglobal = "";
 											contact: "0412345678 me@me.com",
 											paymenttime: 7,
 											paymentunit: "days",
+                                            paymentenabled: true,
                                             bankname: "My Bank",
 											bsb: "000-111",
 											account: "1232 1234 1235 1385",
@@ -338,7 +342,8 @@ var selectedformatglobal = "";
 	        invoicenumber: 1,
 	        paid: "Yes",
 	        datepaid: "7 March 2015",
-            index: 1
+	        index: 1,
+	        personalnotes: "DEFAULT INVOICE"
 	    }]
 	});
 
@@ -398,129 +403,151 @@ var selectedformatglobal = "";
 
                             
 							var invoiceno = parseInt($localStorage.invoicenumber) + 1;
+							var notes2 = document.getElementById('personalnotes').value;
 							
 							var i = 1;
 							var pay = 0.0;
 							var totalhours = 0.0;
 	    
-        
-                            //Short format
-							if (selectedformatglobal == 'Short' || selectedformatglobal == 'short') {
-							    hours[0] = document.getElementById('hours1').value;
-							    minutes[0] = document.getElementById('minutes1').value;
-							    workdone[0] = document.getElementById('workdone1').value;
-							    pay = hours[0] * hourrate;
-							    temp = minutes[0] / 60 * hourrate;
-							    pay = pay + temp;
-							    pay = pay.toFixed(2);
-							    totalhours = hours[0];
-							    temp = minutes[0] / 60;
-							    temp = temp.toFixed(2);
-							    totalhours = parseFloat(totalhours);
-							    totalhours = totalhours + parseFloat(temp);
-                                    	}
+
+	    //VALIDATION----------------
+							var error = false;
 
 
-                            //Long format
-							if (selectedformatglobal == 'Long' || selectedformatglobal == 'long') {
-							    var hoursworked = 0;
-							    var minutesworked = 0;
-							    for (i = 1; i <= addday; i++) {
-							        hours[i-1] = parseFloat(document.getElementById('hours' + i).value);
-							        minutes[i-1] = parseFloat(document.getElementById('minutes' + i).value);
-							        workdone[i-1] = document.getElementById('workdone' + i).value;
-							        days[i - 1] = parseInt(document.getElementById('day' + i).value);
 
-							        hoursworked = parseFloat(hours[i - 1]);
-							        minutesworked = parseFloat(minutes[i - 1]);
-							        minutesworked = minutesworked / 60;
-							        hoursworked = hoursworked + minutesworked;
-							        hoursworked = hoursworked.toFixed(2);
-							        pay += hoursworked * hourrate;
-							        
 
-							        totalhours = totalhours + hours[i-1];
-							        temp = minutes[i-1] / 60;
+
+							if (error == false) {
+
+							    //Short format
+							    if (selectedformatglobal == 'Short' || selectedformatglobal == 'short') {
+							        hours[0] = document.getElementById('hours1').value;
+							        minutes[0] = document.getElementById('minutes1').value;
+							        workdone[0] = document.getElementById('workdone1').value;
+							        if (hours[0] == "" || minutes[0] == "") { error = true }
+							        pay = hours[0] * hourrate;
+							        temp = minutes[0] / 60 * hourrate;
+							        pay = pay + temp;
+							        pay = pay.toFixed(2);
+							        totalhours = hours[0];
+							        temp = minutes[0] / 60;
 							        temp = temp.toFixed(2);
 							        totalhours = parseFloat(totalhours);
 							        totalhours = totalhours + parseFloat(temp);
-                                    
 							    }
-							    pay = pay.toFixed(2);
-							}
+
+							    var hourerror = false
+                                var minuteerror = false
+							    //Long format
+							    if (selectedformatglobal == 'Long' || selectedformatglobal == 'long') {
+							        var hoursworked = 0;
+							        var minutesworked = 0;
+							        for (i = 1; i <= addday; i++) {
+							            minuteerror = true;
+							            hourerror = true;
+							            if (!isNaN(document.getElementById('hours' + i).value)) {
+							                hours[i - 1] = parseFloat(document.getElementById('hours' + i).value);
+                                            hourerror = false
+							            }
+							            if (!isNaN(document.getElementById('minutes' + i).value)) {
+							                minutes[i - 1] = parseFloat(document.getElementById('minutes' + i).value)
+                                            minuteerror = false
+							            };
+							            workdone[i - 1] = document.getElementById('workdone' + i).value;
+							            days[i - 1] = parseInt(document.getElementById('day' + i).value);
+							            if (hourerror == true) { hours[i - 1] = 0; hourerror = false }
+							            if (minuteerror == true) { minutes[i - 1] = 0; minuteerror = false}
+							            hoursworked = parseFloat(hours[i - 1]);
+							            minutesworked = parseFloat(minutes[i - 1]);
+							            minutesworked = minutesworked / 60;
+							            hoursworked = hoursworked + minutesworked;
+							            hoursworked = hoursworked.toFixed(2);
+							            pay += hoursworked * hourrate;
+
+							            totalhours = totalhours + hours[i - 1];
+							            temp = minutes[i - 1] / 60;
+							            temp = temp.toFixed(2);
+							            totalhours = parseFloat(totalhours);
+							            totalhours = totalhours + parseFloat(temp);
+
+							        }
+							        pay = pay.toFixed(2);
+							    }
 
 
-	   
-
-							var enabletimesheet = document.getElementById('enabletimesheet').checked;
-						
 
 
-
-							var addInvoiceData = {
-							    client:                client,
-							    format:                selectedformatglobal,
-							    createday:             createday,
-							    createmonth:           createmonth,
-                                createyear:            createyear,
-								days:                   days,
-								hours:                  hours,
-								minutes:                minutes,
-								workdone:               workdone,
-								month:                  invoicemonth,
-                                year:                   invoiceyear,
-                                notes:                  timesheet,
-                                enabletimesheet:        enabletimesheet,
-                                noofdays:               addday,
-                                followupsent: "No",
-                                totalhours: totalhours,
-                                totalpay: pay,
-                                invoicenumber: invoiceno,
-                                paid: "No",
-                                datepaid: "N/A",
-                                hourrate: hourrate,
-                                index: clientindex
-                                
-
-							};
-							var number = {
-                                invoicenumber: invoiceno
-							}
-						   
-							$localStorage.invoicenumber = invoiceno;
-
-							addday = 1;
-							$localStorage.invoices.push(addInvoiceData);
-							$localStorage.loaded = addInvoiceData;
-						
 							
-							document.getElementById('enabletimesheet').checked = false;
-							document.getElementById('todayyear').selectedIndex = 0;
-							document.getElementById('todaymonth').selectedIndex = 0;
-							document.getElementById('todaydate').selectedIndex = 0;
-							document.getElementById('clientselect').selectedIndex = 0;
-							document.getElementById('invoiceyear').selectedIndex = 0;
-							document.getElementById('invoicemonth').selectedIndex = 0;
-							document.getElementById('timesheet').value = "";
-							for (i = 1; i <= addday; i++) {
-							    if (selectedformatglobal == 'long' || selectedformatglobal == 'Long') {
-							        document.getElementById('hours' + i).value = "";
-							        document.getElementById('minutes' + i).value = "";
-							        document.getElementById('workdone' + i).value = "";
-							        document.getElementById('day' + i).value = "";
-							        document.getElementById('moredays').innerHTML = "";
-							    } else {
-							        document.getElementById('hours1').value = "";
-							        document.getElementById('minutes1').value = "";
-							        document.getElementById('workdone1').value = "";
+
+
+
+							    if (error == false) {
+							        var addInvoiceData = {
+							            client: client,
+							            format: selectedformatglobal,
+							            createday: createday,
+							            createmonth: createmonth,
+							            createyear: createyear,
+							            days: days,
+							            hours: hours,
+							            minutes: minutes,
+							            workdone: workdone,
+							            month: invoicemonth,
+							            year: invoiceyear,
+							            notes: timesheet,
+							            enabletimesheet: true,
+							            noofdays: addday,
+							            followupsent: "No",
+							            totalhours: totalhours,
+							            totalpay: pay,
+							            invoicenumber: invoiceno,
+							            paid: "No",
+							            datepaid: "N/A",
+							            hourrate: hourrate,
+							            index: clientindex,
+                                        personalnotes: notes2
+
+
+							        };
+							        var number = {
+							            invoicenumber: invoiceno
+							        }
+
+							        $localStorage.invoicenumber = invoiceno;
+
+							        addday = 1;
+							        $localStorage.invoices.push(addInvoiceData);
+							        $localStorage.loaded = addInvoiceData;
+
+
+							        document.getElementById('enabletimesheet').checked = false;
+							        document.getElementById('todayyear').selectedIndex = 0;
+							        document.getElementById('todaymonth').selectedIndex = 0;
+							        document.getElementById('todaydate').selectedIndex = 0;
+							        document.getElementById('clientselect').selectedIndex = 0;
+							        document.getElementById('invoiceyear').selectedIndex = 0;
+							        document.getElementById('invoicemonth').selectedIndex = 0;
+							        document.getElementById('timesheet').value = "";
+							        for (i = 1; i <= addday; i++) {
+							            if (selectedformatglobal == 'long' || selectedformatglobal == 'Long') {
+							                document.getElementById('hours' + i).value = "";
+							                document.getElementById('minutes' + i).value = "";
+							                document.getElementById('workdone' + i).value = "";
+							                document.getElementById('day' + i).value = "";
+							                document.getElementById('moredays').innerHTML = "";
+							            } else {
+							                document.getElementById('hours1').value = "";
+							                document.getElementById('minutes1').value = "";
+							                document.getElementById('workdone1').value = "";
+							            }
+							        }
+
+
+
+							        $scope.successfullyAdded = true; //message on the screen saying added
+							        setTimeout(function () { $scope.successfullyAdded = false; window.open("invoice.htm"); }, 1000);
 							    }
 							}
-
-						
-						
-						$scope.successfullyAdded = true; //message on the screen saying added
-						setTimeout(function () { window.open("invoice.htm"); }, 1000);
-
 						};
 		
 						
@@ -558,20 +585,46 @@ var selectedformatglobal = "";
 
 		//----------------------SETTINGS PAGE------------------
 			 
+	$scope.editscreenpopulate = function () {
+	    document.getElementById('namerow1').value = $scope.storage.owndata[0].nameone;
+	    document.getElementById('namerow2').value = $scope.storage.owndata[0].nametwo; //-------------------------FIX THIS. REPLACE WITH DOCUMENT.GETELEMENTBYID?
+	    document.getElementById('abn').value = $scope.storage.owndata[0].abn;
+	    document.getElementById('contactdetails').value = $scope.storage.owndata[0].contact;
+	    document.getElementById('paymentnumber').value = parseInt($scope.storage.owndata[0].paymenttime);
+	    document.getElementById('bankname').value = $scope.storage.owndata[0].bankname;
+	    document.getElementById('bsb').value = $scope.storage.owndata[0].bsb;
+	    document.getElementById('accountnumber').value = $scope.storage.owndata[0].account;
+	    document.getElementById('enableterms').checked = $scope.storage.owndata[0].paymentenabled;
+        
+	    document.getElementById('termsunits').value = $scope.storage.owndata[0].paymentunit;
+	    
+	}
+
 		$scope.updateSettings = function () {
 				var updateSettings = {
-						age:		$scope.age, 
+				    nameone:        document.getElementById('namerow1').value,
+				    nametwo:        document.getElementById('namerow2').value,
+				    abn:            document.getElementById('abn').value,
+				    contact:        document.getElementById('contactdetails').value,
+				    paymenttime:    document.getElementById('paymentnumber').value,
+				    paymentunit:    document.getElementById('termsunits').value,
+				    bankname:       document.getElementById('bankname').value,
+				    bsb:            document.getElementById('bsb').value,
+				    account:        document.getElementById('accountnumber').value,
+				    paymentenabled: document.getElementById('enableterms').checked
+
 				};
 				
-				$localStorage.appsettings.push(updateSettings);
+				$localStorage.owndata.push(updateSettings);
 				
-				$scope.age	 = 		"";
-				$scope.storage.appsettings.splice(0, 1);
+				
+				$scope.storage.owndata.splice(0, 1);
 				
 				$scope.successfullyUpdated = true;
+				
 		};
 		
-			
+		$scope.ClearSettingsMessage = function () { $scope.successfullyUpdated = false };
 		
 			
 	//----------------------------END SETTINGS--------------------
@@ -657,15 +710,140 @@ var selectedformatglobal = "";
 			 }
 
 
+			 $scope.markpaid = function (index) {
+			     $scope.storage.invoices[index].paid = "Yes"
 
+			     //Code modified, from http://stackoverflow.com/questions/1531093/how-to-get-current-date-in-javascript
+			     var today = new Date();
+			     var dd = today.getDate();
+			     var mm = today.getMonth(); 
+			     var yyyy = today.getFullYear();
 
+			     if (dd < 10) {
+			         dd = '0' + dd
+			     }
+			     mm = months[mm];
+			     today = dd + ' ' + mm + ' ' + yyyy;
+			     $scope.storage.invoices[index].datepaid = today;
+			 }
+			 $scope.displayFollowupInvoice = function (index) {
+			     $localStorage.loaded = $localStorage.invoices[index];
+			     $localStorage.invoices[index].followupsent = "Yes";
+			     window.open("invoice.htm");
+			 }
 
+			 $scope.deleteinvoice = function (index) {
+			     var d = new Date();
+			     var currentyear = d.getFullYear();
+			     var invoice = $scope.storage.invoices[index];
+			     var allowed = true
+			     var invoiceyear = parseInt(invoice.createyear);
+			     if (invoiceyear > currentyear - 6) {
+			         allowed = false;
+			     }
+			     if (allowed == true) {
+			         allowed = false
+			         if (invoiceyear < currentyear - 7) {
+			             allowed = true;
+			         }
+
+			         var i = 0;
+			         var found = false;
+			         while (i <= 11 && found == false) {
+			             if (invoice.createmonth == months[i]) {
+			                 found = true;
+                             var monthindex = i
+			             }
+			             i++;
+			         }
+
+			         if (invoiceyear == currentyear - 7) {
+			             if (d.getMonth() > monthindex) {
+			                 allowed = true;
+			             }
+			         }
+			         if (d.getMonth() == monthindex && d.getDate() > parseInt(invoice.createday)) {
+			             allowed = true;
+			         }
+			     }
+
+			     if (allowed == false) {
+			         alert("This invoice is too young and cannot be deleted. Invoices must be 7 years old to be deleted.");
+			     }
+			     if (allowed == true) {
+			         $scope.storage.invoices.splice(index, 1);
+			     }
+			 }
 
 
 
 			 //---------------------------REPORTS-------------------------
-			 	$scope.showReports = function() {
-					 	 
+			 	$scope.earningsreport = function() {
+			 	    var type = $('input[name="g1"]:checked').val();
+			 	    var client = document.getElementById('reportclient').value;
+			 	    var data = $scope.storage.invoices;
+			 	    var totalearnings = 0.0;
+			 	    var number = 0;
+
+			 	    var day1 = 0;
+			 	    var day2 = 0;
+			 	    var month1 = 0;
+			 	    var month2 = 0;
+			 	    var year1 = 0;
+			 	    var year2 = 0;
+			 	    var testday = 0;
+			 	    var testmonth = 0;
+			 	    var testyear = 0;
+
+
+			 	    if (type == "ytd") {
+			 	        var d = new Date();
+			 	        year2 = d.getFullYear();
+			 	        month2 = d.getMonth();
+			 	        day2 = d.getDate();
+			 	        day1 = 1;
+			 	        month1 = 6;
+			 	        year1 = d.getFullYear() - 1
+			 	        
+			 	    }
+
+
+
+
+			 	    for (var i = 0; i < data.length; i++) {
+			 	        if (data[i].client == client || client == "all") {
+			 	            if (type == "all") {
+			 	                number = number + 1;
+			 	                totalearnings = totalearnings + parseFloat(data[i].totalpay);
+			 	            } else {
+			 	                testyear = data[i].createyear;
+			 	                for (var e = 0; e <= 11; e++) {
+			 	                    if (data[i].createmonth = months[e]) {
+			 	                        testmonth = e;
+			 	                        e = 12;
+			 	                    }
+			 	                }
+			 	                testday = parseInt(data[i].createday);
+			 	                if (dateRange(day1, month1, year1, day2, month2, year2, testday, testmonth, testyear) == true) {
+			 	                    number = number + 1;
+			 	                    totalearnings = totalearnings + parseFloat(data[i].totalpay);
+			 	                }
+			 	            }
+			 	        }
+			 	    }
+			 	    var average = totalearnings / number;
+			 	    if (isNaN(average)) {
+                        average = 0
+			 	    }
+
+			 	    if (number == 1) {
+			 	        var plural = " invoice.";
+			 	    } else {
+			 	        var plural = " invoices.";
+			 	    }
+			 	    var output = "The total earnings for the given client and time period was " + totalearnings;
+			 	    output = output + " . The average earnings per invoice was " + average + " which was over " + number + plural;
+			 	    document.getElementById('earningsreportresults').innerHTML = output;
 				 }; 
 				 
 				 
@@ -675,50 +853,50 @@ var selectedformatglobal = "";
 
 			
 
+			 	$scope.appreport = function () {
+			 	    document.getElementById('appreport').innerHTML = "There are approx. " + JSON.stringify(localStorage).length + " bytes of localstorage being used. The total storage is approx. 5000000 (5 million) bytes"
+			 	}
 
 
 
 
+	    //-----------GENERIC CODE MODULE
+			 	function dateRange(day1, month1, year1, day2, month2, year2, testday, testmonth, testyear) {
+			 	    if (year1 < testyear && testyear < year2) {
+			 	        return true;
+			 	    } else {
+			 	        if (year1 <= testyear && testyear < year2) {
+			 	            if (month1 < testmonth) {
+			 	                return true;
+			 	            } else {
+			 	                if (month1 <= testmonth) {
+			 	                    if (day1 <= testday) {
+			 	                        return true;
+			 	                    } else {
+			 	                        return false;
+			 	                    }
+			 	                }
+			 	            }
+			 	        } else {
+			 	            if (year1 < testyear && testyear <= year2) {
+			 	                if (month2 > testmonth) {
+			 	                    return true;
+			 	                } else {
+			 	                    if (month2 >= testmonth) {
+			 	                        if (day2 >= testday) {
+			 	                            return true;
+			 	                        } else {
+			 	                            return false;
+			 	                        }
+			 	                    }
+			 	                }
+			 	            }
+			 	        }
+			 	    }
+			 	    return false;
+			 	}
 
 
-				/*------------------------------
-				---------------------------------INVOICE.HTM CODE
-				----------------------------------
-				---------------------------------*/
-
-	   /* client:                client,
-	    format:                selectedformatglobal,
-	    createday:             createday,
-	    createmonth:           createmonth,
-	    createyear:            createyear,
-	    days:                   days,
-	    hours:                  hours,
-	    minutes:                minutes,
-	    workdone:               workdone,
-	    month:                  invoicemonth,
-	    year:                   invoiceyear,
-	    notes:                  timesheet,
-	    enabletimesheet:        enabletimesheet,
-	    noofdays:               addday,
-	    followupsent: "No",
-	    totalhours: totalhours,
-	    totalpay: pay,
-	    invoicenumber: invoiceno,
-	    paid: "No",
-	    datepaid: "N/A",
-	    hourrate: hourrate
-        
-        nameone: "Default Company 1",
-											nametwo: "Default Company 2",
-											abn: "1234567890",
-											contact: "0412345678 me@me.com",
-											paymenttime: 7,
-											paymentunit: "days",
-											bsb: "000-111",
-											account: "1232 1234 1235 1385",
-        
-        */
-				
 				 
 				 
 			});//end angular application

@@ -79,7 +79,7 @@ Copyright  2015  PCSquared.com.au
             <div>
                 <div class="ui-body ui-body-b" align="left">
                     <span ng-if="successfullyAdded" style="font-size:24px"><b>Your invoice has been successfully added</b> </span><br />
-                    <b style="font-size:20px">Client </b> <br><select id="clientselect" ng-model="clientselect" ng-change="formatChangeClient()"></select>
+                    <b style="font-size:20px">Client </b> <br><select id="clientselect" ng-model="clientselect" ng-change="formatChangeClient()" autofocus></select>
                    <!---- <br /><b>Invoice Format</b><br /><select ng-model='selectformat' id='selectformat' ng-change="formatChangeFormat()"><option value='short'>Short</option><option value='long'>Long</option></select> -->
 
                     <span id="formthing" ng-model="formthing"></span>
@@ -90,9 +90,7 @@ Copyright  2015  PCSquared.com.au
             </div>
 </div><!-- /main content -->
 
-        <div data-role="footer" data-position="fixed" >
-          <p align="center"> </p>
-        </div><!-- /footer -->
+        
 </div><!-- /end home page -->
         
         
@@ -116,7 +114,7 @@ Copyright  2015  PCSquared.com.au
        
      <!--page navigation header-->  
      <div data-role="header">
-         <a class="ui-btn ui-shadow ui-corner-all ui-btn-inline ui-btn-mini ui-btn-left ui-btn-icon-left ui-icon-navigation" ng-click="ClearSleepMessage()" href="#owninfoNav">Nav</a>	<h1>EASY INVOICES</h1>
+         <a class="ui-btn ui-shadow ui-corner-all ui-btn-inline ui-btn-mini ui-btn-left ui-btn-icon-left ui-icon-navigation" ng-click="ClearSettingsMessage()" href="#owninfoNav">Nav</a>	<h1>EASY INVOICES</h1>
      </div><!-- /header -->
      
     <!--page Content--> 
@@ -129,45 +127,50 @@ Copyright  2015  PCSquared.com.au
           <table width="90%" border="1" cellspacing="2" cellpadding="2">
                                   <tr>
                                     <td>Your Company Name row 1</td>
-                                    <td> <input  type="text" name="namerow1" ng-model="namerow1"  /></td>
+                                    <td> <input  type="text" id="namerow1" ng-model="namerow1"  ></td>
                                   </tr>
                                   <tr>
                                     <td>Your Company Name row 2</td>
-                                    <td> <input  type="text" name="namerow2" ng-model="namerow2"  /></td>
+                                    <td> <input  type="text" id="namerow2" ng-model="namerow2"  /></td>
                                   </tr>
                                   <tr>
                                     <td>ABN</td>
-                                    <td> <input type="number" name="abn" ng-model="abn"  maxlength="11"/></td>
+                                    <td> <input type="text" id="abn" ng-model="abn"  maxlength="11"/></td>
                                   </tr>
                                   <tr>
                                     <td>Contact details - phone or email</td>
-                                    <td> <input type="text" name="contactdetails" ng-model="contactdetails"  /></td>
+                                    <td> <input type="text" id="contactdetails" ng-model="contactdetails"  /></td>
                                   </tr>
                                   <tr>
                                     <td>Payment Terms</td>
-                                    <td> <input type="number" name="paymentnumber" ng-model="paymentnumber"/>
-                                      <select name="termsunits" ng-model="termsunits" id="termsunits"></select><br> Enable payment terms on form?
-							<input type="checkbox" checked></input><br></td>
+                                    <td> <input type="number" id="paymentnumber" ng-model="paymentnumber"/>
+                                      <select id="termsunits" ng-model="termsunits" id="termsunits">
+                                          <option value="days" id="0" >days</option>
+                                          <option value="weeks">weeks</option>
+                                      </select><br> Enable payment terms on invoice?
+							<input type="checkbox" id="enableterms" /><br></td>
                                     <!--TODO: WRITE JS TO MAKE INPUT FOR DAYS/WEEKS. MONTHS POSSIBLY?-->
                                   </tr>
                                   <tr>
+                                    <td>Bank name</td>
+                                    <td> <input type="text" id="bankname" ng-model="bankname"/></td>
+                                  </tr>
+                                  <tr>
                                     <td>BSB</td>
-                                    <td> <input type="text" name="bsb" ng-model="bsb" length="7" /></td>
+                                    <td> <input type="text" id="bsb" ng-model="bsb" length="7" /></td>
                                   </tr>
                                   <tr>
                                     <td>Account Number</td>
-                                    <td> <input type="number" name="account" ng-model="bsb"/></td>
+                                    <td> <input type="text" id="accountnumber" ng-model="accountnumber"/></td>
                                    </tr>
                                   
                                 </table>
-          <button>Submit</button>
+          <button ng-click="updateSettings()">Submit</button>
           
          </div>
 	 </div><!-- /end page content -->
 
-     <div data-role="footer" data-position="fixed">
-         <p align="center"> </p>
-     </div><!-- /footer -->
+    
 </div><!-- /end edit info page -->
 
 
@@ -225,7 +228,7 @@ Copyright  2015  PCSquared.com.au
 
                         <strong> Date Made:</strong>  {{q.createday}}  {{q.createmonth}} {{q.createyear}} <br>
                           
-                         <strong> Notes:</strong> {{q.notes}}   <br>
+                         <strong> Notes:</strong> {{q.personalnotes}}   <br>
                          
                          <strong> Invoice No.:</strong> {{q.invoicenumber}} <br>
 
@@ -242,7 +245,7 @@ Copyright  2015  PCSquared.com.au
                              <a ng-click="displayInvoice($index)"><img src="images/plus.gif" width="42" height="39"/></a>
                            </td>    
                            <td>
-                               <a ng-click="markpaid($index)"><img src="images/tick.gif" width="42" height="39" /></a>
+                               <a ng-click="markpaid($index)" id="markpaid"><img src="images/tick.gif" width="42" height="39" /></a>
                            </td>
                                   <td>&nbsp;&nbsp;</td>
                            <td>
@@ -263,9 +266,8 @@ Copyright  2015  PCSquared.com.au
             </div>
 	 	</div><!-- /end of main content -->
 
-     <div data-role="footer" data-position="fixed">
-         <p align="center">  </p>
-     </div><!-- /footer -->
+    
+    
 </div><!-- /page -->
 
 
@@ -420,9 +422,7 @@ Copyright  2015  PCSquared.com.au
                 </div>         
 	 </div><!-- /content -->
 
-     <div data-role="footer" data-position="fixed">
-         <p align="center"> &copy; 2014  PCSquared.com.au </p>
-     </div><!-- /footer -->
+    
 </div><!-- /page -->
 
 
@@ -450,10 +450,8 @@ Copyright  2015  PCSquared.com.au
         <!--page Content-->
         <div role="main" class="ui-content">
            <h2>Earnings Reports</h2>
-        <select>
-            <option>All Clients</option>
-            <option>Default Client 1</option>
-            <option>Default Client 2</option>
+        <select id="reportclient">
+           
         </select>
         <table width="90%" border="1" cellspacing="2" cellpadding="2">
             <tr>
@@ -461,14 +459,14 @@ Copyright  2015  PCSquared.com.au
                     Whole database
                 </td>
                 <td width="36" height="36">
-                    <input type="radio" name="g1" />
+                    <input type="radio" name="g1" value="all" checked/>
                 </td>
             </tr>
             <tr>
                 <td>
                     Financial Year to date earnings
                 </td>
-                <td width="36" height="36"><input type="radio" name="g1"/>
+                <td width="36" height="36"><input type="radio" name="g1" value="ytd"/>
                 </td>
                 </tr>
             <tr>
@@ -497,18 +495,18 @@ Copyright  2015  PCSquared.com.au
                 <td>Start:<input type="date" />End:<input type="date" /> (Financial year starts 1 July and ends 30 June in a given year)</td>
               </tr>
         </table>
-        <button>Generate earning reports</button>
-            <br /><br /><br />
+        <button ng-click="earningsreport()">Generate earning reports</button>
+            <br />
+            <span id="earningsreportresults"></span><br /><br />
         <h2>Application Report</h2>
-            <button>Generate Application Report</button>
+            <button ng-click="appreport()">Generate Application Report</button><br />
+            <span id="appreport"></span>
         <br /><br /><br /><br />
 
 
         </div><!-- /end of main content -->
 
-        <div data-role="footer" data-position="fixed">
-            <p align="center">  </p>
-        </div><!-- /footer -->
+       
     </div><!-- /page -->
 
 

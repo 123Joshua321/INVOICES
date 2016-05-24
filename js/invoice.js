@@ -60,12 +60,18 @@
                      //Setup info on page
 					document.getElementById('companyone').innerHTML = config[0].nameone;
 					document.getElementById('companytwo').innerHTML = config[0].nametwo;
-					document.getElementById('abn').innerHTML = "ABN: " + config[0].abn;
+
+					if (!config[0].abn == "" || !config[0].abn == null) {
+					    document.getElementById('abn').innerHTML = "ABN: " + config[0].abn;
+					} else {
+					    document.getElementById('abn').innerHTML = "";
+					}
 					document.getElementById('bsb').innerHTML = config[0].bsb;
 					document.getElementById('accountno').innerHTML = config[0].account;
 					document.getElementById('bankname').innerHTML = config[0].bankname;
-					document.getElementById('terms').innerHTML = config[0].paymenttime + " " + config[0].paymentunit;
-                    
+					if (config[0].paymentenabled == true || config[0].paymentenabled == "true") {
+					    document.getElementById('terms').innerHTML = config[0].paymenttime + " " + config[0].paymentunit;
+					}
 					document.getElementById('contactdetails').innerHTML = config[0].contact; 
 
                     //CLIENT DATA
@@ -131,7 +137,9 @@
 					    hours = '<span style="float:left" > ' + data.month + " " + data.year + "</span>&nbsp;&nbsp;";
 					    hours += '<span >' + (data.totalhours).toFixed(2) + " hours @ $" + (data.hourrate).toFixed(2) + "/hr </span>";
 					    hours += '<span style="right:0px;position:absolute" >$' + data.totalpay + '</span><br>';
-					    hours += '<span style="text-align:center">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AS PER ATTACHED TIMESHEET</span>'
+					    if (!data.notes == "" || !data.notes == null) {
+					        hours += '<span style="text-align:center">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AS PER ATTACHED TIMESHEET</span>'
+					    }
 					}
 
 					if (data.format == "long" || data.format == "Long") {
@@ -158,12 +166,13 @@
 					document.getElementById('hours').innerHTML = hours;
 
 
-					if (data.enabletimesheet == true) {
+					if (!data.notes == "" || !data.notes == null) {
 					    var timesheet = '<br /><br /><br /><br /><div>';
 					    timesheet += data.notes;
 					    timesheet += '</div>';
 					    document.getElementById('timesheet').innerHTML = timesheet;
 					}
+					
 	    }
 	   
 				 
